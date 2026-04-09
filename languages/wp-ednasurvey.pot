@@ -1,0 +1,565 @@
+# Japanese translations for eDNA Survey plugin.
+# Copyright (C) 2024
+# This file is distributed under the same license as the wp-ednasurvey package.
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-ednasurvey 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: includes/class-activator.php
+msgid "eDNA Survey requires PHP 8.1 or higher."
+msgstr "eDNA SurveyにはPHP 8.1以上が必要です。"
+
+msgid "eDNA Survey requires WordPress 6.4 or higher."
+msgstr "eDNA SurveyにはWordPress 6.4以上が必要です。"
+
+#: includes/class-router.php
+msgid "You do not have permission to view this page."
+msgstr "このページを表示する権限がありません。"
+
+msgid "Page not found."
+msgstr "ページが見つかりません。"
+
+#: includes/ajax/class-ajax-handler.php
+msgid "Security check failed."
+msgstr "セキュリティチェックに失敗しました。"
+
+msgid "You must be logged in."
+msgstr "ログインが必要です。"
+
+msgid "You do not have permission."
+msgstr "権限がありません。"
+
+#: templates/frontend/dashboard.php
+msgid "eDNA Survey Dashboard"
+msgstr "eDNA調査ダッシュボード"
+
+msgid "Submit Survey Data Online"
+msgstr "オンラインで調査データを送信"
+
+msgid "Enter data for a single survey site"
+msgstr "1地点分の調査データを入力"
+
+msgid "Download Offline Template"
+msgstr "オフラインテンプレートをダウンロード"
+
+msgid "Excel template for field surveys without connectivity"
+msgstr "電波の届かない現地調査用Excelテンプレート"
+
+msgid "Upload Offline Data"
+msgstr "オフラインデータをアップロード"
+
+msgid "Upload completed Excel template and photos"
+msgstr "記入済みExcelテンプレートと写真をアップロード"
+
+msgid "My Sites"
+msgstr "報告済み地点一覧"
+
+msgid "View all your submitted survey sites"
+msgstr "投稿した全調査地点を一覧表示"
+
+msgid "My Sites Map"
+msgstr "報告地点マップ"
+
+msgid "View your survey sites on a map"
+msgstr "投稿した調査地点を地図で確認"
+
+msgid "Messages"
+msgstr "メッセージ"
+
+msgid "Chat with administrator"
+msgstr "管理者とチャット"
+
+#: templates/frontend/online-submission.php
+msgid "Submit Survey Data"
+msgstr "調査データを送信"
+
+msgid "Date & Time"
+msgstr "日時"
+
+msgid "Date"
+msgstr "日付"
+
+msgid "Time"
+msgstr "時刻"
+
+msgid "Location"
+msgstr "位置情報"
+
+msgid "Click/tap on the map to set the survey location."
+msgstr "地図上をクリック/タップして調査地点を設定してください。"
+
+msgid "No location set"
+msgstr "位置情報が設定されていません"
+
+msgid "Site Name"
+msgstr "地点名"
+
+msgid "Japanese"
+msgstr "日本語"
+
+msgid "English"
+msgstr "英語"
+
+msgid "Representative"
+msgstr "代表者"
+
+msgid "Name"
+msgstr "氏名"
+
+msgid "Collectors"
+msgstr "作業者"
+
+#, php-format
+msgid "Collector %d"
+msgstr "作業者%d"
+
+msgid "Sample ID"
+msgstr "サンプルID"
+
+msgid "Filtered Water Volume (mL)"
+msgstr "濾過水量 (mL)"
+
+msgid "Replicate 1"
+msgstr "レプリケート1"
+
+msgid "Replicate 2"
+msgstr "レプリケート2"
+
+msgid "Additional Fields"
+msgstr "追加項目"
+
+msgid "-- Select --"
+msgstr "-- 選択 --"
+
+msgid "Notes"
+msgstr "備考"
+
+msgid "Photos"
+msgstr "写真"
+
+#, php-format
+msgid "Upload up to %d photos (JPEG or HEIC/HEIF)."
+msgstr "最大%d枚の写真をアップロードできます（JPEGまたはHEIC/HEIF）。"
+
+msgid "Submit"
+msgstr "送信"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: templates/frontend/offline-template.php
+msgid "Download an Excel template for recording survey data in the field without internet connectivity."
+msgstr "電波の届かない現地での調査データ記録用Excelテンプレートをダウンロードします。"
+
+msgid "Fill in the template during your field survey, then upload it along with your photos using the \"Upload Offline Data\" page."
+msgstr "現地調査中にテンプレートを記入し、「オフラインデータをアップロード」ページから写真とともにアップロードしてください。"
+
+msgid "Download Excel Template (.xlsx)"
+msgstr "Excelテンプレートをダウンロード (.xlsx)"
+
+msgid "Instructions"
+msgstr "使い方"
+
+msgid "Each row represents one survey site."
+msgstr "1行が1調査地点に対応しています。"
+
+msgid "Latitude and longitude can be left blank if your photos contain GPS data."
+msgstr "写真にGPSデータが含まれている場合、緯度経度は空欄でも構いません。"
+
+msgid "Enter photo filenames in the photo column (matching the actual file names)."
+msgstr "写真カラムに写真ファイル名を入力してください（実際のファイル名と一致させてください）。"
+
+msgid "Save the file and upload it together with your photos."
+msgstr "ファイルを保存し、写真とともにアップロードしてください。"
+
+#: templates/frontend/offline-submission.php
+msgid "Excel File"
+msgstr "Excelファイル"
+
+msgid "Select Excel file (.xlsx)"
+msgstr "Excelファイル(.xlsx)を選択"
+
+msgid "Select all photos taken during the survey. File names will be matched with the Excel data."
+msgstr "調査中に撮影した全写真を選択してください。ファイル名がExcelデータと照合されます。"
+
+msgid "Upload & Parse"
+msgstr "アップロードして解析"
+
+msgid "Confirm Site Locations"
+msgstr "地点位置の確認"
+
+msgid "Review and adjust pin locations on the map. Click on sites without location data to set their position."
+msgstr "地図上のピン位置を確認・調整してください。位置情報のない地点はクリックして設定してください。"
+
+msgid "Confirm & Submit All Sites"
+msgstr "確認して全地点を送信"
+
+msgid "Back"
+msgstr "戻る"
+
+#: templates/frontend/sites.php
+msgid "My Survey Sites"
+msgstr "報告済み調査地点一覧"
+
+msgid "You have not submitted any survey sites yet."
+msgstr "まだ調査地点を報告していません。"
+
+msgid "Site Name (JA)"
+msgstr "地点名（日本語）"
+
+msgid "Site Name (EN)"
+msgstr "地点名（英語）"
+
+msgid "Lat"
+msgstr "緯度"
+
+msgid "Lng"
+msgstr "経度"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Copy & Resubmit"
+msgstr "コピーして再投稿"
+
+msgid "Back to Dashboard"
+msgstr "ダッシュボードに戻る"
+
+#: templates/frontend/chat.php
+msgid "No messages yet. Start a conversation!"
+msgstr "まだメッセージがありません。会話を始めましょう！"
+
+msgid "Type a message..."
+msgstr "メッセージを入力..."
+
+msgid "Send"
+msgstr "送信"
+
+#: includes/services/class-validation-service.php
+msgid "Survey date is required."
+msgstr "調査日は必須です。"
+
+msgid "Invalid date format."
+msgstr "無効な日付形式です。"
+
+msgid "Survey time is required."
+msgstr "調査時刻は必須です。"
+
+msgid "Invalid time format."
+msgstr "無効な時刻形式です。"
+
+msgid "Latitude is required. Please set a pin on the map."
+msgstr "緯度は必須です。地図上にピンを設置してください。"
+
+msgid "Latitude must be between -90 and 90."
+msgstr "緯度は-90〜90の範囲で指定してください。"
+
+msgid "Longitude is required. Please set a pin on the map."
+msgstr "経度は必須です。地図上にピンを設置してください。"
+
+msgid "Longitude must be between -180 and 180."
+msgstr "経度は-180〜180の範囲で指定してください。"
+
+msgid "At least one site name (Japanese or English) is required."
+msgstr "地点名（日本語または英語）を少なくとも1つ入力してください。"
+
+msgid "Sample ID is required."
+msgstr "サンプルIDは必須です。"
+
+msgid "Filtered water volume 1 must be a number."
+msgstr "濾過水量1は数値で入力してください。"
+
+msgid "Filtered water volume 2 must be a number."
+msgstr "濾過水量2は数値で入力してください。"
+
+#, php-format
+msgid "%s is required."
+msgstr "%sは必須です。"
+
+#, php-format
+msgid "%s must be a number."
+msgstr "%sは数値で入力してください。"
+
+#, php-format
+msgid "Invalid selection for %s."
+msgstr "%sの選択値が無効です。"
+
+#: includes/services/class-photo-service.php
+msgid "Failed to create upload directory."
+msgstr "アップロードディレクトリの作成に失敗しました。"
+
+#, php-format
+msgid "Upload error for %s."
+msgstr "%sのアップロードエラー。"
+
+#, php-format
+msgid "Invalid file type for %s. Only JPEG and HEIC/HEIF are allowed."
+msgstr "%sのファイル形式が無効です。JPEGまたはHEIC/HEIFのみ使用できます。"
+
+#, php-format
+msgid "Failed to convert %s from HEIC to JPEG."
+msgstr "%sのHEICからJPEGへの変換に失敗しました。"
+
+#, php-format
+msgid "Failed to save %s."
+msgstr "%sの保存に失敗しました。"
+
+#: includes/ajax/class-ajax-submission.php
+#, php-format
+msgid "Maximum %d photos allowed."
+msgstr "写真は最大%d枚までです。"
+
+msgid "Failed to save site data."
+msgstr "地点データの保存に失敗しました。"
+
+msgid "No Excel file uploaded."
+msgstr "Excelファイルがアップロードされていません。"
+
+msgid "Only .xlsx files are accepted."
+msgstr ".xlsxファイルのみ使用できます。"
+
+msgid "Failed to parse Excel file."
+msgstr "Excelファイルの解析に失敗しました。"
+
+msgid "No data found in the Excel file."
+msgstr "Excelファイルにデータがありません。"
+
+#: includes/ajax/class-ajax-chat.php
+msgid "Message cannot be empty."
+msgstr "メッセージを入力してください。"
+
+msgid "Permission denied."
+msgstr "権限がありません。"
+
+msgid "Failed to send message."
+msgstr "メッセージの送信に失敗しました。"
+
+#: includes/ajax/class-ajax-admin.php
+msgid "Invalid site ID."
+msgstr "無効な地点IDです。"
+
+msgid "Site not found."
+msgstr "地点が見つかりません。"
+
+msgid "Site deleted successfully."
+msgstr "地点を削除しました。"
+
+msgid "No file uploaded."
+msgstr "ファイルがアップロードされていません。"
+
+msgid "Only CSV/TSV files are accepted."
+msgstr "CSV/TSVファイルのみ使用できます。"
+
+#, php-format
+msgid "%1$d users created, %2$d skipped (already exist)."
+msgstr "%1$d名のユーザーを作成、%2$d名をスキップしました（既に存在）。"
+
+msgid "Invalid data."
+msgstr "無効なデータです。"
+
+msgid "Custom fields saved."
+msgstr "カスタムフィールドを保存しました。"
+
+#: includes/services/class-user-import-service.php
+msgid "Could not open file."
+msgstr "ファイルを開けません。"
+
+msgid "Empty file."
+msgstr "空のファイルです。"
+
+msgid "Missing \"email\" column."
+msgstr "\"email\"カラムがありません。"
+
+#: includes/services/class-notification-service.php
+#, php-format
+msgid "[%1$s] New message from %2$s"
+msgstr "[%1$s] %2$sからの新しいメッセージ"
+
+#, php-format
+msgid "%1$s sent a new message:\n\n%2$s\n\nView and reply: %3$s"
+msgstr "%1$sが新しいメッセージを送信しました:\n\n%2$s\n\n確認・返信: %3$s"
+
+#: includes/admin/class-admin-menu.php & templates/admin/
+msgid "eDNA Survey"
+msgstr "eDNA調査"
+
+msgid "Download Data"
+msgstr "データダウンロード"
+
+msgid "Add Users"
+msgstr "ユーザー追加"
+
+msgid "All Sites"
+msgstr "全地点一覧"
+
+msgid "Sites Map"
+msgstr "地点マップ"
+
+msgid "Settings"
+msgstr "設定"
+
+#: templates/admin/settings.php
+msgid "eDNA Survey Settings"
+msgstr "eDNA調査設定"
+
+msgid "Map Settings"
+msgstr "地図設定"
+
+msgid "Tile Server URL"
+msgstr "タイルサーバーURL"
+
+msgid "Tile Attribution"
+msgstr "タイル帰属表示"
+
+msgid "Default Center Latitude"
+msgstr "デフォルト中心緯度"
+
+msgid "Default Center Longitude"
+msgstr "デフォルト中心経度"
+
+msgid "Default Zoom Level"
+msgstr "デフォルトズームレベル"
+
+msgid "Photo Settings"
+msgstr "写真設定"
+
+msgid "Photo Upload Limit (per site)"
+msgstr "写真アップロード上限（1地点あたり）"
+
+msgid "Default Data Fields"
+msgstr "デフォルトデータ項目"
+
+msgid "Location (Lat/Lng)"
+msgstr "位置情報（緯度/経度）"
+
+msgid "Site Name (JA/EN)"
+msgstr "地点名（日英）"
+
+msgid "Representative Name"
+msgstr "代表者氏名"
+
+msgid "Collectors (up to 5)"
+msgstr "作業者（最大5名）"
+
+msgid "Filtered Water Volume"
+msgstr "濾過水量"
+
+msgid "Notes/Remarks"
+msgstr "備考"
+
+msgid "Enabled"
+msgstr "有効"
+
+msgid "Custom Data Fields"
+msgstr "カスタムデータ項目"
+
+msgid "Key"
+msgstr "キー"
+
+msgid "Label (JA)"
+msgstr "ラベル（日本語）"
+
+msgid "Label (EN)"
+msgstr "ラベル（英語）"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Required"
+msgstr "必須"
+
+msgid "Active"
+msgstr "有効"
+
+msgid "Options (JSON)"
+msgstr "オプション（JSON）"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Add Custom Field"
+msgstr "カスタム項目を追加"
+
+msgid "Save Custom Fields"
+msgstr "カスタム項目を保存"
+
+msgid "Save Settings"
+msgstr "設定を保存"
+
+msgid "Settings saved."
+msgstr "設定を保存しました。"
+
+#: templates/admin/add-users.php
+msgid "Upload a CSV or TSV file to bulk register users as Subscribers."
+msgstr "CSVまたはTSVファイルをアップロードして、ユーザーをSubscriberとして一括登録します。"
+
+msgid "File format: email, firstname, lastname (one user per row, with header row)."
+msgstr "ファイル形式: email, firstname, lastname（1行1ユーザー、ヘッダー行あり）。"
+
+msgid "Note: Welcome emails will NOT be sent. Use a separate plugin to send welcome emails at the appropriate time."
+msgstr "注: Welcomeメールは送信されません。適切なタイミングで別のプラグインを使用して送信してください。"
+
+msgid "CSV/TSV File"
+msgstr "CSV/TSVファイル"
+
+msgid "Import Users"
+msgstr "ユーザーをインポート"
+
+msgid "Import Results"
+msgstr "インポート結果"
+
+#: templates/admin/all-sites.php
+msgid "No survey sites have been submitted yet."
+msgstr "まだ調査地点が報告されていません。"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "User"
+msgstr "ユーザー"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Unknown"
+msgstr "不明"
+
+#: templates/admin/messages.php
+msgid "No conversations yet."
+msgstr "まだ会話がありません。"
+
+msgid "Last Message"
+msgstr "最新メッセージ"
+
+msgid "Last Activity"
+msgstr "最終活動"
+
+msgid "Unread"
+msgstr "未読"
+
+msgid "View Chat"
+msgstr "チャットを見る"
+
+#: templates/admin/messages-chat.php
+#, php-format
+msgid "Chat with %s"
+msgstr "%sとのチャット"
+
+msgid "Back to All Messages"
+msgstr "全メッセージに戻る"
+
+msgid "No messages yet."
+msgstr "まだメッセージがありません。"
+
+msgid "Type a reply..."
+msgstr "返信を入力..."

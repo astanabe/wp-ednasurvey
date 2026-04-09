@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# WordPress uploads (runtime data)
+wp-content/
+
+# Temp files
+*.tmp
+*.bak
+
+# Sample file (not part of plugin)
+ednasurvey_user_login.xlsx

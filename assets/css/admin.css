@@ -1,0 +1,29 @@
+/* eDNA Survey Admin Styles */
+
+.ednasurvey-badge {
+    display: inline-block;
+    background: #dc3232;
+    color: #fff;
+    border-radius: 50%;
+    min-width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 0 0.4em;
+}
+
+#custom-fields-table input[type="text"],
+#custom-fields-table select {
+    width: 100%;
+}
+
+#custom-fields-table .cf-options {
+    font-family: monospace;
+    font-size: 0.85em;
+}
+
+.custom-field-row.removing {
+    opacity: 0.5;
+}

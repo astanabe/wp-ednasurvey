@@ -1,0 +1,77 @@
+/* eDNA Survey Chat Styles */
+
+.ednasurvey-chat-container {
+    max-width: 700px;
+}
+
+.ednasurvey-chat-messages {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em;
+    margin-bottom: 1em;
+    background: #fafafa;
+}
+
+.ednasurvey-chat-empty {
+    color: #999;
+    text-align: center;
+    font-style: italic;
+}
+
+.ednasurvey-chat-message {
+    margin-bottom: 0.75em;
+    padding: 0.6em 0.8em;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.ednasurvey-chat-message.sent {
+    background: #dcf8c6;
+    margin-left: auto;
+    text-align: right;
+}
+
+.ednasurvey-chat-message.received {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    margin-right: auto;
+}
+
+.ednasurvey-chat-meta {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 0.25em;
+}
+
+.ednasurvey-chat-meta strong {
+    color: #555;
+}
+
+.ednasurvey-chat-text {
+    line-height: 1.5;
+}
+
+.ednasurvey-chat-form {
+    border-top: 1px solid #ddd;
+    padding-top: 0.75em;
+}
+
+.ednasurvey-chat-input-row {
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-end;
+}
+
+.ednasurvey-chat-input-row textarea {
+    flex: 1;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.ednasurvey-chat-input-row button {
+    align-self: flex-end;
+}

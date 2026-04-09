@@ -1,0 +1,968 @@
+# Japanese translations for eDNA Survey plugin.
+# Copyright (C) 2024
+# This file is distributed under the same license as the wp-ednasurvey package.
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-ednasurvey 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: includes/class-activator.php
+msgid "eDNA Survey requires PHP 8.1 or higher."
+msgstr "eDNA SurveyにはPHP 8.1以上が必要です。"
+
+msgid "eDNA Survey requires WordPress 6.4 or higher."
+msgstr "eDNA SurveyにはWordPress 6.4以上が必要です。"
+
+#: includes/class-router.php
+msgid "You do not have permission to view this page."
+msgstr "このページを表示する権限がありません。"
+
+msgid "Page not found."
+msgstr "ページが見つかりません。"
+
+#: includes/ajax/class-ajax-handler.php
+msgid "Security check failed."
+msgstr "セキュリティチェックに失敗しました。"
+
+msgid "You must be logged in."
+msgstr "ログインが必要です。"
+
+msgid "You do not have permission."
+msgstr "権限がありません。"
+
+#: templates/frontend/dashboard.php
+msgid "eDNA Survey Dashboard"
+msgstr "eDNA調査ダッシュボード"
+
+msgid "Submit Survey Data Online"
+msgstr "オンラインで調査データを送信"
+
+msgid "Enter data for a single survey site"
+msgstr "1地点分の調査データを入力"
+
+msgid "Download Offline Template"
+msgstr "オフラインテンプレートをダウンロード"
+
+msgid "Excel template for field surveys without connectivity"
+msgstr "電波の届かない現地調査用Excelテンプレート"
+
+msgid "Upload Offline Data"
+msgstr "オフラインデータをアップロード"
+
+msgid "Upload completed Excel template and photos"
+msgstr "記入済みExcelテンプレートと写真をアップロード"
+
+msgid "My Sites"
+msgstr "報告済み地点一覧"
+
+msgid "View all your submitted survey sites"
+msgstr "投稿した全調査地点を一覧表示"
+
+msgid "My Sites Map"
+msgstr "報告地点マップ"
+
+msgid "View your survey sites on a map"
+msgstr "投稿した調査地点を地図で確認"
+
+msgid "Messages"
+msgstr "メッセージ"
+
+msgid "Chat with administrator"
+msgstr "管理者とチャット"
+
+#: templates/frontend/online-submission.php
+msgid "Submit Survey Data"
+msgstr "調査データを送信"
+
+msgid "Date & Time"
+msgstr "日時"
+
+msgid "Date"
+msgstr "日付"
+
+msgid "Time"
+msgstr "時刻"
+
+msgid "Location"
+msgstr "位置情報"
+
+msgid "Click/tap on the map to set the survey location."
+msgstr "地図上をクリック/タップして調査地点を設定してください。"
+
+msgid "No location set"
+msgstr "位置情報が設定されていません"
+
+msgid "Site Name"
+msgstr "地点名"
+
+msgid "Japanese"
+msgstr "日本語"
+
+msgid "English"
+msgstr "英語"
+
+msgid "Representative"
+msgstr "代表者"
+
+msgid "Name"
+msgstr "氏名"
+
+msgid "Collectors"
+msgstr "作業者"
+
+#, php-format
+msgid "Collector %d"
+msgstr "作業者%d"
+
+msgid "Sample ID"
+msgstr "サンプルID"
+
+msgid "Filtered Water Volume (mL)"
+msgstr "濾過水量 (mL)"
+
+msgid "Replicate 1"
+msgstr "レプリケート1"
+
+msgid "Replicate 2"
+msgstr "レプリケート2"
+
+msgid "Additional Fields"
+msgstr "追加項目"
+
+msgid "-- Select --"
+msgstr "-- 選択 --"
+
+msgid "Notes"
+msgstr "備考"
+
+msgid "Photos"
+msgstr "写真"
+
+#, php-format
+msgid "Upload up to %d photos (JPEG or HEIC/HEIF)."
+msgstr "最大%d枚の写真をアップロードできます（JPEGまたはHEIC/HEIF）。"
+
+msgid "Submit"
+msgstr "送信"
+
+msgid "Submitting..."
+msgstr "送信中..."
+
+msgid "Your survey data has been submitted successfully!"
+msgstr "調査データが正常に送信されました！"
+
+msgid "An error occurred."
+msgstr "エラーが発生しました。"
+
+msgid "Server error. Please try again."
+msgstr "サーバーエラーが発生しました。もう一度お試しください。"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Return to Dashboard without submitting"
+msgstr "送信せずダッシュボードに戻る"
+
+#: templates/frontend/offline-template.php
+msgid "Download an Excel template for recording survey data in the field without internet connectivity."
+msgstr "電波の届かない現地での調査データ記録用Excelテンプレートをダウンロードします。"
+
+msgid "Fill in the template during your field survey, then upload it along with your photos using the \"Upload Offline Data\" page."
+msgstr "現地調査中にテンプレートを記入し、「オフラインデータをアップロード」ページから写真とともにアップロードしてください。"
+
+msgid "Download Excel Template (.xlsx)"
+msgstr "Excelテンプレートをダウンロード (.xlsx)"
+
+msgid "Instructions"
+msgstr "使い方"
+
+msgid "Each row represents one survey site."
+msgstr "1行が1調査地点に対応しています。"
+
+msgid "Latitude and longitude can be left blank if your photos contain GPS data."
+msgstr "写真にGPSデータが含まれている場合、緯度経度は空欄でも構いません。"
+
+msgid "Enter photo filenames in the photo column (matching the actual file names)."
+msgstr "写真カラムに写真ファイル名を入力してください（実際のファイル名と一致させてください）。"
+
+msgid "Save the file and upload it together with your photos."
+msgstr "ファイルを保存し、写真とともにアップロードしてください。"
+
+#: templates/frontend/offline-submission.php
+msgid "Excel File"
+msgstr "Excelファイル"
+
+msgid "Select Excel file (.xlsx)"
+msgstr "Excelファイル(.xlsx)を選択"
+
+msgid "Select all photos taken during the survey. File names will be matched with the Excel data."
+msgstr "調査中に撮影した全写真を選択してください。ファイル名がExcelデータと照合されます。"
+
+msgid "Upload & Parse"
+msgstr "アップロードして解析"
+
+msgid "Confirm Site Locations"
+msgstr "地点位置の確認"
+
+msgid "Review and adjust pin locations on the map. Click on sites without location data to set their position."
+msgstr "地図上のピン位置を確認・調整してください。位置情報のない地点はクリックして設定してください。"
+
+msgid "Confirm & Submit All Sites"
+msgstr "確認して全地点を送信"
+
+msgid "Back"
+msgstr "戻る"
+
+#: templates/frontend/sites.php
+msgid "My Survey Sites"
+msgstr "報告済み調査地点一覧"
+
+msgid "You have not submitted any survey sites yet."
+msgstr "まだ調査地点を報告していません。"
+
+msgid "Site Name (JA)"
+msgstr "地点名（日本語）"
+
+msgid "Site Name (EN)"
+msgstr "地点名（英語）"
+
+msgid "Lat"
+msgstr "緯度"
+
+msgid "Lng"
+msgstr "経度"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Copy & Resubmit"
+msgstr "コピーして再投稿"
+
+msgid "Edit & Resubmit"
+msgstr "修正して再投稿"
+
+msgid "The original submission will remain as-is. Please ask the administrator via chat to delete the old submission."
+msgstr "修正前の投稿も残ったままになります。管理者に以前の投稿を削除するようチャットで依頼して下さい。"
+
+msgid "Back to Dashboard"
+msgstr "ダッシュボードに戻る"
+
+#: templates/frontend/chat.php
+msgid "No messages yet. Start a conversation!"
+msgstr "まだメッセージがありません。会話を始めましょう！"
+
+msgid "Type a message..."
+msgstr "メッセージを入力..."
+
+msgid "Send"
+msgstr "送信"
+
+#: includes/services/class-validation-service.php
+msgid "Survey date is required."
+msgstr "調査日は必須です。"
+
+msgid "Invalid date format."
+msgstr "無効な日付形式です。"
+
+msgid "Survey time is required."
+msgstr "調査時刻は必須です。"
+
+msgid "Invalid time format."
+msgstr "無効な時刻形式です。"
+
+msgid "Latitude is required. Please set a pin on the map."
+msgstr "緯度は必須です。地図上にピンを設置してください。"
+
+msgid "Latitude must be between -90 and 90."
+msgstr "緯度は-90〜90の範囲で指定してください。"
+
+msgid "Longitude is required. Please set a pin on the map."
+msgstr "経度は必須です。地図上にピンを設置してください。"
+
+msgid "Longitude must be between -180 and 180."
+msgstr "経度は-180〜180の範囲で指定してください。"
+
+msgid "At least one site name (Japanese or English) is required."
+msgstr "地点名（日本語または英語）を少なくとも1つ入力してください。"
+
+msgid "Sample ID is required."
+msgstr "サンプルIDは必須です。"
+
+msgid "Filtered water volume 1 must be a number."
+msgstr "濾過水量1は数値で入力してください。"
+
+msgid "Filtered water volume 2 must be a number."
+msgstr "濾過水量2は数値で入力してください。"
+
+#, php-format
+msgid "%s is required."
+msgstr "%sは必須です。"
+
+#, php-format
+msgid "%s must be a number."
+msgstr "%sは数値で入力してください。"
+
+#, php-format
+msgid "Invalid selection for %s."
+msgstr "%sの選択値が無効です。"
+
+#: includes/services/class-photo-service.php
+msgid "Failed to create upload directory."
+msgstr "アップロードディレクトリの作成に失敗しました。"
+
+#, php-format
+msgid "Upload error for %s."
+msgstr "%sのアップロードエラー。"
+
+#, php-format
+msgid "Invalid file type for %s. Only JPEG and HEIC/HEIF are allowed."
+msgstr "%sのファイル形式が無効です。JPEGまたはHEIC/HEIFのみ使用できます。"
+
+#, php-format
+msgid "Failed to convert %s from HEIC to JPEG."
+msgstr "%sのHEICからJPEGへの変換に失敗しました。"
+
+#, php-format
+msgid "Failed to save %s."
+msgstr "%sの保存に失敗しました。"
+
+#: includes/ajax/class-ajax-submission.php
+#, php-format
+msgid "Maximum %d photos allowed."
+msgstr "写真は最大%d枚までです。"
+
+msgid "Failed to save site data."
+msgstr "地点データの保存に失敗しました。"
+
+msgid "No Excel file uploaded."
+msgstr "Excelファイルがアップロードされていません。"
+
+msgid "Only .xlsx files are accepted."
+msgstr ".xlsxファイルのみ使用できます。"
+
+msgid "Failed to parse Excel file."
+msgstr "Excelファイルの解析に失敗しました。"
+
+msgid "No data found in the Excel file."
+msgstr "Excelファイルにデータがありません。"
+
+#: includes/ajax/class-ajax-chat.php
+msgid "Message cannot be empty."
+msgstr "メッセージを入力してください。"
+
+msgid "Permission denied."
+msgstr "権限がありません。"
+
+msgid "Failed to send message."
+msgstr "メッセージの送信に失敗しました。"
+
+#: includes/ajax/class-ajax-admin.php
+msgid "Invalid site ID."
+msgstr "無効な地点IDです。"
+
+msgid "Site not found."
+msgstr "地点が見つかりません。"
+
+msgid "Site deleted successfully."
+msgstr "地点を削除しました。"
+
+msgid "No file uploaded."
+msgstr "ファイルがアップロードされていません。"
+
+msgid "Only CSV/TSV files are accepted."
+msgstr "CSV/TSVファイルのみ使用できます。"
+
+#, php-format
+msgid "%1$d users created, %2$d skipped (already exist)."
+msgstr "%1$d名のユーザーを作成、%2$d名をスキップしました（既に存在）。"
+
+msgid "Invalid data."
+msgstr "無効なデータです。"
+
+msgid "Custom fields saved."
+msgstr "カスタムフィールドを保存しました。"
+
+#: includes/services/class-user-import-service.php
+msgid "Could not open file."
+msgstr "ファイルを開けません。"
+
+msgid "Empty file."
+msgstr "空のファイルです。"
+
+msgid "Missing \"email\" column."
+msgstr "\"email\"カラムがありません。"
+
+#: includes/services/class-notification-service.php
+#, php-format
+msgid "[%1$s] New message from %2$s"
+msgstr "[%1$s] %2$sからの新しいメッセージ"
+
+#, php-format
+msgid "%1$s sent a new message:\n\n%2$s\n\nView and reply: %3$s"
+msgstr "%1$sが新しいメッセージを送信しました:\n\n%2$s\n\n確認・返信: %3$s"
+
+#: includes/admin/class-admin-menu.php & templates/admin/
+msgid "eDNA Survey"
+msgstr "eDNA調査"
+
+msgid "Download Data"
+msgstr "データダウンロード"
+
+msgid "Add Users"
+msgstr "ユーザー追加"
+
+msgid "All Sites"
+msgstr "全地点一覧"
+
+msgid "Sites Map"
+msgstr "地点マップ"
+
+msgid "Settings"
+msgstr "設定"
+
+#: templates/admin/settings.php
+msgid "eDNA Survey Settings"
+msgstr "eDNA調査設定"
+
+msgid "Map Settings"
+msgstr "地図設定"
+
+msgid "Tile Server URL"
+msgstr "タイルサーバーURL"
+
+msgid "Tile Attribution"
+msgstr "タイル帰属表示"
+
+msgid "Default Center Latitude"
+msgstr "デフォルト中心緯度"
+
+msgid "Default Center Longitude"
+msgstr "デフォルト中心経度"
+
+msgid "Default Zoom Level"
+msgstr "デフォルトズームレベル"
+
+msgid "Photo Settings"
+msgstr "写真設定"
+
+msgid "Photo Upload Limit (per site)"
+msgstr "写真アップロード上限（1地点あたり）"
+
+msgid "Default Data Fields"
+msgstr "デフォルトデータ項目"
+
+msgid "Location (Lat/Lng)"
+msgstr "位置情報（緯度/経度）"
+
+msgid "Site Name (JA/EN)"
+msgstr "地点名（日英）"
+
+msgid "Representative Name"
+msgstr "代表者氏名"
+
+msgid "Collectors (up to 5)"
+msgstr "作業者（最大5名）"
+
+msgid "Filtered Water Volume"
+msgstr "濾過水量"
+
+msgid "Notes/Remarks"
+msgstr "備考"
+
+msgid "Enabled"
+msgstr "有効"
+
+msgid "Custom Data Fields"
+msgstr "カスタムデータ項目"
+
+msgid "Key"
+msgstr "キー"
+
+msgid "Label (JA)"
+msgstr "ラベル（日本語）"
+
+msgid "Label (EN)"
+msgstr "ラベル（英語）"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Required"
+msgstr "必須"
+
+msgid "Active"
+msgstr "有効"
+
+msgid "Options (JSON)"
+msgstr "オプション（JSON）"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Add Custom Field"
+msgstr "カスタム項目を追加"
+
+msgid "Save Custom Fields"
+msgstr "カスタム項目を保存"
+
+msgid "Save Settings"
+msgstr "設定を保存"
+
+msgid "Settings saved."
+msgstr "設定を保存しました。"
+
+#: templates/admin/add-users.php
+msgid "Upload a CSV or TSV file to bulk register users as Subscribers."
+msgstr "CSVまたはTSVファイルをアップロードして、ユーザーをSubscriberとして一括登録します。"
+
+msgid "File format: email, firstname, lastname (one user per row, with header row)."
+msgstr "ファイル形式: email, firstname, lastname（1行1ユーザー、ヘッダー行あり）。"
+
+msgid "Note: Welcome emails will NOT be sent. Use a separate plugin to send welcome emails at the appropriate time."
+msgstr "注: Welcomeメールは送信されません。適切なタイミングで別のプラグインを使用して送信してください。"
+
+msgid "CSV/TSV File"
+msgstr "CSV/TSVファイル"
+
+msgid "Import Users"
+msgstr "ユーザーをインポート"
+
+msgid "Import Results"
+msgstr "インポート結果"
+
+#: templates/admin/all-sites.php
+msgid "No survey sites have been submitted yet."
+msgstr "まだ調査地点が報告されていません。"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "User"
+msgstr "ユーザー"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Unknown"
+msgstr "不明"
+
+#: templates/admin/messages.php
+msgid "No conversations yet."
+msgstr "まだ会話がありません。"
+
+msgid "Last Message"
+msgstr "最新メッセージ"
+
+msgid "Last Activity"
+msgstr "最終活動"
+
+msgid "Unread"
+msgstr "未読"
+
+msgid "View Chat"
+msgstr "チャットを見る"
+
+#: templates/admin/messages-chat.php
+#, php-format
+msgid "Chat with %s"
+msgstr "%sとのチャット"
+
+msgid "Back to All Messages"
+msgstr "全メッセージに戻る"
+
+msgid "No messages yet."
+msgstr "まだメッセージがありません。"
+
+msgid "Type a reply..."
+msgstr "返信を入力..."
+
+#: templates/admin/settings.php
+msgid "Server Environment"
+msgstr "サーバー環境"
+
+msgid "Status"
+msgstr "状態"
+
+msgid "Component"
+msgstr "コンポーネント"
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Items marked with a red X are required for core functionality. Items marked with a warning may limit certain features but the plugin will still operate."
+msgstr "赤いXが付いた項目はプラグインの主要機能に必須です。警告マークの項目は一部の機能が制限されますが、プラグイン自体は動作します。"
+
+#: includes/admin/class-admin-settings.php (environment checks)
+msgid "PHP 8.1 or later is required."
+msgstr "PHP 8.1以上が必要です。"
+
+msgid "PHP 8.1 or later is required. Current version does not meet the requirement."
+msgstr "PHP 8.1以上が必要です。現在のバージョンは要件を満たしていません。"
+
+msgid "Not installed. CLI tools (heif-convert, ffmpeg, exiftool) will be used as fallback for HEIC/HEIF processing."
+msgstr "未インストール。CLIツール（heif-convert, ffmpeg, exiftool）がHEIC/HEIF処理のフォールバックとして使用されます。"
+
+msgid "Installed but HEIC format is not supported. CLI tools (heif-convert, ffmpeg, exiftool) will be used as fallback."
+msgstr "インストール済みですがHEIC形式に非対応です。CLIツール（heif-convert, ffmpeg, exiftool）がフォールバックとして使用されます。"
+
+msgid "HEIC/HEIF to JPEG conversion and GPS extraction from HEIC/HEIF photos are available."
+msgstr "HEIC/HEIF写真のJPEG変換とGPSデータ取得が利用可能です。"
+
+msgid "GPS data can be extracted from JPEG photo EXIF metadata."
+msgstr "JPEG写真のEXIFメタデータからGPSデータを取得できます。"
+
+msgid "Not installed. GPS data cannot be extracted from JPEG photos. Location must be entered manually."
+msgstr "未インストール。JPEG写真からGPSデータを取得できません。位置情報は手動で入力する必要があります。"
+
+msgid "Multi-byte string processing (Japanese text) is available."
+msgstr "マルチバイト文字列処理（日本語テキスト）が利用可能です。"
+
+msgid "Not installed. Japanese text processing may not work correctly."
+msgstr "未インストール。日本語テキスト処理が正しく動作しない場合があります。"
+
+msgid "Required by PhpSpreadsheet for Excel (.xlsx) file handling."
+msgstr "PhpSpreadsheetによるExcel (.xlsx) ファイル処理に必要です。"
+
+msgid "Not installed. Excel template generation and offline submission upload will not work."
+msgstr "未インストール。Excelテンプレート生成とオフライン送信アップロードが動作しません。"
+
+msgid "Excel template generation and offline data upload are available."
+msgstr "Excelテンプレート生成とオフラインデータアップロードが利用可能です。"
+
+msgid "Not installed. Run \"composer install\" in the plugin directory. Excel template and offline submission features will not work."
+msgstr "未インストール。プラグインディレクトリで \"composer install\" を実行してください。Excelテンプレートとオフライン送信機能が動作しません。"
+
+#: templates/admin/all-sites.php
+msgid "Internal Sample ID"
+msgstr "内部サンプルID"
+
+msgid "Submitted"
+msgstr "送信日時"
+
+msgid "Method"
+msgstr "送信方法"
+
+msgid "IP / Geo"
+msgstr "IP / 地域"
+
+#: includes/ajax/class-ajax-submission.php
+msgid "No site data received."
+msgstr "サイトデータが受信できませんでした。"
+
+#: includes/class-plugin.php (deactivation dialog)
+msgid "Do you want to delete all eDNA Survey data (database tables and uploaded photos) when the plugin is uninstalled?\n\nOK = Delete data on uninstall\nCancel = Keep data"
+msgstr "プラグインのアンインストール時に、eDNA Surveyの全データ（データベーステーブルとアップロード写真）を削除しますか？\n\nOK = アンインストール時にデータを削除\nキャンセル = データを保持"
+
+msgid "Site Name (Local)"
+msgstr "地点名(現地語)"
+
+#: templates/frontend/offline-template.php (smartphone instructions)
+msgid "Using on a Smartphone"
+msgstr "スマートフォンでの使用方法"
+
+msgid "Google Sheets (Android / iPhone)"
+msgstr "Googleスプレッドシート（Android / iPhone）"
+
+msgid "Install the Google Sheets app and sign in with your Google account."
+msgstr "Googleスプレッドシートアプリをインストールし、Googleアカウントでログインしてください。"
+
+msgid "While online, download this template and open it in Google Sheets."
+msgstr "オンラインの状態で、このテンプレートをダウンロードしてGoogleスプレッドシートで開いてください。"
+
+msgid "Verify that the file opens correctly and the column headers are displayed."
+msgstr "ファイルが正しく開き、列ヘッダーが表示されることを確認してください。"
+
+msgid "To use offline: open the file, tap the three-dot menu (⋮), and enable \"Make available offline\"."
+msgstr "オフラインで使用するには：ファイルを開き、三点メニュー（⋮）をタップして「オフラインで使用可能にする」を有効にしてください。"
+
+msgid "You can now enter data in the field without internet. Changes will sync automatically when you reconnect."
+msgstr "インターネットなしでフィールドでデータ入力ができるようになります。再接続時に変更が自動的に同期されます。"
+
+msgid "After syncing, download the file as .xlsx from Google Sheets (File → Download → Microsoft Excel) and upload it here."
+msgstr "同期後、Googleスプレッドシートから.xlsx形式でダウンロード（ファイル→ダウンロード→Microsoft Excel）し、ここからアップロードしてください。"
+
+msgid "Microsoft Excel (Android / iPhone)"
+msgstr "Microsoft Excel（Android / iPhone）"
+
+msgid "Install the Microsoft Excel app and sign in (a free Microsoft account is sufficient)."
+msgstr "Microsoft Excelアプリをインストールし、サインインしてください（無料のMicrosoftアカウントで十分です）。"
+
+msgid "While online, download this template and open it in Excel."
+msgstr "オンラインの状態で、このテンプレートをダウンロードしてExcelで開いてください。"
+
+msgid "If you save the file to OneDrive, it can be edited on your phone. Note that offline editing requires a Microsoft 365 subscription."
+msgstr "OneDriveにファイルを保存すると、スマートフォンで編集できます。ただし、オフライン編集にはMicrosoft 365サブスクリプションが必要です。"
+
+msgid "If you save the file locally on the device, it can be edited without internet but make sure to back up the file."
+msgstr "端末にローカル保存すれば、インターネットなしで編集できますが、ファイルのバックアップを忘れないでください。"
+
+#: includes/admin/class-admin-settings.php (CLI tools)
+msgid "CLI tools"
+msgstr "CLIツール"
+
+msgid "Available as fallback for HEIC/HEIF processing."
+msgstr "HEIC/HEIF処理のフォールバックとして利用可能です。"
+
+msgid "CLI tools (missing)"
+msgstr "CLIツール（未検出）"
+
+msgid "Not found. Install with: apt install libheif-examples ffmpeg libimage-exiftool-perl"
+msgstr "未検出。以下でインストール: apt install libheif-examples ffmpeg libimage-exiftool-perl"
+
+msgid "HEIC conversion"
+msgstr "HEIC変換"
+
+msgid "No method available. HEIC/HEIF photos cannot be processed. Install Imagick with HEIC support, or heif-convert, or ffmpeg."
+msgstr "利用可能な方法がありません。HEIC/HEIF写真を処理できません。HEIC対応のImagick、またはheif-convert、またはffmpegをインストールしてください。"
+
+msgid "HEIC GPS extraction"
+msgstr "HEIC GPS取得"
+
+msgid "No method available for GPS extraction from HEIC/HEIF. Install Imagick with HEIC support, or exiftool."
+msgstr "HEIC/HEIFからのGPS取得方法がありません。HEIC対応のImagick、またはexiftoolをインストールしてください。"
+
+msgid "HEIC to JPEG conversion (libheif)"
+msgstr "HEIC→JPEG変換（libheif）"
+
+msgid "HEIC to JPEG conversion (FFmpeg)"
+msgstr "HEIC→JPEG変換（FFmpeg）"
+
+msgid "GPS extraction from HEIC/HEIF photos"
+msgstr "HEIC/HEIF写真からのGPS取得"
+
+#: templates/admin/settings.php (external command paths)
+msgid "External Command Paths"
+msgstr "外部コマンドパス"
+
+msgid "Specify full paths to external commands. Leave blank to auto-detect from PATH."
+msgstr "外部コマンドのフルパスを指定します。空欄の場合はPATHから自動検出します。"
+
+msgid "ImageMagick (magick / convert)"
+msgstr "ImageMagick (magick / convert)"
+
+msgid "HEIC to JPEG conversion. Auto-detects \"magick\" then \"convert\"."
+msgstr "HEIC→JPEG変換。\"magick\" を優先し、なければ \"convert\" を検出します。"
+
+msgid "heif-convert (libheif)"
+msgstr "heif-convert (libheif)"
+
+msgid "heif-dec / heif-convert (libheif)"
+msgstr "heif-dec / heif-convert (libheif)"
+
+msgid "HEIC to JPEG conversion. Install: apt install libheif-examples"
+msgstr "HEIC→JPEG変換。インストール: apt install libheif-examples"
+
+msgid "HEIC to JPEG conversion. Auto-detects \"heif-dec\" then \"heif-convert\". Install: apt install libheif-examples"
+msgstr "HEIC→JPEG変換。\"heif-dec\" を優先し、なければ \"heif-convert\" を検出します。インストール: apt install libheif-examples"
+
+msgid "FFmpeg"
+msgstr "FFmpeg"
+
+msgid "HEIC to JPEG conversion. Install: apt install ffmpeg"
+msgstr "HEIC→JPEG変換。インストール: apt install ffmpeg"
+
+msgid "exiftool"
+msgstr "exiftool"
+
+msgid "GPS extraction from HEIC/HEIF. Install: apt install libimage-exiftool-perl"
+msgstr "HEIC/HEIFからのGPS取得。インストール: apt install libimage-exiftool-perl"
+
+#, php-format
+msgid "Resolved: %s"
+msgstr "検出パス: %s"
+
+msgid "Not found"
+msgstr "未検出"
+
+msgid "not found"
+msgstr "未検出"
+
+msgid "GPS extraction fallback when PHP exif extension is unavailable. Install: apt install libimage-exiftool-perl"
+msgstr "PHP exif拡張が利用できない場合のGPS取得フォールバック。インストール: apt install libimage-exiftool-perl"
+
+msgid "GPS data can be extracted from all photos (HEIC/HEIF photos are converted to JPEG first, preserving EXIF)."
+msgstr "全写真からGPSデータを取得可能です（HEIC/HEIF写真はJPEGに変換後、EXIFが保持されます）。"
+
+msgid "Not installed. GPS data cannot be extracted from photos. Location must be entered manually."
+msgstr "未インストール。写真からGPSデータを取得できません。位置情報は手動入力が必要です。"
+
+msgid "Available as additional GPS extraction method (PHP exif is primary)."
+msgstr "追加のGPS取得手段として利用可能です（PHP exifが主要手段）。"
+
+msgid "GPS extraction via exiftool (PHP exif not available)."
+msgstr "exiftoolによるGPS取得（PHP exifは利用不可）。"
+
+msgid "Not found. No method available for GPS extraction. Install PHP exif extension or exiftool."
+msgstr "未検出。GPS取得の手段がありません。PHP exif拡張またはexiftoolをインストールしてください。"
+
+msgid "HEIC supported"
+msgstr "HEIC対応"
+
+msgid "found but HEIC not supported"
+msgstr "検出されましたがHEIC非対応です"
+
+#: templates/frontend/site-detail.php, sites.php, map popups
+msgid "Detail"
+msgstr "詳細"
+
+msgid "Site Detail"
+msgstr "地点詳細"
+
+msgid "Back to Site List"
+msgstr "地点一覧に戻る"
+
+msgid "file(s)"
+msgstr "件"
+
+msgid "Filtered Water Vol. 1 (mL)"
+msgstr "濾過水量1 (mL)"
+
+msgid "Filtered Water Vol. 2 (mL)"
+msgstr "濾過水量2 (mL)"
+
+#: templates/frontend/dashboard.php
+msgid "Log Out"
+msgstr "ログアウト"
+
+msgid "Back to Map"
+msgstr "マップに戻る"
+
+msgid "Survey Date"
+msgstr "採集日"
+
+msgid "Survey Time"
+msgstr "採集時刻"
+
+#: offline submission
+msgid "Number of Survey Sites"
+msgstr "調査地点数"
+
+msgid "How many survey sites are included in this upload?"
+msgstr "今回アップロードする調査地点の数を入力してください。"
+
+msgid "Next"
+msgstr "次へ"
+
+msgid "You can proceed without photos if none were taken."
+msgstr "写真を撮影しなかった場合は、写真なしで次へ進めます。"
+
+msgid "Drag & drop photos here, or click to select files"
+msgstr "ここに写真をドラッグ＆ドロップ、またはクリックして選択"
+
+msgid "Proceed to Excel Upload"
+msgstr "Excelファイルのアップロードへ"
+
+msgid "Drag & drop Excel file here, or click to select"
+msgstr "ここにExcelファイルをドラッグ＆ドロップ、またはクリックして選択"
+
+msgid "Upload & Analyze"
+msgstr "アップロードして分析"
+
+msgid "Analyzing..."
+msgstr "分析中..."
+
+msgid "Upload up to {max} photos ({limit} per site)."
+msgstr "最大{max}枚（1地点あたり{limit}枚）の写真をアップロードできます。"
+
+msgid "Maximum {max} photos allowed. You can add {remaining} more."
+msgstr "写真は最大{max}枚です。あと{remaining}枚追加できます。"
+
+msgid "No photos"
+msgstr "写真なし"
+
+msgid "No location - click map to set"
+msgstr "位置情報なし — 地図をクリックして設定"
+
+msgid "Some sites are missing location. Please set all locations on the map."
+msgstr "位置情報のない地点があります。地図上で全ての位置を設定してください。"
+
+msgid "GPS from Excel"
+msgstr "GPSはExcelから"
+
+msgid "GPS from photo EXIF"
+msgstr "GPSは写真EXIFから"
+
+msgid "Photo Time Matching Threshold (minutes)"
+msgstr "写真時刻マッチング閾値（分）"
+
+msgid "When photo_files is omitted in Excel, photos are matched to samples by comparing EXIF DateTimeOriginal with survey_date + survey_time within this threshold."
+msgstr "Excelでphoto_filesが省略された場合、EXIF撮影日時とsurvey_date+survey_timeの差がこの閾値以内の写真をマッチングします。"
+
+msgid "Maximum %d photos allowed for this upload session."
+msgstr "このアップロードセッションでは最大%d枚の写真が許可されています。"
+
+msgid "No photos selected."
+msgstr "写真が選択されていません。"
+
+msgid "Photo not found."
+msgstr "写真が見つかりません。"
+
+msgid "Local site name"
+msgstr "現地語地点名"
+
+msgid "English site name"
+msgstr "英語地点名"
+
+msgid "Collector 1"
+msgstr "採集者1"
+
+msgid "Latitude/longitude required (no photo GPS available)."
+msgstr "緯度経度が必要です（写真にGPSデータがありません）。"
+
+msgid "Invalid date format (YYYY-MM-DD)."
+msgstr "日付の形式が不正です（YYYY-MM-DD）。"
+
+msgid "Invalid time format (hh:mm)."
+msgstr "時刻の形式が不正です（hh:mm）。"
+
+#, php-format
+msgid "Row %d"
+msgstr "%d行目"
+
+#, php-format
+msgid "Row %1$d: Photo file \"%2$s\" not found in uploaded photos."
+msgstr "%1$d行目: 写真ファイル「%2$s」がアップロードされた写真に見つかりません。"
+
+#, php-format
+msgid "Photo \"%1$s\" (EXIF: %2$s) matches multiple samples (rows: %3$s). Please specify photo_files in Excel."
+msgstr "写真「%1$s」（EXIF: %2$s）が複数のサンプル（行: %3$s）に一致します。Excelのphoto_filesに明示的に記述してください。"
+
+#, php-format
+msgid "Row %d: No photos matched. This site will be registered without photos."
+msgstr "%d行目: 対応する写真が見つかりません。この地点は写真なしで登録されます。"
+
+#, php-format
+msgid "Photo \"%s\" was not matched to any sample."
+msgstr "写真「%s」はどのサンプルにもマッチしませんでした。"
+
+#: includes/class-router.php (page titles)
+msgid "Dashboard"
+msgstr "ダッシュボード"
+
+msgid "Online Submission"
+msgstr "オンラインデータ入力"
+
+msgid "Chat"
+msgstr "チャット"
+
+#: templates/frontend/offline-template.php
+msgid "If you leave the photo filename column blank, photos will be automatically matched by comparing EXIF shooting time with the survey time you entered."
+msgstr "写真ファイル名の欄を空欄にすると、EXIF撮影日時と入力した採集時刻の比較により自動的に写真が対応付けされます。"
+
+msgid "Note on Photo Filenames (Android)"
+msgstr "写真ファイル名に関する注意（Android）"
+
+msgid "On Android devices, the filename shown in the file manager may differ from the filename the browser sends during upload. If you enter photo filenames in the Excel template, use the filenames displayed on the upload screen (Step 1), not the names shown in your file manager. Alternatively, leave the photo filename column blank and let the system match photos automatically by EXIF shooting time."
+msgstr "Android端末では、ファイルマネージャーに表示されるファイル名と、ブラウザがアップロード時に送信するファイル名が異なる場合があります。Excelに写真ファイル名を記入する場合は、ファイルマネージャーではなくアップロード画面（ステップ1）に表示されるファイル名を使用してください。あるいは、写真ファイル名の欄を空欄にして、EXIF撮影日時による自動マッチングに任せることもできます。"

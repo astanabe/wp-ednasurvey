@@ -1,0 +1,519 @@
+/* eDNA Survey Frontend Styles */
+
+/*
+ * Force all ancestor containers between <body> and #ednasurvey-wrap to full width.
+ * This overrides GeneratePress and other themes that apply max-width to wrapper divs.
+ */
+#ednasurvey-wrap {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 2em auto;
+    padding: 0 1.5em;
+    box-sizing: border-box;
+}
+
+/* Walk up from #ednasurvey-wrap and reset every ancestor inside body */
+body.ednasurvey-page #page,
+body.ednasurvey-page #content,
+body.ednasurvey-page #primary,
+body.ednasurvey-page #main,
+body.ednasurvey-page .site,
+body.ednasurvey-page .site-content,
+body.ednasurvey-page .content-area,
+body.ednasurvey-page .inside-article,
+body.ednasurvey-page .entry-content,
+body.ednasurvey-page .container,
+body.ednasurvey-page .grid-container,
+body.ednasurvey-page .page-content,
+body.ednasurvey-page article {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    float: none !important;
+}
+
+body.ednasurvey-page #secondary,
+body.ednasurvey-page aside.widget-area {
+    display: none !important;
+}
+
+.ednasurvey-page-title {
+    font-size: 1.8em;
+    margin-bottom: 1em;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 0.3em;
+}
+
+/* Dashboard Header */
+.ednasurvey-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5em;
+}
+
+.ednasurvey-welcome {
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.ednasurvey-logout-btn {
+    text-decoration: none;
+}
+
+/* Dashboard Navigation */
+.ednasurvey-dashboard-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1em;
+}
+
+.ednasurvey-dashboard-nav ul li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ednasurvey-nav-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    text-align: center;
+}
+
+.ednasurvey-nav-card:hover {
+    border-color: #0073aa;
+    box-shadow: 0 2px 8px rgba(0, 115, 170, 0.15);
+    color: #333;
+}
+
+.ednasurvey-nav-card .dashicons {
+    font-size: 2em;
+    width: 2em;
+    height: 2em;
+    color: #0073aa;
+    margin-bottom: 0.5em;
+}
+
+.ednasurvey-nav-label {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 0.3em;
+}
+
+.ednasurvey-nav-desc {
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* Unified button styles */
+#ednasurvey-wrap .button,
+#ednasurvey-wrap button,
+#ednasurvey-wrap input[type="submit"] {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    padding: 0.5em 1.2em;
+    border: 1px solid #0073aa;
+    border-radius: 4px;
+    background: #0073aa;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95em;
+    font-weight: normal;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#ednasurvey-wrap .button:hover,
+#ednasurvey-wrap button:hover,
+#ednasurvey-wrap input[type="submit"]:hover {
+    background: #005a87;
+    border-color: #005a87;
+    color: #fff;
+}
+
+#ednasurvey-wrap .button:visited {
+    color: #fff;
+}
+
+/* Primary button (stronger emphasis) */
+#ednasurvey-wrap .button-primary,
+#ednasurvey-wrap .ednasurvey-submit-btn {
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 0.6em 2em;
+}
+
+/* Secondary/outline button */
+#ednasurvey-wrap .button:not(.button-primary):not(.ednasurvey-submit-btn):not(.ednasurvey-resubmit-btn) {
+    background: #fff;
+    color: #0073aa;
+    border-color: #0073aa;
+}
+
+#ednasurvey-wrap .button:not(.button-primary):not(.ednasurvey-submit-btn):not(.ednasurvey-resubmit-btn):hover {
+    background: #f0f6fb;
+    color: #005a87;
+    border-color: #005a87;
+}
+
+#ednasurvey-wrap .button:not(.button-primary):not(.ednasurvey-submit-btn):not(.ednasurvey-resubmit-btn):visited {
+    color: #0073aa;
+}
+
+/* Form Styles */
+.ednasurvey-fieldset {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.ednasurvey-fieldset legend {
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 0 0.5em;
+}
+
+.ednasurvey-field-row {
+    margin-bottom: 0.75em;
+}
+
+.ednasurvey-field-row label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25em;
+}
+
+.ednasurvey-field-row input[type="text"],
+.ednasurvey-field-row input[type="number"],
+.ednasurvey-field-row input[type="date"],
+.ednasurvey-field-row input[type="time"],
+.ednasurvey-field-row select,
+.ednasurvey-field-row textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.4em 0.6em;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.ednasurvey-field-row textarea {
+    max-width: 100%;
+}
+
+.ednasurvey-help {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 0.5em;
+}
+
+.required {
+    color: #dc3232;
+}
+
+.ednasurvey-form-actions {
+    margin-top: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    flex-wrap: wrap;
+}
+
+/* Map */
+#ednasurvey-map,
+#ednasurvey-user-map,
+#ednasurvey-offline-map {
+    width: 100% !important;
+    min-width: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ednasurvey-content {
+    width: 100%;
+}
+
+.ednasurvey-coords-display {
+    padding: 0.5em;
+    background: #f7f7f7;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* Photo Preview */
+.ednasurvey-photo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-top: 0.5em;
+}
+
+.ednasurvey-photo-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Site Cards (replaces DataTable on sites list) */
+.ednasurvey-site-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.ednasurvey-site-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    padding: 0.75em 1em;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    align-items: center;
+}
+
+.ednasurvey-site-card-thumbs {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.ednasurvey-site-card-thumbs img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.ednasurvey-thumb-more {
+    font-size: 0.8em;
+    color: #666;
+    padding-left: 2px;
+}
+
+.ednasurvey-site-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    min-width: 0;
+    flex: 1;
+}
+
+.ednasurvey-site-card-num {
+    font-size: 0.8em;
+    color: #999;
+}
+
+.ednasurvey-site-card-detail {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.ednasurvey-site-card-actions {
+    display: flex;
+    gap: 0.5em;
+    flex-shrink: 0;
+}
+
+/* Site detail page */
+.ednasurvey-site-detail-photos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5em;
+}
+
+.ednasurvey-site-detail-photos img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.ednasurvey-site-detail-photos a:hover img {
+    border-color: #0073aa;
+}
+
+.ednasurvey-site-detail-table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+}
+
+.ednasurvey-site-detail-table th,
+.ednasurvey-site-detail-table td {
+    padding: 0.5em 0.75em;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: top;
+}
+
+.ednasurvey-site-detail-table th {
+    width: 200px;
+    color: #555;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .ednasurvey-site-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ednasurvey-site-card-actions {
+        justify-content: stretch;
+    }
+    .ednasurvey-site-card-actions .button {
+        flex: 1;
+        text-align: center;
+    }
+    .ednasurvey-site-detail-table th {
+        width: auto;
+    }
+    .ednasurvey-site-detail-photos img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+}
+
+/* File select */
+.ednasurvey-file-select {
+    margin-bottom: 1em;
+}
+
+/* Temp photo list */
+.ednasurvey-temp-photo-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+}
+.ednasurvey-temp-photo-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+.ednasurvey-temp-photo-info {
+    flex: 1;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+.ednasurvey-temp-photo-info strong {
+    word-break: break-all;
+}
+.ednasurvey-photo-uploading {
+    padding: 0.5em;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+    color: #666;
+}
+.ednasurvey-no-photo-badge {
+    display: inline-block;
+    background: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+    padding: 0.1em 0.5em;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+.ednasurvey-gps-source {
+    font-size: 0.85em;
+    color: #666;
+    font-style: italic;
+}
+.ednasurvey-offline-site-item {
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    .ednasurvey-temp-photo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .ednasurvey-temp-photo-item img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+    }
+}
+
+/* Messages / Alerts */
+.ednasurvey-alert {
+    padding: 0.75em 1em;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+
+.ednasurvey-alert-success {
+    background: #dff0d8;
+    border: 1px solid #d0e9c6;
+    color: #3c763d;
+}
+
+.ednasurvey-alert-error {
+    background: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a94442;
+}
+
+.ednasurvey-alert-warning {
+    background: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .ednasurvey-dashboard-nav ul {
+        grid-template-columns: 1fr;
+    }
+
+    .ednasurvey-form-actions {
+        flex-direction: column;
+    }
+
+    .ednasurvey-form-actions .button,
+    .ednasurvey-form-actions button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .ednasurvey-field-row input,
+    .ednasurvey-field-row select {
+        max-width: 100%;
+    }
+}
