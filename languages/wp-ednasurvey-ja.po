@@ -150,6 +150,21 @@ msgstr "写真"
 msgid "HEIC/HEIF: Preview not available"
 msgstr "HEIC/HEIF: プレビュー非対応"
 
+msgid "Date/Time"
+msgstr "撮影日時"
+
+msgid "Copy"
+msgstr "コピー"
+
+msgid "Copy filename to clipboard"
+msgstr "ファイル名をクリップボードにコピー"
+
+msgid "+Append"
+msgstr "+追記"
+
+msgid "Append filename to clipboard with comma"
+msgstr "クリップボードにカンマ区切りでファイル名を追記"
+
 msgid "{count} file(s)"
 msgstr "{count}件"
 

@@ -22,6 +22,12 @@
         return div.innerHTML;
     }
 
+    function flashCopyFeedback($btn) {
+        var orig = $btn.text();
+        $btn.text('\u2713').prop('disabled', true);
+        setTimeout(function() { $btn.text(orig).prop('disabled', false); }, 1000);
+    }
+
     function showStep(step) {
         $('#ednasurvey-submission-messages').empty();
         $('#ednasurvey-offline-step0').toggle(step === 0);
@@ -132,21 +138,49 @@
         state.photos.forEach(function(p, idx) {
             var gps = (p.exif_latitude && p.exif_longitude)
                 ? p.exif_latitude + ', ' + p.exif_longitude : 'N/A';
-            var dt = p.exif_datetime || 'N/A';
+            // Format datetime as YYYY-MM-DD hh:mm (trim seconds)
+            var dt = p.exif_datetime ? p.exif_datetime.substring(0, 16) : 'N/A';
 
             var $item = $('<div class="ednasurvey-temp-photo-item">');
             var $img  = $('<img>').attr('src', p.thumbnail_url).attr('alt', '');
             var $info = $('<div class="ednasurvey-temp-photo-info">')
                 .append($('<strong>').text(p.original_filename))
-                .append('<br>EXIF: ' + escapeHtml(dt))
+                .append('<br>' + escapeHtml(i18n.exifDatetime || 'Date/Time') + ': ' + escapeHtml(dt))
                 .append('<br>GPS: ' + escapeHtml(gps));
-            var $btn  = $('<button type="button" class="button button-small">')
+
+            var filename = p.original_filename;
+            var $copyBtn = $('<button type="button" class="button button-small ednasurvey-copy-btn">')
+                .text(i18n.copyFilename || 'Copy')
+                .attr('title', i18n.copyFilenameTitle || 'Copy filename to clipboard')
+                .on('click', function() {
+                    navigator.clipboard.writeText(filename).then(function() {
+                        flashCopyFeedback($(this));
+                    }.bind(this));
+                });
+            var $appendBtn = $('<button type="button" class="button button-small ednasurvey-append-btn">')
+                .text(i18n.appendFilename || '+Append')
+                .attr('title', i18n.appendFilenameTitle || 'Append filename to clipboard with comma')
+                .on('click', function() {
+                    var btn = this;
+                    navigator.clipboard.readText().then(function(current) {
+                        var newText = current ? current + ',' + filename : filename;
+                        return navigator.clipboard.writeText(newText);
+                    }, function() {
+                        return navigator.clipboard.writeText(filename);
+                    }).then(function() {
+                        flashCopyFeedback($(btn));
+                    });
+                });
+
+            var $actions = $('<div class="ednasurvey-temp-photo-actions">')
+                .append($copyBtn).append($appendBtn);
+            var $delBtn = $('<button type="button" class="button button-small">')
                 .text('\u00D7')
                 .on('click', (function(photoIdx) {
                     return function() { deletePhoto(photoIdx); };
                 })(idx));
 
-            $item.append($img).append($info).append($btn);
+            $item.append($img).append($info).append($actions).append($delBtn);
             $list.append($item);
         });
 

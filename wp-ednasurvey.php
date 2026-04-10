@@ -3,7 +3,7 @@
  * Plugin Name: eDNA Survey
  * Plugin URI:
  * Description: Environmental DNA Citizen Survey Reporting Site Plugin
- * Version: 1.8.2
+ * Version: 1.8.3
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author:
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'EDNASURVEY_VERSION', '1.8.2' );
+define( 'EDNASURVEY_VERSION', '1.8.3' );
 define( 'EDNASURVEY_DB_VERSION', '1.5.0' );
 define( 'EDNASURVEY_PLUGIN_FILE', __FILE__ );
 define( 'EDNASURVEY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

@@ -407,6 +407,18 @@
 .ednasurvey-temp-photo-info strong {
     word-break: break-all;
 }
+.ednasurvey-temp-photo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    flex-shrink: 0;
+}
+.ednasurvey-copy-btn,
+.ednasurvey-append-btn {
+    font-size: 0.8em !important;
+    min-width: 5em;
+    text-align: center;
+}
 .ednasurvey-photo-uploading {
     padding: 0.5em;
     border: 1px dashed #ccc;

@@ -139,6 +139,21 @@ msgstr ""
 msgid "HEIC/HEIF: Preview not available"
 msgstr ""
 
+msgid "Date/Time"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Copy filename to clipboard"
+msgstr ""
+
+msgid "+Append"
+msgstr ""
+
+msgid "Append filename to clipboard with comma"
+msgstr ""
+
 msgid "{count} file(s)"
 msgstr ""
 
