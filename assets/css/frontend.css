@@ -1,52 +1,5 @@
 /* eDNA Survey Frontend Styles */
 
-/*
- * Force all ancestor containers between <body> and #ednasurvey-wrap to full width.
- * This overrides GeneratePress and other themes that apply max-width to wrapper divs.
- */
-#ednasurvey-wrap {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 2em auto;
-    padding: 0 1.5em;
-    box-sizing: border-box;
-}
-
-/* Walk up from #ednasurvey-wrap and reset every ancestor inside body */
-body.ednasurvey-page #page,
-body.ednasurvey-page #content,
-body.ednasurvey-page #primary,
-body.ednasurvey-page #main,
-body.ednasurvey-page .site,
-body.ednasurvey-page .site-content,
-body.ednasurvey-page .content-area,
-body.ednasurvey-page .inside-article,
-body.ednasurvey-page .entry-content,
-body.ednasurvey-page .container,
-body.ednasurvey-page .grid-container,
-body.ednasurvey-page .page-content,
-body.ednasurvey-page article {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    float: none !important;
-}
-
-body.ednasurvey-page #secondary,
-body.ednasurvey-page aside.widget-area {
-    display: none !important;
-}
-
-.ednasurvey-page-title {
-    font-size: 1.8em;
-    margin-bottom: 1em;
-    border-bottom: 2px solid #0073aa;
-    padding-bottom: 0.3em;
-}
-
 /* Dashboard Header */
 .ednasurvey-dashboard-header {
     display: flex;
@@ -122,7 +75,9 @@ body.ednasurvey-page aside.widget-area {
 #ednasurvey-wrap .button,
 #ednasurvey-wrap button,
 #ednasurvey-wrap input[type="submit"] {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
@@ -232,6 +187,7 @@ body.ednasurvey-page aside.widget-area {
 
 .ednasurvey-form-actions {
     margin-top: 1.5em;
+    margin-bottom: 1.5em;
     display: flex;
     align-items: center;
     gap: 0.75em;

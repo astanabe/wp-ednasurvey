@@ -126,6 +126,96 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
         </fieldset>
         <?php endif; ?>
 
+        <?php if ( ! empty( $fields_config['env_broad'] ) ) :
+            $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
+        ?>
+        <fieldset class="ednasurvey-fieldset">
+            <legend><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?></legend>
+            <p class="ednasurvey-help">
+                <?php echo esc_html( 'ja' === $lang
+                    ? '「河川感潮域」: 河口から外は近くても含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるかどうかが基準（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガティブコントロール用。'
+                    : '"estuarine": does not include areas outside the river mouth, even if nearby. "mangrove": mangroves in estuarine areas should be classified as mangrove. "large river": whether a sightseeing boat can operate (rapids boats do not count). "saline lake": does not include brackish lakes or lagoons. "sterile water": for blanks / negative controls.' ); ?>
+            </p>
+            <div class="ednasurvey-field-row">
+                <label for="env_broad"><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?> <span class="required">*</span></label>
+                <select id="env_broad" name="env_broad" required>
+                    <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
+                    <?php foreach ( $env_broad_choices as $key => $labels ) : ?>
+                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->env_broad ?? '', $key ); ?>>
+                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset class="ednasurvey-fieldset">
+            <legend><?php echo esc_html( 'ja' === $lang ? '環境(小)' : 'Environment (Local)' ); ?></legend>
+            <p class="ednasurvey-help">
+                <?php echo esc_html( 'ja' === $lang
+                    ? '環境(大)の選択に応じた項目から1〜7個選択してください。'
+                    : 'Select 1 to 7 items from the list filtered by Environment (Broad).' ); ?>
+            </p>
+            <?php for ( $i = 1; $i <= 7; $i++ ) :
+                $field_name = 'env_local' . $i;
+            ?>
+            <div class="ednasurvey-field-row">
+                <label for="<?php echo esc_attr( $field_name ); ?>">
+                    <?php echo esc_html( ( 'ja' === $lang ? '環境(小)' : 'Env. (Local) ' ) . $i ); ?>
+                    <?php if ( 1 === $i ) : ?><span class="required">*</span><?php endif; ?>
+                </label>
+                <select id="<?php echo esc_attr( $field_name ); ?>" name="<?php echo esc_attr( $field_name ); ?>"
+                        class="ednasurvey-env-local-select" <?php echo 1 === $i ? 'required' : ''; ?>>
+                    <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
+                </select>
+            </div>
+            <?php endfor; ?>
+        </fieldset>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $fields_config['weather'] ) ) :
+            $weather_choices = EdnaSurvey_I18n::get_weather_choices();
+        ?>
+        <fieldset class="ednasurvey-fieldset">
+            <legend><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?></legend>
+            <div class="ednasurvey-field-row">
+                <label for="weather"><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?> <span class="required">*</span></label>
+                <select id="weather" name="weather" required>
+                    <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
+                    <?php foreach ( $weather_choices as $key => $labels ) : ?>
+                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->weather ?? '', $key ); ?>>
+                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </fieldset>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $fields_config['wind'] ) ) :
+            $wind_choices = EdnaSurvey_I18n::get_wind_choices();
+        ?>
+        <fieldset class="ednasurvey-fieldset">
+            <legend><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?></legend>
+            <p class="ednasurvey-help">
+                <?php echo esc_html( 'ja' === $lang
+                    ? '「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか'
+                    : 'Criterion for "windy": whether a syringe or filter holder used for filtration is moved by the wind' ); ?>
+            </p>
+            <div class="ednasurvey-field-row">
+                <label for="wind"><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?> <span class="required">*</span></label>
+                <select id="wind" name="wind" required>
+                    <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
+                    <?php foreach ( $wind_choices as $key => $labels ) : ?>
+                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->wind ?? '', $key ); ?>>
+                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </fieldset>
+        <?php endif; ?>
+
         <?php if ( ! empty( $custom_fields ) ) : ?>
         <fieldset class="ednasurvey-fieldset">
             <legend><?php esc_html_e( 'Additional Fields', 'wp-ednasurvey' ); ?></legend>
@@ -222,6 +312,66 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             copyLng: <?php echo esc_js( $copy_data->longitude ?? 'null' ); ?>,
             photoLimit: <?php echo (int) $photo_limit; ?>
         };
+        <?php if ( ! empty( $fields_config['env_broad'] ) ) :
+            // Build env_local mapping: env_broad key => [{key, label}, ...]
+            $env_local_choices = EdnaSurvey_I18n::get_env_local_choices();
+            $env_local_map    = EdnaSurvey_I18n::get_env_local_for_broad();
+            $js_mapping = array();
+            foreach ( $env_local_map as $broad_key => $local_keys ) {
+                $items = array();
+                foreach ( $local_keys as $lk ) {
+                    if ( isset( $env_local_choices[ $lk ] ) ) {
+                        $items[] = array( 'key' => $lk, 'label' => $env_local_choices[ $lk ][ $lang ] );
+                    }
+                }
+                $js_mapping[ $broad_key ] = $items;
+            }
+            // Pre-selected values for copy_from
+            $copy_env_locals = array();
+            for ( $ci = 1; $ci <= 7; $ci++ ) {
+                $f = 'env_local' . $ci;
+                $copy_env_locals[] = $copy_data->$f ?? '';
+            }
+        ?>
+        (function(){
+            var mapping = <?php echo wp_json_encode( $js_mapping ); ?>;
+            var copyValues = <?php echo wp_json_encode( $copy_env_locals ); ?>;
+            var selectLabel = <?php echo wp_json_encode( __( '-- Select --', 'wp-ednasurvey' ) ); ?>;
+            var broadSel = document.getElementById('env_broad');
+
+            function updateEnvLocal() {
+                var choices = mapping[broadSel.value] || [];
+                for (var i = 1; i <= 7; i++) {
+                    var sel = document.getElementById('env_local' + i);
+                    var prev = sel.value;
+                    sel.innerHTML = '';
+                    var blank = document.createElement('option');
+                    blank.value = '';
+                    blank.textContent = selectLabel;
+                    sel.appendChild(blank);
+                    for (var j = 0; j < choices.length; j++) {
+                        var opt = document.createElement('option');
+                        opt.value = choices[j].key;
+                        opt.textContent = choices[j].label;
+                        if (choices[j].key === prev) opt.selected = true;
+                        sel.appendChild(opt);
+                    }
+                }
+            }
+
+            broadSel.addEventListener('change', updateEnvLocal);
+
+            // Initialize on load (for copy_from or default)
+            if (broadSel.value) {
+                updateEnvLocal();
+                for (var i = 0; i < 7; i++) {
+                    if (copyValues[i]) {
+                        document.getElementById('env_local' + (i + 1)).value = copyValues[i];
+                    }
+                }
+            }
+        })();
+        <?php endif; ?>
     </script>
     <?php
 };

@@ -167,6 +167,9 @@ $fields_config = $settings['default_fields_config'] ?? array();
                 'collectors'      => __( 'Collectors (up to 5)', 'wp-ednasurvey' ),
                 'sample_id'       => __( 'Sample ID', 'wp-ednasurvey' ),
                 'water_volume'    => __( 'Filtered Water Volume', 'wp-ednasurvey' ),
+                'env_broad'       => __( 'Environment (Broad)', 'wp-ednasurvey' ),
+                'weather'         => __( 'Weather', 'wp-ednasurvey' ),
+                'wind'            => __( 'Wind', 'wp-ednasurvey' ),
                 'notes'           => __( 'Notes/Remarks', 'wp-ednasurvey' ),
                 'photos'          => __( 'Photos', 'wp-ednasurvey' ),
             );

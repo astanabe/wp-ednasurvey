@@ -37,7 +37,7 @@ HEIC support is verified per tool: ImageMagick (`identify -list format`), heif-d
 
 ### Naming Conventions
 
-- DB columns: `sitename_local`, `sitename_en`, `watervol1`, `watervol2`, `sample_id`, `survey_date`, `survey_time`, `notes`, `photo_files`
+- DB columns: `sitename_local`, `sitename_en`, `watervol1`, `watervol2`, `env_broad`, `env_local1`〜`env_local7`, `weather`, `wind`, `sample_id`, `survey_date`, `survey_time`, `notes`, `photo_files`
 - All user-facing identifiers use `internal_sample_id` (not numeric `id`)
 - Settings keys: `cmd_imagemagick`, `cmd_heif_convert`, `cmd_ffmpeg`, `cmd_exiftool`, `photo_time_threshold`
 
@@ -47,7 +47,10 @@ This is a standard WordPress plugin. The plugin directory should be placed in `w
 
 ### Important: Version Bumping
 
-When modifying JS or CSS files, bump `EDNASURVEY_VERSION` in `wp-ednasurvey.php` to force cache invalidation (including Cloudflare CDN).
+When modifying JS or CSS files, bump the version in `wp-ednasurvey.php` to force cache invalidation (including Cloudflare CDN). **Two places must be updated together:**
+
+1. Plugin header comment: `Version: x.y.z`
+2. PHP constant: `EDNASURVEY_VERSION`
 
 ### WordPress Plugin Structure
 

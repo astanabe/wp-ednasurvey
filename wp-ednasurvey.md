@@ -2,14 +2,15 @@
 
 WordPressにプラグインとしてインストールすることで、環境DNA市民調査のデータ収集・管理機能を提供するプラグイン。日本語と英語に対応し、ブラウザの`Accept-Language`ヘッダーにより自動切り替えを行う。
 
-- プラグインバージョン: 1.4.0
-- データベーススキーマバージョン: 1.2.0
+- プラグインバージョン: 1.7.0
+- データベーススキーマバージョン: 1.5.0
 
 ## 動作要件
 
 | 項目 | 要件 |
 |------|------|
 | WordPress | 6.4以上 |
+| テーマ | [GeneratePress](https://generatepress.com/) |
 | PHP | 8.1以上 |
 | PHP拡張(必須) | zip (PhpSpreadsheet用) |
 | PHP拡張(推奨) | exif (JPEG GPS取得), mbstring (日本語処理) |
@@ -239,7 +240,7 @@ Subscriberの地点情報をCSV/TSVファイルまたは画像ファイルURLリ
 #### CSV/TSVファイルのヘッダー順序
 
 ```
-number,internal_sample_id,submitted_user_login,submitted_user_email,submitted_user_name,submitted_ip,submitted_hostname,submitted_geo,submitted_at,submitted_user_agent,submitted_method,sample_id,survey_date,survey_time,latitude,longitude,sitename_local,sitename_en,correspondence,collector1,collector2,collector3,collector4,collector5,watervol1,watervol2,custom_{field_key}...,notes,photo_files
+number,internal_sample_id,submitted_user_login,submitted_user_email,submitted_user_name,submitted_ip,submitted_hostname,submitted_geo,submitted_at,submitted_user_agent,submitted_method,sample_id,survey_date,survey_time,latitude,longitude,sitename_local,sitename_en,correspondence,collector1,collector2,collector3,collector4,collector5,watervol1,watervol2,env_broad,env_local1,...,env_local7,weather,wind,custom_{field_key}...,notes,photo_files
 ```
 
 - 先頭にnumber（連番）、続いて送信メタデータ11列（管理者用）
@@ -328,6 +329,9 @@ email,firstname,lastname
 | collectors | 採集者(最大5名) |
 | sample_id | サンプルID |
 | water_volume | 濾過水量(2レプリケート) |
+| env_broad | 環境(大) |
+| weather | 天候 |
+| wind | 風 |
 | notes | 備考 |
 | photos | 写真 |
 
@@ -369,6 +373,10 @@ email,firstname,lastname
 | sample_id | VARCHAR(255) | ユーザー入力サンプルID |
 | watervol1 | DECIMAL(10,2) | 濾過水量1(mL) |
 | watervol2 | DECIMAL(10,2) | 濾過水量2(mL) |
+| env_broad | VARCHAR(255) | 環境(大)（marine/estuarine/mangrove/large river/small river/freshwater lake/brackish lake/saline lake/sterile water） |
+| env_local1〜7 | VARCHAR(255) | 環境(小)1〜7。env_broadに従属する選択肢から最大7個選択 |
+| weather | VARCHAR(255) | 天候（clear sky/sunny/cloudy/foggy/rain/hail/sleet/snow） |
+| wind | VARCHAR(255) | 風（windy/not windy） |
 | notes | TEXT | 備考 |
 | internal_sample_id | VARCHAR(255) UNIQUE | 内部ユニークID。全URL・リンクで使用 |
 | submitted_user_login | VARCHAR(60) | 送信ユーザー名 |
@@ -464,6 +472,10 @@ Settingsで有効/無効を切り替え可能なデフォルト項目:
 | collector2〜5 | 採集者2〜5 | Collector 2〜5 | テキスト | 省略可 | |
 | watervol1 | 濾過水量1(mL) | Filtered Water Vol. 1 (mL) | 整数 | 必須(0可) | mL単位、1mL精度 |
 | watervol2 | 濾過水量2(mL) | Filtered Water Vol. 2 (mL) | 整数 | 必須(0可) | mL単位、1mL精度 |
+| env_broad | 環境(大) | Environment (Broad) | セレクト | 必須 | marine/estuarine/mangrove/large river/small river/freshwater lake/brackish lake/saline lake/sterile water。日本語表示: 海/河川感潮域/マングローブ/大河川下流部/小河川や大河川上流部/淡水湖/汽水湖/塩湖/滅菌水。estuarine: 河口から外は含まない。large river: 遊覧船が運行できるか（急流下り船は含まない）。saline lake: 汽水湖や潟湖は含まない。sterile water: ブランク・ネガティブコントロール用 |
+| env_local1〜7 | 環境(小)1〜7 | Env. (Local) 1〜7 | セレクト | env_local1は必須、2〜7は省略可 | env_broadの選択に従属する選択肢から最大7個。Excelでは7カラムにINDIRECT従属ドロップダウン |
+| weather | 天候 | Weather | セレクト | 必須 | clear sky/sunny/cloudy/foggy/rain/hail/sleet/snow。日本語表示: 快晴/晴れ/曇り/霧/雨/霰や雹/みぞれ/雪 |
+| wind | 風 | Wind | セレクト | 必須 | windy/not windy。日本語表示: 強風/無風～弱風。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか |
 | notes | 備考 | Notes | テキスト | 省略可 | 自由記述 |
 | photo_files | 写真ファイル名 | Photo Filenames | テキスト | 条件付き | カンマ区切り。写真未撮影なら省略可 |
 

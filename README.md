@@ -15,6 +15,7 @@ Environmental DNA Citizen Survey Reporting Site Plugin for WordPress.
 ## Requirements
 
 - WordPress 6.4+
+- Theme: [GeneratePress](https://generatepress.com/)
 - PHP 8.1+
 - PHP extensions: zip (required), exif / mbstring (recommended)
 - CLI tools (recommended): heif-dec or ffmpeg (HEIC conversion), exiftool (GPS fallback)

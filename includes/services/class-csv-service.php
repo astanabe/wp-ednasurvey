@@ -67,6 +67,19 @@ class EdnaSurvey_CSV_Service {
                 $row[] = $site->watervol1 ?? '';
                 $row[] = $site->watervol2 ?? '';
             }
+            if ( ! empty( $fields_config['env_broad'] ) ) {
+                $row[] = $site->env_broad ?? '';
+                for ( $eli = 1; $eli <= 7; $eli++ ) {
+                    $f = 'env_local' . $eli;
+                    $row[] = $site->$f ?? '';
+                }
+            }
+            if ( ! empty( $fields_config['weather'] ) ) {
+                $row[] = $site->weather ?? '';
+            }
+            if ( ! empty( $fields_config['wind'] ) ) {
+                $row[] = $site->wind ?? '';
+            }
 
             // Custom fields
             $custom_data = $custom_data_model->get_by_site( (int) $site->id );
@@ -151,6 +164,18 @@ class EdnaSurvey_CSV_Service {
         if ( ! empty( $fields_config['water_volume'] ) ) {
             $headers[] = 'watervol1';
             $headers[] = 'watervol2';
+        }
+        if ( ! empty( $fields_config['env_broad'] ) ) {
+            $headers[] = 'env_broad';
+            for ( $eli = 1; $eli <= 7; $eli++ ) {
+                $headers[] = 'env_local' . $eli;
+            }
+        }
+        if ( ! empty( $fields_config['weather'] ) ) {
+            $headers[] = 'weather';
+        }
+        if ( ! empty( $fields_config['wind'] ) ) {
+            $headers[] = 'wind';
         }
 
         // Custom fields

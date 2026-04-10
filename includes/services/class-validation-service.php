@@ -56,6 +56,66 @@ class EdnaSurvey_Validation_Service {
             $errors[] = __( 'Sample ID is required.', 'wp-ednasurvey' );
         }
 
+        // Environment (Broad)
+        if ( ! empty( $fields_config['env_broad'] ) ) {
+            if ( empty( $data['env_broad'] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '環境(大)は必須です。'
+                    : __( 'Environment (Broad) is required.', 'wp-ednasurvey' );
+            } elseif ( ! isset( EdnaSurvey_I18n::get_env_broad_choices()[ $data['env_broad'] ] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '環境(大)の選択が不正です。'
+                    : __( 'Invalid selection for Environment (Broad).', 'wp-ednasurvey' );
+            }
+        }
+
+        // Environment (Local) — requires env_broad
+        if ( ! empty( $fields_config['env_broad'] ) ) {
+            if ( empty( $data['env_local1'] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '環境(小)は少なくとも1つ選択してください。'
+                    : __( 'At least one Environment (Local) selection is required.', 'wp-ednasurvey' );
+            } else {
+                $broad_val   = $data['env_broad'] ?? '';
+                $valid_map   = EdnaSurvey_I18n::get_env_local_for_broad();
+                $valid_keys  = $valid_map[ $broad_val ] ?? array();
+                for ( $i = 1; $i <= 7; $i++ ) {
+                    $val = $data[ 'env_local' . $i ] ?? '';
+                    if ( '' !== $val && ! in_array( $val, $valid_keys, true ) ) {
+                        $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                            ? sprintf( '環境(小)%d の選択が不正です。', $i )
+                            : sprintf( __( 'Invalid selection for Environment (Local) %d.', 'wp-ednasurvey' ), $i );
+                    }
+                }
+            }
+        }
+
+        // Weather
+        if ( ! empty( $fields_config['weather'] ) ) {
+            if ( empty( $data['weather'] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '天候は必須です。'
+                    : __( 'Weather is required.', 'wp-ednasurvey' );
+            } elseif ( ! isset( EdnaSurvey_I18n::get_weather_choices()[ $data['weather'] ] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '天候の選択が不正です。'
+                    : __( 'Invalid selection for Weather.', 'wp-ednasurvey' );
+            }
+        }
+
+        // Wind
+        if ( ! empty( $fields_config['wind'] ) ) {
+            if ( empty( $data['wind'] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '風は必須です。'
+                    : __( 'Wind is required.', 'wp-ednasurvey' );
+            } elseif ( ! isset( EdnaSurvey_I18n::get_wind_choices()[ $data['wind'] ] ) ) {
+                $errors[] = 'ja' === EdnaSurvey_I18n::get_current_language()
+                    ? '風の選択が不正です。'
+                    : __( 'Invalid selection for Wind.', 'wp-ednasurvey' );
+            }
+        }
+
         // Water volume
         if ( ! empty( $fields_config['water_volume'] ) ) {
             if ( isset( $data['watervol1'] ) && '' !== $data['watervol1'] && ! is_numeric( $data['watervol1'] ) ) {
@@ -150,6 +210,42 @@ class EdnaSurvey_Validation_Service {
             } elseif ( ! is_numeric( $data[ $key ] ) ) {
                 $errors[] = $prefix . sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $label );
             }
+        }
+
+        // Environment (Broad)
+        if ( empty( $data['env_broad'] ) ) {
+            $errors[] = $prefix . __( 'Environment (Broad) is required.', 'wp-ednasurvey' );
+        } elseif ( ! isset( EdnaSurvey_I18n::get_env_broad_choices()[ (string) $data['env_broad'] ] ) ) {
+            $errors[] = $prefix . __( 'Invalid selection for Environment (Broad).', 'wp-ednasurvey' );
+        }
+
+        // Environment (Local)
+        if ( empty( $data['env_local1'] ) ) {
+            $errors[] = $prefix . __( 'At least one Environment (Local) selection is required.', 'wp-ednasurvey' );
+        } else {
+            $broad_val  = (string) ( $data['env_broad'] ?? '' );
+            $valid_map  = EdnaSurvey_I18n::get_env_local_for_broad();
+            $valid_keys = $valid_map[ $broad_val ] ?? array();
+            for ( $eli = 1; $eli <= 7; $eli++ ) {
+                $val = (string) ( $data[ 'env_local' . $eli ] ?? '' );
+                if ( '' !== $val && ! in_array( $val, $valid_keys, true ) ) {
+                    $errors[] = $prefix . sprintf( __( 'Invalid selection for Environment (Local) %d.', 'wp-ednasurvey' ), $eli );
+                }
+            }
+        }
+
+        // Weather
+        if ( empty( $data['weather'] ) ) {
+            $errors[] = $prefix . __( 'Weather is required.', 'wp-ednasurvey' );
+        } elseif ( ! isset( EdnaSurvey_I18n::get_weather_choices()[ (string) $data['weather'] ] ) ) {
+            $errors[] = $prefix . __( 'Invalid selection for Weather.', 'wp-ednasurvey' );
+        }
+
+        // Wind
+        if ( empty( $data['wind'] ) ) {
+            $errors[] = $prefix . __( 'Wind is required.', 'wp-ednasurvey' );
+        } elseif ( ! isset( EdnaSurvey_I18n::get_wind_choices()[ (string) $data['wind'] ] ) ) {
+            $errors[] = $prefix . __( 'Invalid selection for Wind.', 'wp-ednasurvey' );
         }
 
         // latitude / longitude — required unless photo GPS available

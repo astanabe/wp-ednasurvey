@@ -64,6 +64,9 @@ class EdnaSurvey_Plugin {
         // Hide admin bar for subscribers
         add_action( 'after_setup_theme', array( $this, 'hide_admin_bar_for_subscribers' ) );
 
+        // Remove GeneratePress footer credits to prevent accidental taps during field surveys
+        add_action( 'wp_head', array( $this, 'remove_generatepress_credits' ), 99 );
+
         // Assets
         $assets = new EdnaSurvey_Assets();
         add_action( 'wp_enqueue_scripts', array( $assets, 'enqueue_frontend' ) );
@@ -131,6 +134,10 @@ class EdnaSurvey_Plugin {
         if ( is_user_logged_in() && ! current_user_can( 'edit_posts' ) ) {
             show_admin_bar( false );
         }
+    }
+
+    public function remove_generatepress_credits(): void {
+        remove_action( 'generate_credits', 'generate_add_footer_info' );
     }
 
     public function save_screen_option( $status, string $option, $value ) {

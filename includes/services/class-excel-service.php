@@ -15,6 +15,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 use PhpOffice\PhpSpreadsheet\Worksheet\SheetView;
+use PhpOffice\PhpSpreadsheet\NamedRange;
 
 class EdnaSurvey_Excel_Service {
 
@@ -131,6 +132,59 @@ class EdnaSurvey_Excel_Service {
                 'hint_ja' => '整数値(mL)', 'hint_en' => 'Integer (mL)',
                 'example_ja' => '500', 'example_en' => '500',
                 'type' => 'integer',
+            );
+        }
+
+        if ( ! empty( $fields_config['env_broad'] ) ) {
+            $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
+            $env_broad_labels  = array_map( fn( $c ) => $c[ $lang ], $env_broad_choices );
+            $columns[] = array(
+                'key' => 'env_broad', 'ja' => '環境(大)', 'en' => 'Environment (Broad)',
+                'required_ja' => '必須', 'required_en' => 'Required',
+                'hint_ja' => 'リストから選択。「河川感潮域」: 河口から外は含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるか（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガコン用',
+                'hint_en' => 'Select from list. "estuarine": excludes areas outside river mouth. "mangrove": estuarine mangroves = mangrove. "large river": whether a sightseeing boat can operate (not rapids boats). "saline lake": excludes brackish/lagoons. "sterile water": blanks/negative controls',
+                'example_ja' => '海', 'example_en' => 'marine',
+                'type' => 'select',
+                'options' => array( 'choices' => array_values( $env_broad_labels ) ),
+            );
+            for ( $eli = 1; $eli <= 7; $eli++ ) {
+                $columns[] = array(
+                    'key' => 'env_local' . $eli,
+                    'ja' => '環境(小)' . $eli,
+                    'en' => 'Env. (Local) ' . $eli,
+                    'required_ja' => 1 === $eli ? '必須' : '省略可',
+                    'required_en' => 1 === $eli ? 'Required' : 'Optional',
+                    'hint_ja' => '環境(大)に対応したリストから選択',
+                    'hint_en' => 'Select from list based on Env. (Broad)',
+                    'example_ja' => 1 === $eli ? '湾' : '',
+                    'example_en' => 1 === $eli ? 'bay' : '',
+                    'type' => 'env_local',
+                );
+            }
+        }
+        if ( ! empty( $fields_config['weather'] ) ) {
+            $weather_choices = EdnaSurvey_I18n::get_weather_choices();
+            $weather_labels  = array_map( fn( $c ) => $c[ $lang ], $weather_choices );
+            $columns[] = array(
+                'key' => 'weather', 'ja' => '天候', 'en' => 'Weather',
+                'required_ja' => '必須', 'required_en' => 'Required',
+                'hint_ja' => 'リストから選択', 'hint_en' => 'Select from list',
+                'example_ja' => '晴れ', 'example_en' => 'sunny',
+                'type' => 'select',
+                'options' => array( 'choices' => array_values( $weather_labels ) ),
+            );
+        }
+        if ( ! empty( $fields_config['wind'] ) ) {
+            $wind_choices = EdnaSurvey_I18n::get_wind_choices();
+            $wind_labels  = array_map( fn( $c ) => $c[ $lang ], $wind_choices );
+            $columns[] = array(
+                'key' => 'wind', 'ja' => '風', 'en' => 'Wind',
+                'required_ja' => '必須', 'required_en' => 'Required',
+                'hint_ja' => 'リストから選択。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか',
+                'hint_en' => 'Select from list. Criterion: whether a syringe or filter holder used for filtration is moved by the wind',
+                'example_ja' => '無風～弱風', 'example_en' => 'not windy',
+                'type' => 'select',
+                'options' => array( 'choices' => array_values( $wind_labels ) ),
             );
         }
 
@@ -329,6 +383,76 @@ class EdnaSurvey_Excel_Service {
             }
         }
 
+        // -- Dependent dropdown: env_local (Lists sheet + INDIRECT) -------------
+
+        $env_broad_col_idx = null;
+        foreach ( $columns as $idx => $col ) {
+            if ( 'env_broad' === $col['key'] ) {
+                $env_broad_col_idx = $idx;
+                break;
+            }
+        }
+
+        if ( null !== $env_broad_col_idx ) {
+            $listsSheet = $spreadsheet->createSheet();
+            $listsSheet->setTitle( 'Lists' );
+
+            $env_local_choices = EdnaSurvey_I18n::get_env_local_choices();
+            $env_local_map     = EdnaSurvey_I18n::get_env_local_for_broad();
+            $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
+
+            $listCol = 1;
+            foreach ( $env_local_map as $broad_key => $local_keys ) {
+                // Named range name: localized env_broad label with spaces → underscores
+                $broad_label = $env_broad_choices[ $broad_key ][ $lang ];
+                $range_name  = str_replace( ' ', '_', $broad_label );
+
+                // Write localized env_local labels starting at row 1
+                $listRow = 1;
+                foreach ( $local_keys as $lk ) {
+                    if ( isset( $env_local_choices[ $lk ] ) ) {
+                        $listsSheet->getCellByColumnAndRow( $listCol, $listRow )
+                            ->setValue( $env_local_choices[ $lk ][ $lang ] );
+                        $listRow++;
+                    }
+                }
+
+                // Define named range
+                $colLetter = Coordinate::stringFromColumnIndex( $listCol );
+                $lastRow   = max( 1, $listRow - 1 );
+                $spreadsheet->addNamedRange(
+                    new NamedRange( $range_name, $listsSheet, '$' . $colLetter . '$1:$' . $colLetter . '$' . $lastRow )
+                );
+
+                $listCol++;
+            }
+
+            // Hide the Lists sheet
+            $listsSheet->setSheetState( \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN );
+
+            // Apply INDIRECT validation to env_local columns
+            $envBroadColLetter = Coordinate::stringFromColumnIndex( $env_broad_col_idx + 1 );
+
+            foreach ( $columns as $idx => $col ) {
+                if ( 'env_local' !== ( $col['type'] ?? '' ) ) {
+                    continue;
+                }
+                $colLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
+                for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
+                    $cellRef    = $colLetter . $row;
+                    $validation = $sheet->getCell( $cellRef )->getDataValidation();
+                    $validation->setType( DataValidation::TYPE_LIST );
+                    $validation->setErrorStyle( DataValidation::STYLE_STOP );
+                    $validation->setAllowBlank( true );
+                    $validation->setShowDropDown( true );
+                    $validation->setFormula1( 'INDIRECT(SUBSTITUTE($' . $envBroadColLetter . $row . '," ","_"))' );
+                }
+            }
+
+            // Re-activate data sheet
+            $spreadsheet->setActiveSheetIndex( 0 );
+        }
+
         // -- Workbook protection: prevent adding/deleting sheets ---------------
 
         $security = $spreadsheet->getSecurity();
@@ -436,6 +560,7 @@ class EdnaSurvey_Excel_Service {
                 }
                 break;
 
+            // 'env_local' — handled separately via INDIRECT in create_template
             // 'text', 'textarea' — no validation needed
         }
     }
@@ -491,6 +616,20 @@ class EdnaSurvey_Excel_Service {
                     $hours   = (int) ( $totalSeconds / 3600 );
                     $minutes = (int) ( ( $totalSeconds % 3600 ) / 60 );
                     $value   = sprintf( '%02d:%02d', $hours, $minutes );
+                }
+
+                // Normalize localized select values to English keys
+                if ( str_starts_with( (string) $key, 'env_local' ) && null !== $value && '' !== $value ) {
+                    $value = EdnaSurvey_I18n::normalize_choice_value( EdnaSurvey_I18n::get_env_local_choices(), (string) $value );
+                }
+                if ( 'env_broad' === $key && null !== $value && '' !== $value ) {
+                    $value = EdnaSurvey_I18n::normalize_choice_value( EdnaSurvey_I18n::get_env_broad_choices(), (string) $value );
+                }
+                if ( 'weather' === $key && null !== $value && '' !== $value ) {
+                    $value = EdnaSurvey_I18n::normalize_choice_value( EdnaSurvey_I18n::get_weather_choices(), (string) $value );
+                }
+                if ( 'wind' === $key && null !== $value && '' !== $value ) {
+                    $value = EdnaSurvey_I18n::normalize_choice_value( EdnaSurvey_I18n::get_wind_choices(), (string) $value );
                 }
 
                 if ( null !== $value && '' !== $value ) {
