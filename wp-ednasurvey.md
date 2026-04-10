@@ -475,7 +475,7 @@ Settingsで有効/無効を切り替え可能なデフォルト項目:
 | env_broad | 環境(大) | Environment (Broad) | セレクト | 必須 | marine/estuarine/mangrove/large river/small river/freshwater lake/brackish lake/saline lake/sterile water。日本語表示: 海/河川感潮域/マングローブ/大河川下流部/小河川や大河川上流部/淡水湖/汽水湖/塩湖/滅菌水。estuarine: 河口から外は含まない。large river: 遊覧船が運行できるか（急流下り船は含まない）。saline lake: 汽水湖や潟湖は含まない。sterile water: ブランク・ネガティブコントロール用 |
 | env_local1〜7 | 環境(小)1〜7 | Env. (Local) 1〜7 | セレクト | env_local1は必須、2〜7は省略可 | env_broadの選択に従属する選択肢から最大7個。Excelでは7カラムにINDIRECT従属ドロップダウン |
 | weather | 天候 | Weather | セレクト | 必須 | clear sky/sunny/cloudy/foggy/rain/hail/sleet/snow。日本語表示: 快晴/晴れ/曇り/霧/雨/霰や雹/みぞれ/雪 |
-| wind | 風 | Wind | セレクト | 必須 | windy/not windy。日本語表示: 強風/無風～弱風。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか |
+| wind | 風 | Wind | セレクト | 必須 | windy/not windy。日本語表示: 強風/無風～弱風。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか |
 | notes | 備考 | Notes | テキスト | 省略可 | 自由記述 |
 | photo_files | 写真ファイル名 | Photo Filenames | テキスト | 条件付き | カンマ区切り。写真未撮影なら省略可 |
 

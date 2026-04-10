@@ -45,8 +45,8 @@ $content_callback = function () use ( $username ) {
                 ? '「環境(大)」欄の「滅菌水」: ブランク・ネガティブコントロール用。'
                 : '"sterile water" in the Environment (Broad) field: for blanks / negative controls.' ); ?></li>
             <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「風」欄の「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうかを基準に選択してください。'
-                : '"windy" in the Wind field: select "windy" if a syringe or filter holder used for filtration is moved by the wind.' ); ?></li>
+                ? '「風」欄の「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうかを基準に選択してください。'
+                : '"windy" in the Wind field: select "windy" if a syringe or filter holder used for filtration is continuously moved by the wind.' ); ?></li>
         </ul>
 
         <h3><?php esc_html_e( 'Note on Photo Filenames (Android)', 'wp-ednasurvey' ); ?></h3>

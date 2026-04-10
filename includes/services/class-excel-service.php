@@ -180,8 +180,8 @@ class EdnaSurvey_Excel_Service {
             $columns[] = array(
                 'key' => 'wind', 'ja' => '風', 'en' => 'Wind',
                 'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'リストから選択。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか',
-                'hint_en' => 'Select from list. Criterion: whether a syringe or filter holder used for filtration is moved by the wind',
+                'hint_ja' => 'リストから選択。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか',
+                'hint_en' => 'Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind',
                 'example_ja' => '無風～弱風', 'example_en' => 'not windy',
                 'type' => 'select',
                 'options' => array( 'choices' => array_values( $wind_labels ) ),

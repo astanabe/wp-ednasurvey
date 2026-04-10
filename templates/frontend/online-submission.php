@@ -199,8 +199,8 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             <legend><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?></legend>
             <p class="ednasurvey-help">
                 <?php echo esc_html( 'ja' === $lang
-                    ? '「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で動いていくかどうか'
-                    : 'Criterion for "windy": whether a syringe or filter holder used for filtration is moved by the wind' ); ?>
+                    ? '「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか'
+                    : 'Criterion for "windy": whether a syringe or filter holder used for filtration is continuously moved by the wind' ); ?>
             </p>
             <div class="ednasurvey-field-row">
                 <label for="wind"><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?> <span class="required">*</span></label>
