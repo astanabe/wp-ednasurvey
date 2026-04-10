@@ -83,6 +83,7 @@ class EdnaSurvey_Assets {
                     'backToDashboard'  => __( 'Back to Dashboard', 'wp-ednasurvey' ),
                     'errorOccurred'    => __( 'An error occurred.', 'wp-ednasurvey' ),
                     'serverError'      => __( 'Server error. Please try again.', 'wp-ednasurvey' ),
+                    'uploading'        => __( 'Uploading...', 'wp-ednasurvey' ),
                     'analyzing'        => __( 'Analyzing...', 'wp-ednasurvey' ),
                     'photoLimitMsg'    => __( 'Upload up to {max} photos ({limit} per site).', 'wp-ednasurvey' ),
                     'tooManyPhotos'    => __( 'Maximum {max} photos allowed. You can add {remaining} more.', 'wp-ednasurvey' ),

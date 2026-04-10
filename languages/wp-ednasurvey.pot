@@ -164,6 +164,9 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+msgid "Uploading..."
+msgstr ""
+
 msgid "Submitting..."
 msgstr ""
 

@@ -175,6 +175,9 @@ msgstr "最大%d枚の写真をアップロードできます（JPEGまたはHEI
 msgid "Submit"
 msgstr "送信"
 
+msgid "Uploading..."
+msgstr "アップロード中..."
+
 msgid "Submitting..."
 msgstr "送信中..."
 

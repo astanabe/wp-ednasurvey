@@ -39,20 +39,6 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             wp_send_json_error( array( 'messages' => $errors ) );
         }
 
-        // Check photo limit
-        $settings    = get_option( 'ednasurvey_settings', array() );
-        $photo_limit = (int) ( $settings['photo_upload_limit'] ?? 10 );
-        if ( ! empty( $_FILES['photos'] ) && is_array( $_FILES['photos']['name'] ) ) {
-            if ( count( $_FILES['photos']['name'] ) > $photo_limit ) {
-                wp_send_json_error( array(
-                    'messages' => array(
-                        /* translators: %d: maximum number of photos */
-                        sprintf( __( 'Maximum %d photos allowed.', 'wp-ednasurvey' ), $photo_limit ),
-                    ),
-                ) );
-            }
-        }
-
         // Build submission metadata
         $meta = $this->build_submission_meta( $user, 'online' );
 
@@ -113,27 +99,35 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             }
         }
 
-        // Process photo uploads
+        // Process temp photos (uploaded earlier via AJAX)
         $photo_errors = array();
-        if ( ! empty( $_FILES['photos'] ) && ! empty( $_FILES['photos']['name'][0] ) ) {
+        $session_id   = sanitize_file_name( $data['session_id'] ?? '' );
+        if ( ! empty( $session_id ) ) {
             $photo_service = new EdnaSurvey_Photo_Service();
-            $result        = $photo_service->process_uploads( $_FILES['photos'], $user->ID, $site_id );
-            $photo_errors  = $result['errors'];
+            $temp_photos   = $photo_service->list_temp_photos( $session_id );
 
-            $photo_model = new EdnaSurvey_Photo_Model();
-            foreach ( $result['saved'] as $photo ) {
-                $photo_model->insert( array(
-                    'site_id'           => $site_id,
-                    'user_id'           => $user->ID,
-                    'original_filename' => $photo['original_filename'],
-                    'stored_filename'   => $photo['stored_filename'],
-                    'file_path'         => $photo['file_path'],
-                    'file_url'          => $photo['file_url'],
-                    'mime_type'         => $photo['mime_type'],
-                    'exif_latitude'     => $photo['exif_latitude'],
-                    'exif_longitude'    => $photo['exif_longitude'],
-                ) );
+            if ( ! empty( $temp_photos ) ) {
+                $filenames = array_map( fn( $p ) => $p['stored_filename'], $temp_photos );
+                $result    = $photo_service->move_temp_to_permanent( $session_id, $filenames, $user->ID, $site_id );
+                $photo_errors = $result['errors'];
+
+                $photo_model = new EdnaSurvey_Photo_Model();
+                foreach ( $result['moved'] as $photo ) {
+                    $photo_model->insert( array(
+                        'site_id'           => $site_id,
+                        'user_id'           => $user->ID,
+                        'original_filename' => $photo['original_filename'],
+                        'stored_filename'   => $photo['stored_filename'],
+                        'file_path'         => $photo['file_path'],
+                        'file_url'          => $photo['file_url'],
+                        'mime_type'         => $photo['mime_type'],
+                        'exif_latitude'     => $photo['exif_latitude'],
+                        'exif_longitude'    => $photo['exif_longitude'],
+                    ) );
+                }
             }
+
+            $photo_service->delete_temp_dir( $session_id );
         }
 
         $response = array(

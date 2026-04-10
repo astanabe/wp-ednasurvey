@@ -20,6 +20,7 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
     <form id="ednasurvey-online-form" enctype="multipart/form-data">
         <?php wp_nonce_field( 'ednasurvey_nonce', 'nonce' ); ?>
         <input type="hidden" name="action" value="ednasurvey_submit_site">
+        <input type="hidden" name="session_id" id="ednasurvey-session-id" value="">
 
         <?php if ( ! empty( $fields_config['survey_datetime'] ) ) : ?>
         <fieldset class="ednasurvey-fieldset">
@@ -281,11 +282,10 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
                 printf( esc_html__( 'Upload up to %d photos (JPEG or HEIC/HEIF).', 'wp-ednasurvey' ), $photo_limit );
                 ?>
             </p>
-            <div class="ednasurvey-field-row">
-                <input type="file" id="photos" name="photos[]" multiple
-                       accept=".jpg,.jpeg,.heic,.heif">
+            <div class="ednasurvey-file-select">
+                <input type="file" id="photos" multiple accept=".jpg,.jpeg,.heic,.heif">
             </div>
-            <div id="ednasurvey-photo-preview" class="ednasurvey-photo-preview"></div>
+            <div id="ednasurvey-photo-list"></div>
         </fieldset>
         <?php endif; ?>
 

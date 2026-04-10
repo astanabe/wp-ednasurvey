@@ -4,6 +4,11 @@
     var map, marker;
     var i18n = (window.ednasurveyAjax && window.ednasurveyAjax.i18n) ? window.ednasurveyAjax.i18n : {};
 
+    var state = {
+        sessionId: null,
+        photos: []  // [{stored_filename, original_filename, thumbnail_url, exif_datetime, exif_latitude, exif_longitude}]
+    };
+
     function initMap() {
         if (!ednasurveyFormConfig.hasLocation) return;
 
@@ -68,39 +73,101 @@
         $('#coords-display').text('Lat: ' + lat + ', Lng: ' + lng);
     }
 
-    // Photo preview
-    function initPhotoPreview() {
+    // ── Photo upload (temp) ───────────────────────────────────────
+
+    function initPhotoUpload() {
         $('#photos').on('change', function() {
-            var preview = $('#ednasurvey-photo-preview');
-            preview.empty();
-
             var files = this.files;
-            var limit = ednasurveyFormConfig.photoLimit || 10;
+            if (!files || !files.length) return;
 
-            if (files.length > limit) {
-                alert(i18n.photoLimit || 'Too many photos selected.');
+            var limit = ednasurveyFormConfig.photoLimit || 10;
+            if (files.length + state.photos.length > limit) {
+                showErrors([(i18n.tooManyPhotos || 'Maximum {max} photos allowed. You can add {remaining} more.')
+                    .replace('{max}', limit).replace('{remaining}', limit - state.photos.length)]);
                 this.value = '';
                 return;
             }
 
+            var fd = new FormData();
+            fd.append('action', 'ednasurvey_upload_temp_photos');
+            fd.append('nonce', ednasurveyAjax.nonce);
+            fd.append('session_id', state.sessionId || '');
+            fd.append('num_sites', '1');
             for (var j = 0; j < files.length; j++) {
-                (function(file) {
-                    var ext = file.name.split('.').pop().toLowerCase();
-                    var isHeic = (ext === 'heic' || ext === 'heif' || file.type.match(/image\/(heic|heif)/));
-                    if (isHeic) {
-                        preview.append(
-                            '<div class="ednasurvey-photo-preview-placeholder">' +
-                            '<span>' + (i18n.heicNoPreview || 'HEIC/HEIF: Preview not available') + '</span>' +
-                            '</div>'
-                        );
-                    } else if (file.type.match(/image\/jpeg/)) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            preview.append('<img src="' + e.target.result + '" alt="Preview">');
-                        };
-                        reader.readAsDataURL(file);
+                fd.append('photos[]', files[j]);
+            }
+
+            var $ph = $('<div class="ednasurvey-photo-uploading">' + escapeHtml(i18n.uploading || 'Uploading...') + '</div>');
+            $('#ednasurvey-photo-list').append($ph);
+            this.value = '';
+
+            $.ajax({
+                url: ednasurveyAjax.ajaxUrl, type: 'POST', data: fd,
+                processData: false, contentType: false,
+                success: function(res) {
+                    $ph.remove();
+                    if (res.success) {
+                        if (!state.sessionId) state.sessionId = res.data.session_id;
+                        $('#ednasurvey-session-id').val(state.sessionId);
+                        res.data.photos.forEach(function(p) { state.photos.push(p); });
+                        renderPhotoList();
+                    } else {
+                        showErrors(res.data.messages || [i18n.errorOccurred || 'Upload failed.']);
                     }
-                })(files[j]);
+                },
+                error: function() { $ph.remove(); showErrors([i18n.serverError || 'Server error.']); }
+            });
+        });
+    }
+
+    function renderPhotoList() {
+        var $list = $('#ednasurvey-photo-list');
+        $list.empty();
+
+        // Sort by exif_datetime ascending; photos without datetime go last
+        state.photos.sort(function(a, b) {
+            var da = a.exif_datetime || '';
+            var db = b.exif_datetime || '';
+            if (da && !db) return -1;
+            if (!da && db) return 1;
+            return da < db ? -1 : da > db ? 1 : 0;
+        });
+
+        state.photos.forEach(function(p, idx) {
+            var gps = (p.exif_latitude && p.exif_longitude)
+                ? p.exif_latitude + ', ' + p.exif_longitude : 'N/A';
+            var dt = p.exif_datetime ? p.exif_datetime.substring(0, 16) : 'N/A';
+
+            var $item = $('<div class="ednasurvey-temp-photo-item">');
+            var $img  = $('<img>').attr('src', p.thumbnail_url).attr('alt', '');
+            var $info = $('<div class="ednasurvey-temp-photo-info">')
+                .append($('<strong>').text(p.original_filename))
+                .append('<br>' + escapeHtml(i18n.exifDatetime || 'Date/Time') + ': ' + escapeHtml(dt))
+                .append('<br>GPS: ' + escapeHtml(gps));
+            var $btn  = $('<button type="button" class="button button-small">')
+                .text('\u00D7')
+                .on('click', (function(photoIdx) {
+                    return function() { deletePhoto(photoIdx); };
+                })(idx));
+
+            $item.append($img).append($info).append($btn);
+            $list.append($item);
+        });
+    }
+
+    function deletePhoto(idx) {
+        var photo = state.photos[idx];
+        if (!photo) return;
+
+        $.post(ednasurveyAjax.ajaxUrl, {
+            action: 'ednasurvey_delete_temp_photo',
+            nonce: ednasurveyAjax.nonce,
+            session_id: state.sessionId,
+            stored_filename: photo.stored_filename
+        }, function(res) {
+            if (res.success) {
+                state.photos.splice(idx, 1);
+                renderPhotoList();
             }
         });
     }
@@ -170,7 +237,7 @@
             var rows = '';
             $form.find('.ednasurvey-fieldset').each(function() {
                 var legend = $(this).find('legend').text();
-                $(this).find('.ednasurvey-field-row').each(function() {
+                $(this).find('.ednasurvey-field-row, .ednasurvey-file-select').each(function() {
                     var label = $(this).find('label').first().clone().children('.required').remove().end().text().trim();
                     var $input = $(this).find('input, select, textarea').first();
                     var val = '';
@@ -182,8 +249,7 @@
                         if (!label) {
                             label = $(this).closest('.ednasurvey-fieldset').find('legend').text() || '';
                         }
-                        var files = $input[0].files;
-                        var count = files ? files.length : 0;
+                        var count = state.photos.length;
                         val = (i18n.photoFileCount || '{count} file(s)').replace('{count}', count);
                     } else {
                         val = $input.val() || '';
@@ -288,7 +354,7 @@
 
     $(document).ready(function() {
         initMap();
-        initPhotoPreview();
+        initPhotoUpload();
         initFormSubmission();
     });
 })(jQuery);
