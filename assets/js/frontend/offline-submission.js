@@ -135,6 +135,15 @@
         var $list = $('#ednasurvey-photo-list');
         $list.empty();
 
+        // Sort by exif_datetime ascending; photos without datetime go last
+        state.photos.sort(function(a, b) {
+            var da = a.exif_datetime || '';
+            var db = b.exif_datetime || '';
+            if (da && !db) return -1;
+            if (!da && db) return 1;
+            return da < db ? -1 : da > db ? 1 : 0;
+        });
+
         state.photos.forEach(function(p, idx) {
             var gps = (p.exif_latitude && p.exif_longitude)
                 ? p.exif_latitude + ', ' + p.exif_longitude : 'N/A';
