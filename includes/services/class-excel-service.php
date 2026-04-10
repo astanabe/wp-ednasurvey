@@ -35,6 +35,7 @@ class EdnaSurvey_Excel_Service {
     private function get_columns(): array {
         $settings      = get_option( 'ednasurvey_settings', array() );
         $fields_config = $settings['default_fields_config'] ?? array();
+        $lang          = EdnaSurvey_I18n::get_current_language();
 
         $columns = array();
 
@@ -289,29 +290,41 @@ class EdnaSurvey_Excel_Service {
             $c = $idx + 1;
 
             // Row 1: DB column key
-            $sheet->getCellByColumnAndRow( $c, 1 )->setValue( $col['key'] );
+            $sheet->getCell( [ $c, 1 ] )->setValue( $col['key'] );
 
             // Row 2: Language label
-            $sheet->getCellByColumnAndRow( $c, 2 )->setValue(
+            $sheet->getCell( [ $c, 2 ] )->setValue(
                 'ja' === $lang ? $col['ja'] : $col['en']
             );
 
             // Row 3: Required / Optional
-            $sheet->getCellByColumnAndRow( $c, 3 )->setValue(
+            $sheet->getCell( [ $c, 3 ] )->setValue(
                 'ja' === $lang ? ( $col['required_ja'] ?? '' ) : ( $col['required_en'] ?? '' )
             );
 
             // Row 4: Input format instructions
-            $sheet->getCellByColumnAndRow( $c, 4 )->setValue(
+            $sheet->getCell( [ $c, 4 ] )->setValue(
                 'ja' === $lang ? $col['hint_ja'] : $col['hint_en']
             );
 
             // Row 5: Example data
-            $sheet->getCellByColumnAndRow( $c, 5 )->setValue(
+            $sheet->getCell( [ $c, 5 ] )->setValue(
                 'ja' === $lang ? ( $col['example_ja'] ?? '' ) : ( $col['example_en'] ?? '' )
             );
 
-            $sheet->getColumnDimensionByColumn( $c )->setAutoSize( true );
+            $sheet->getColumnDimension( Coordinate::stringFromColumnIndex( $c ) )->setAutoSize( true );
+        }
+
+        // -- Cap column widths at 50 after auto-size calculation ----------------
+        // AutoSize is deferred, so calculate it now, then enforce the cap.
+
+        $sheet->calculateColumnWidths();
+        foreach ( $columns as $idx => $col ) {
+            $dim = $sheet->getColumnDimension( Coordinate::stringFromColumnIndex( $idx + 1 ) );
+            if ( $dim->getWidth() > 50 ) {
+                $dim->setAutoSize( false );
+                $dim->setWidth( 50 );
+            }
         }
 
         // -- Style Row 1: DB key row — dark blue bg, white bold text -----------
@@ -346,6 +359,10 @@ class EdnaSurvey_Excel_Service {
         $row2Range = 'A2:' . $lastCol . '2';
         $sheet->getStyle( $row2Range )->getFont()->setBold( true );
 
+        // Row 4: wrap text (hints may be long and columns are width-capped)
+        $row4Range = 'A4:' . $lastCol . '4';
+        $sheet->getStyle( $row4Range )->getAlignment()->setWrapText( true );
+
         // Bottom border on row 5 to visually separate header from data
         $row5Range = 'A5:' . $lastCol . '5';
         $sheet->getStyle( $row5Range )->getBorders()->getBottom()->setBorderStyle( Border::BORDER_MEDIUM );
@@ -373,83 +390,144 @@ class EdnaSurvey_Excel_Service {
         $sheet->getProtection()->setInsertRows( false );
 
         // -- Data validation for rows 6-205 ------------------------------------
+        // 'select' and 'env_local' types are handled below via Lists sheet.
 
         foreach ( $columns as $idx => $col ) {
+            $colType = $col['type'] ?? 'text';
+            if ( 'select' === $colType || 'env_local' === $colType ) {
+                continue; // handled via Lists sheet below
+            }
             $colLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
-
             for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
                 $cellRef = $colLetter . $row;
                 $this->apply_validation( $sheet, $cellRef, $col );
             }
         }
 
-        // -- Dependent dropdown: env_local (Lists sheet + INDIRECT) -------------
+        // -- Dropdown validations -------------------------------------------------
+        // All dropdown choices are stored on a hidden "Lists" sheet and
+        // referenced via named ranges. This avoids the 255-byte inline limit.
+        // env_local uses INDIRECT to cascade from the env_broad selection.
 
-        $env_broad_col_idx = null;
-        foreach ( $columns as $idx => $col ) {
-            if ( 'env_broad' === $col['key'] ) {
-                $env_broad_col_idx = $idx;
+        $hasDropdowns = false;
+        foreach ( $columns as $col ) {
+            if ( in_array( $col['type'] ?? '', array( 'select', 'env_local' ), true ) ) {
+                $hasDropdowns = true;
                 break;
             }
         }
 
-        if ( null !== $env_broad_col_idx ) {
+        if ( $hasDropdowns ) {
             $listsSheet = $spreadsheet->createSheet();
             $listsSheet->setTitle( 'Lists' );
-
-            $env_local_choices = EdnaSurvey_I18n::get_env_local_choices();
-            $env_local_map     = EdnaSurvey_I18n::get_env_local_for_broad();
-            $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
-
             $listCol = 1;
-            foreach ( $env_local_map as $broad_key => $local_keys ) {
-                // Named range name: localized env_broad label with spaces → underscores
-                $broad_label = $env_broad_choices[ $broad_key ][ $lang ];
-                $range_name  = str_replace( ' ', '_', $broad_label );
 
-                // Write localized env_local labels starting at row 1
-                $listRow = 1;
-                foreach ( $local_keys as $lk ) {
-                    if ( isset( $env_local_choices[ $lk ] ) ) {
-                        $listsSheet->getCellByColumnAndRow( $listCol, $listRow )
-                            ->setValue( $env_local_choices[ $lk ][ $lang ] );
-                        $listRow++;
-                    }
+            $validationErrorTitle = 'ja' === $lang ? '入力エラー' : 'Input error';
+            $validationErrorMsg   = 'ja' === $lang ? 'リストから選択してください' : 'Please select from the list';
+
+            // --- 1. Simple select columns (env_broad, weather, wind, custom selects) ---
+
+            foreach ( $columns as $idx => $col ) {
+                if ( 'select' !== ( $col['type'] ?? '' ) ) {
+                    continue;
+                }
+                $choices = $col['options']['choices'] ?? array();
+                if ( empty( $choices ) ) {
+                    continue;
+                }
+
+                // Write choices to Lists sheet
+                foreach ( $choices as $ri => $choice ) {
+                    $listsSheet->getCell( [ $listCol, $ri + 1 ] )->setValue( $choice );
                 }
 
                 // Define named range
-                $colLetter = Coordinate::stringFromColumnIndex( $listCol );
-                $lastRow   = max( 1, $listRow - 1 );
+                $listColLetter = Coordinate::stringFromColumnIndex( $listCol );
+                $rangeName     = '_list_' . preg_replace( '/[^a-zA-Z0-9_]/', '_', $col['key'] );
                 $spreadsheet->addNamedRange(
-                    new NamedRange( $range_name, $listsSheet, '$' . $colLetter . '$1:$' . $colLetter . '$' . $lastRow )
+                    new NamedRange( $rangeName, $listsSheet, '$' . $listColLetter . '$1:$' . $listColLetter . '$' . count( $choices ) )
                 );
+
+                // Apply validation to data cells
+                $dataColLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
+                for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
+                    $validation = $sheet->getCell( $dataColLetter . $row )->getDataValidation();
+                    $validation->setType( DataValidation::TYPE_LIST );
+                    $validation->setErrorStyle( DataValidation::STYLE_INFORMATION );
+                    $validation->setAllowBlank( false );
+                    $validation->setShowInputMessage( true );
+                    $validation->setShowErrorMessage( true );
+                    $validation->setShowDropDown( true );
+                    $validation->setErrorTitle( $validationErrorTitle );
+                    $validation->setError( $validationErrorMsg );
+                    $validation->setFormula1( $rangeName );
+                }
 
                 $listCol++;
             }
 
-            // Hide the Lists sheet
-            $listsSheet->setSheetState( \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN );
+            // --- 2. env_local dependent dropdowns (INDIRECT) ---
 
-            // Apply INDIRECT validation to env_local columns
-            $envBroadColLetter = Coordinate::stringFromColumnIndex( $env_broad_col_idx + 1 );
-
+            $env_broad_col_idx = null;
             foreach ( $columns as $idx => $col ) {
-                if ( 'env_local' !== ( $col['type'] ?? '' ) ) {
-                    continue;
-                }
-                $colLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
-                for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
-                    $cellRef    = $colLetter . $row;
-                    $validation = $sheet->getCell( $cellRef )->getDataValidation();
-                    $validation->setType( DataValidation::TYPE_LIST );
-                    $validation->setErrorStyle( DataValidation::STYLE_STOP );
-                    $validation->setAllowBlank( true );
-                    $validation->setShowDropDown( true );
-                    $validation->setFormula1( 'INDIRECT(SUBSTITUTE($' . $envBroadColLetter . $row . '," ","_"))' );
+                if ( 'env_broad' === $col['key'] ) {
+                    $env_broad_col_idx = $idx;
+                    break;
                 }
             }
 
-            // Re-activate data sheet
+            if ( null !== $env_broad_col_idx ) {
+                $env_local_choices = EdnaSurvey_I18n::get_env_local_choices();
+                $env_local_map     = EdnaSurvey_I18n::get_env_local_for_broad();
+                $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
+
+                foreach ( $env_local_map as $broad_key => $local_keys ) {
+                    $broad_label = $env_broad_choices[ $broad_key ][ $lang ];
+                    $range_name  = str_replace( ' ', '_', $broad_label );
+
+                    $listRow = 1;
+                    foreach ( $local_keys as $lk ) {
+                        if ( isset( $env_local_choices[ $lk ] ) ) {
+                            $listsSheet->getCell( [ $listCol, $listRow ] )
+                                ->setValue( $env_local_choices[ $lk ][ $lang ] );
+                            $listRow++;
+                        }
+                    }
+
+                    $colLetter = Coordinate::stringFromColumnIndex( $listCol );
+                    $lastRow   = max( 1, $listRow - 1 );
+                    $spreadsheet->addNamedRange(
+                        new NamedRange( $range_name, $listsSheet, '$' . $colLetter . '$1:$' . $colLetter . '$' . $lastRow )
+                    );
+
+                    $listCol++;
+                }
+
+                // Apply INDIRECT validation to env_local columns
+                $envBroadColLetter = Coordinate::stringFromColumnIndex( $env_broad_col_idx + 1 );
+
+                foreach ( $columns as $idx => $col ) {
+                    if ( 'env_local' !== ( $col['type'] ?? '' ) ) {
+                        continue;
+                    }
+                    $colLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
+                    for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
+                        $validation = $sheet->getCell( $colLetter . $row )->getDataValidation();
+                        $validation->setType( DataValidation::TYPE_LIST );
+                        $validation->setErrorStyle( DataValidation::STYLE_INFORMATION );
+                        $validation->setAllowBlank( true );
+                        $validation->setShowInputMessage( true );
+                        $validation->setShowErrorMessage( true );
+                        $validation->setShowDropDown( true );
+                        $validation->setErrorTitle( $validationErrorTitle );
+                        $validation->setError( $validationErrorMsg );
+                        $validation->setFormula1( 'INDIRECT(SUBSTITUTE($' . $envBroadColLetter . $row . '," ","_"))' );
+                    }
+                }
+            }
+
+            // Hide the Lists sheet and re-activate data sheet
+            $listsSheet->setSheetState( \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN );
             $spreadsheet->setActiveSheetIndex( 0 );
         }
 
@@ -549,18 +627,7 @@ class EdnaSurvey_Excel_Service {
                 $validation->setFormula2( '9999999' );
                 break;
 
-            case 'select':
-                if ( ! empty( $col['options']['choices'] ) ) {
-                    $validation = $sheet->getCell( $cellRef )->getDataValidation();
-                    $validation->setType( DataValidation::TYPE_LIST );
-                    $validation->setErrorStyle( DataValidation::STYLE_STOP );
-                    $validation->setAllowBlank( true );
-                    $validation->setShowDropDown( true );
-                    $validation->setFormula1( '"' . implode( ',', $col['options']['choices'] ) . '"' );
-                }
-                break;
-
-            // 'env_local' — handled separately via INDIRECT in create_template
+            // 'select' and 'env_local' — handled via Lists sheet in create_template
             // 'text', 'textarea' — no validation needed
         }
     }
@@ -587,7 +654,7 @@ class EdnaSurvey_Excel_Service {
         // Row 1 = DB column key names
         $headers = array();
         for ( $c = 1; $c <= $maxColIndex; $c++ ) {
-            $headers[ $c ] = trim( (string) $sheet->getCellByColumnAndRow( $c, 1 )->getValue() );
+            $headers[ $c ] = trim( (string) $sheet->getCell( [ $c, 1 ] )->getValue() );
         }
 
         // Data starts at row 6 (rows 2-5 are labels/required/hints/example)
@@ -597,7 +664,7 @@ class EdnaSurvey_Excel_Service {
             $isEmpty = true;
 
             for ( $c = 1; $c <= $maxColIndex; $c++ ) {
-                $value = $sheet->getCellByColumnAndRow( $c, $row )->getValue();
+                $value = $sheet->getCell( [ $c, $row ] )->getValue();
                 $key   = $headers[ $c ] ?? '';
 
                 // Convert Excel date serial to Y-m-d string

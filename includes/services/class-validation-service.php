@@ -88,6 +88,9 @@ class EdnaSurvey_Validation_Service {
                     }
                 }
             }
+
+            // env_local conflict check
+            $errors = array_merge( $errors, $this->check_env_local_conflicts( $data ) );
         }
 
         // Weather
@@ -232,6 +235,9 @@ class EdnaSurvey_Validation_Service {
                     $errors[] = $prefix . sprintf( __( 'Invalid selection for Environment (Local) %d.', 'wp-ednasurvey' ), $eli );
                 }
             }
+
+            // env_local conflict check
+            $errors = array_merge( $errors, $this->check_env_local_conflicts( $data, $prefix ) );
         }
 
         // Weather
@@ -275,6 +281,44 @@ class EdnaSurvey_Validation_Service {
             if ( $field->is_required && empty( $value ) ) {
                 $label    = EdnaSurvey_I18n::get_current_language() === 'ja' ? $field->label_ja : $field->label_en;
                 $errors[] = $prefix . sprintf( __( '%s is required.', 'wp-ednasurvey' ), $label );
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Check for conflicting env_local combinations.
+     *
+     * @param array  $data   Row data with env_local1..env_local7 keys.
+     * @param string $prefix Error message prefix (e.g. "Row 3: ").
+     * @return array Error messages.
+     */
+    private function check_env_local_conflicts( array $data, string $prefix = '' ): array {
+        $errors  = array();
+        $lang    = EdnaSurvey_I18n::get_current_language();
+        $choices = EdnaSurvey_I18n::get_env_local_choices();
+        $groups  = EdnaSurvey_I18n::get_env_local_conflict_groups();
+
+        $selected = array();
+        for ( $i = 1; $i <= 7; $i++ ) {
+            $val = (string) ( $data[ 'env_local' . $i ] ?? '' );
+            if ( '' !== $val ) {
+                $selected[] = $val;
+            }
+        }
+
+        foreach ( $groups as $group ) {
+            $found = array_values( array_intersect( $group, $selected ) );
+            $cnt   = count( $found );
+            for ( $i = 0; $i < $cnt - 1; $i++ ) {
+                for ( $j = $i + 1; $j < $cnt; $j++ ) {
+                    $label1 = isset( $choices[ $found[ $i ] ] ) ? $choices[ $found[ $i ] ][ $lang ] : $found[ $i ];
+                    $label2 = isset( $choices[ $found[ $j ] ] ) ? $choices[ $found[ $j ] ][ $lang ] : $found[ $j ];
+                    $errors[] = $prefix . ( 'ja' === $lang
+                        ? sprintf( '環境(小)の「%s」と「%s」は同時に選択できません。', $label1, $label2 )
+                        : sprintf( 'Environment (Local) "%s" and "%s" cannot be selected together.', $label1, $label2 ) );
+                }
             }
         }
 

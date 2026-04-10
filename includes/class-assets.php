@@ -91,6 +91,11 @@ class EdnaSurvey_Assets {
                     'missingLocations' => __( 'Some sites are missing location. Please set all locations on the map.', 'wp-ednasurvey' ),
                     'gpsFromExcel'     => __( 'GPS from Excel', 'wp-ednasurvey' ),
                     'gpsFromPhoto'     => __( 'GPS from photo EXIF', 'wp-ednasurvey' ),
+                    'envLocalConflict'  => __( 'Environment (Local) "{label1}" and "{label2}" cannot be selected together.', 'wp-ednasurvey' ),
+                    'selectPlaceholder' => __( '-- Select --', 'wp-ednasurvey' ),
+                    'confirmReview'    => __( 'Please review your submission', 'wp-ednasurvey' ),
+                    'confirmSubmit'    => __( 'Submit', 'wp-ednasurvey' ),
+                    'confirmBack'      => __( 'Back to Edit', 'wp-ednasurvey' ),
                 ),
             ) );
         }

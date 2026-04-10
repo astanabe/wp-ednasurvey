@@ -297,13 +297,28 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
 
         <div class="ednasurvey-form-actions">
             <button type="submit" class="button button-primary ednasurvey-submit-btn">
-                <?php esc_html_e( 'Submit', 'wp-ednasurvey' ); ?>
+                <?php echo esc_html( 'ja' === $lang ? '内容を確認' : 'Review before submitting' ); ?>
             </button>
             <a href="<?php echo esc_url( home_url( '/' . $username . '/' ) ); ?>" class="button">
-                <?php esc_html_e( 'Return to Dashboard without submitting', 'wp-ednasurvey' ); ?>
+                <?php echo esc_html( 'ja' === $lang ? '送信せずにダッシュボードに戻る' : 'Return to Dashboard without submitting' ); ?>
             </a>
         </div>
     </form>
+
+    <div id="ednasurvey-confirm-review" style="display:none;">
+        <h2><?php echo esc_html( 'ja' === $lang ? '送信内容の確認' : 'Please review your submission' ); ?></h2>
+        <table id="ednasurvey-confirm-table" class="ednasurvey-site-detail-table">
+            <tbody></tbody>
+        </table>
+        <div class="ednasurvey-form-actions">
+            <button type="button" id="ednasurvey-confirm-submit" class="button button-primary ednasurvey-submit-btn">
+                <?php echo esc_html( 'ja' === $lang ? '送信' : 'Submit' ); ?>
+            </button>
+            <button type="button" id="ednasurvey-confirm-back" class="button">
+                <?php echo esc_html( 'ja' === $lang ? '修正する' : 'Back to Edit' ); ?>
+            </button>
+        </div>
+    </div>
 
     <script>
         var ednasurveyFormConfig = {
@@ -332,9 +347,12 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
                 $f = 'env_local' . $ci;
                 $copy_env_locals[] = $copy_data->$f ?? '';
             }
+            // Conflict groups for client-side validation
+            $conflict_groups = EdnaSurvey_I18n::get_env_local_conflict_groups();
         ?>
         (function(){
             var mapping = <?php echo wp_json_encode( $js_mapping ); ?>;
+            var envLocalConflicts = <?php echo wp_json_encode( $conflict_groups ); ?>;
             var copyValues = <?php echo wp_json_encode( $copy_env_locals ); ?>;
             var selectLabel = <?php echo wp_json_encode( __( '-- Select --', 'wp-ednasurvey' ) ); ?>;
             var broadSel = document.getElementById('env_broad');
@@ -360,6 +378,10 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             }
 
             broadSel.addEventListener('change', updateEnvLocal);
+
+            // Expose conflict groups and current mapping for JS validation
+            window.ednasurveyEnvLocalConflicts = envLocalConflicts;
+            window.ednasurveyEnvLocalMapping = mapping;
 
             // Initialize on load (for copy_from or default)
             if (broadSel.value) {

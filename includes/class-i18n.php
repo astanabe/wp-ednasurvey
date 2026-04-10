@@ -109,7 +109,7 @@ class EdnaSurvey_I18n {
             'plunge pool'              => array( 'ja' => '滝壺',                                 'en' => 'plunge pool' ),
             'rapids'                   => array( 'ja' => '急流の川',                             'en' => 'rapids' ),
             'stream mouth'             => array( 'ja' => '川から湖や海や潟への流入口',           'en' => 'stream mouth' ),
-            'ditch mouth'              => array( 'ja' => 'ditchから川や湖や海や潟への流入口',    'en' => 'ditch mouth' ),
+            'ditch mouth'              => array( 'ja' => 'ドブ・溝から川や湖や海や潟への流入口', 'en' => 'ditch mouth' ),
             'tributary'                => array( 'ja' => '支流',                                 'en' => 'tributary' ),
             'distributary'             => array( 'ja' => '分流',                                 'en' => 'distributary' ),
             'anabranch'                => array( 'ja' => '本流から一旦分かれて再び合流する支流',  'en' => 'anabranch' ),
@@ -230,6 +230,40 @@ class EdnaSurvey_I18n {
             'sterile water' => array(
                 'sterile water environment', 'roadside', 'room', 'paved parking lot', 'field',
             ),
+        );
+    }
+
+    /**
+     * Conflict groups for env_local: each sub-array lists values
+     * that cannot be selected together (at most one from each group).
+     */
+    public static function get_env_local_conflict_groups(): array {
+        return array(
+            // Water body type
+            array( 'ocean', 'bay' ),
+            array( 'ocean', 'lagoon' ),
+            // Lake origin
+            array( 'reservoir', 'natural lake' ),
+            // Harbor origin
+            array( 'artificial harbor', 'natural harbor' ),
+            // Shore substrate (exclusive)
+            array( 'sandy beach', 'shingle beach', 'rocky shore', 'revetted shore' ),
+            // Salinity
+            array( 'freshwater littoral zone', 'marine littoral zone' ),
+            array( 'freshwater algal bloom', 'marine algal bloom' ),
+            // Depth / distance zones
+            array( 'limnetic zone', 'profundal zone' ),
+            array( 'marine neritic zone', 'marine pelagic zone' ),
+            // River position / morphology
+            array( 'headwater', 'stream mouth' ),
+            array( 'headwater', 'meander' ),
+            array( 'headwater', 'bayou' ),
+            array( 'rapids', 'bayou' ),
+            array( 'riffle', 'bayou' ),
+            // Flow direction
+            array( 'tributary', 'distributary' ),
+            // Waterway type (exclusive)
+            array( 'river', 'canal', 'ditch', 'canalized stream' ),
         );
     }
 

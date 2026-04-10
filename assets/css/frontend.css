@@ -177,7 +177,7 @@
 
 .ednasurvey-help {
     color: #666;
-    font-style: italic;
+    font-style: normal;
     margin-bottom: 0.5em;
 }
 
@@ -406,7 +406,7 @@
 .ednasurvey-gps-source {
     font-size: 0.85em;
     color: #666;
-    font-style: italic;
+    font-style: normal;
 }
 .ednasurvey-offline-site-item {
     padding: 0.5em;

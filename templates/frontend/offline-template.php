@@ -11,12 +11,17 @@ $content_callback = function () use ( $username ) {
         <p><?php esc_html_e( 'Download an Excel template for recording survey data in the field without internet connectivity.', 'wp-ednasurvey' ); ?></p>
         <p><?php esc_html_e( 'Fill in the template during your field survey, then upload it along with your photos using the "Upload Offline Data" page.', 'wp-ednasurvey' ); ?></p>
 
-        <div class="ednasurvey-form-actions">
+        <div class="ednasurvey-form-actions" style="margin-bottom: 0.5em;">
             <a href="<?php echo esc_url( $download_url ); ?>" class="button button-primary">
                 <span class="dashicons dashicons-download" style="vertical-align: middle;"></span>
                 <?php esc_html_e( 'Download Excel Template (.xlsx)', 'wp-ednasurvey' ); ?>
             </a>
         </div>
+        <p class="ednasurvey-help" style="margin-bottom: 1.5em;">
+            <?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
+                ? 'ダウンロード開始まで時間がかかることがあります。'
+                : 'It may take a moment before the download starts.' ); ?>
+        </p>
 
         <h3><?php esc_html_e( 'Instructions', 'wp-ednasurvey' ); ?></h3>
         <ol>

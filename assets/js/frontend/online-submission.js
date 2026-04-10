@@ -97,20 +97,119 @@
         });
     }
 
-    // Form submission
+    // Check env_local conflict groups
+    function checkEnvLocalConflicts() {
+        var conflicts = window.ednasurveyEnvLocalConflicts || [];
+        var mapping = window.ednasurveyEnvLocalMapping || {};
+        if (!conflicts.length) return [];
+
+        var selected = [];
+        for (var i = 1; i <= 7; i++) {
+            var val = $('#env_local' + i).val();
+            if (val) selected.push(val);
+        }
+
+        // Build key-to-label lookup from current broad's mapping
+        var labelMap = {};
+        var broadVal = $('#env_broad').val();
+        if (broadVal && mapping[broadVal]) {
+            mapping[broadVal].forEach(function(item) {
+                labelMap[item.key] = item.label;
+            });
+        }
+
+        var errors = [];
+        conflicts.forEach(function(group) {
+            var found = [];
+            for (var j = 0; j < group.length; j++) {
+                if (selected.indexOf(group[j]) !== -1) {
+                    found.push(group[j]);
+                }
+            }
+            for (var a = 0; a < found.length - 1; a++) {
+                for (var b = a + 1; b < found.length; b++) {
+                    var l1 = labelMap[found[a]] || found[a];
+                    var l2 = labelMap[found[b]] || found[b];
+                    var msg = (i18n.envLocalConflict || 'Environment (Local) "{label1}" and "{label2}" cannot be selected together.')
+                        .replace('{label1}', l1).replace('{label2}', l2);
+                    errors.push(msg);
+                }
+            }
+        });
+
+        return errors;
+    }
+
+    // Form submission with confirmation step
     function initFormSubmission() {
-        $('#ednasurvey-online-form').on('submit', function(e) {
+        var $form = $('#ednasurvey-online-form');
+        var $confirm = $('#ednasurvey-confirm-review');
+        var $confirmTable = $('#ednasurvey-confirm-table');
+
+        // Step 1: Show confirmation
+        $form.on('submit', function(e) {
             e.preventDefault();
+            $('#ednasurvey-submission-messages').empty();
 
-            var $form = $(this);
-            var $btn = $form.find('.ednasurvey-submit-btn');
+            // Client-side env_local conflict check
+            var conflictErrors = checkEnvLocalConflicts();
+            if (conflictErrors.length > 0) {
+                showErrors(conflictErrors);
+                return;
+            }
+
+            // Build confirmation table from form fields
+            var rows = '';
+            $form.find('.ednasurvey-fieldset').each(function() {
+                var legend = $(this).find('legend').text();
+                $(this).find('.ednasurvey-field-row').each(function() {
+                    var label = $(this).find('label').first().clone().children('.required').remove().end().text().trim();
+                    var $input = $(this).find('input, select, textarea').first();
+                    var val = '';
+
+                    if ($input.is('select')) {
+                        val = $input.find('option:selected').text().trim();
+                        if (val === (i18n.selectPlaceholder || '-- Select --')) val = '';
+                    } else if ($input.is('input[type="file"]')) {
+                        var files = $input[0].files;
+                        if (files && files.length > 0) {
+                            var names = [];
+                            for (var fi = 0; fi < files.length; fi++) names.push(files[fi].name);
+                            val = names.join(', ');
+                        }
+                    } else {
+                        val = $input.val() || '';
+                    }
+
+                    if (label && (val || $input.prop('required'))) {
+                        rows += '<tr><th>' + escapeHtml(label) + '</th><td>' + escapeHtml(val || '-') + '</td></tr>';
+                    }
+                });
+            });
+
+            $confirmTable.find('tbody').html(rows);
+            $form.hide();
+            $form.prev('.ednasurvey-alert-warning').hide();
+            $confirm.show();
+            $('html, body').animate({ scrollTop: $confirm.offset().top - 50 }, 300);
+        });
+
+        // Back to edit
+        $('#ednasurvey-confirm-back').on('click', function() {
+            $confirm.hide();
+            $form.show();
+            $form.prev('.ednasurvey-alert-warning').show();
+        });
+
+        // Step 2: Actual submission
+        $('#ednasurvey-confirm-submit').on('click', function() {
+            var $btn = $(this);
             var $messages = $('#ednasurvey-submission-messages');
-
             var btnLabel = $btn.text();
             $btn.prop('disabled', true).text(i18n.submitting || 'Submitting...');
             $messages.empty();
 
-            var formData = new FormData(this);
+            var formData = new FormData($form[0]);
 
             $.ajax({
                 url: ednasurveyAjax.ajaxUrl,
@@ -121,10 +220,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response && response.success) {
-                        // Hide the form and show success message prominently
-                        $form.hide();
-                        // Also hide the warning about copy_from if present
-                        $form.prev('.ednasurvey-alert-warning').hide();
+                        $confirm.hide();
 
                         var html = '<div class="ednasurvey-alert ednasurvey-alert-success">' +
                             '<p><strong>' + (i18n.submitSuccess || 'Your survey data has been submitted successfully!') + '</strong></p>' +
@@ -151,7 +247,7 @@
                         $btn.prop('disabled', false).text(btnLabel);
                     }
                 },
-                error: function(xhr) {
+                error: function() {
                     showErrors([i18n.serverError || 'Server error. Please try again.']);
                     $btn.prop('disabled', false).text(btnLabel);
                 }

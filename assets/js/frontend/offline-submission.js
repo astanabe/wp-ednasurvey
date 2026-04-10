@@ -241,9 +241,14 @@
 
     function renderSitesOnMap() {
         var $list  = $('#ednasurvey-offline-sites-list');
+        var $review = $('#ednasurvey-offline-data-review');
         $list.empty();
+        $review.empty();
         state.markers = [];
         var bounds = [];
+
+        // Keys to skip in data review (internal/meta fields)
+        var skipKeys = { photo_files: 1 };
 
         state.parsedSites.forEach(function(site, idx) {
             var name = site.raw_data.sitename_local || site.raw_data.sitename_en || ('Site ' + (idx + 1));
@@ -252,7 +257,7 @@
                 ? (i18n.gpsFromPhoto || 'GPS from photo EXIF')
                 : (site.has_location ? (i18n.gpsFromExcel || 'GPS from Excel') : '');
 
-            // Site card
+            // Site card (map section)
             var cardHtml = '<div class="ednasurvey-offline-site-item">' +
                 '<strong>' + escapeHtml(name) + '</strong> (' + escapeHtml(site.raw_data.sample_id || '') + ')' +
                 (site.has_location
@@ -262,6 +267,28 @@
                 (noPhotos ? ' <span class="ednasurvey-no-photo-badge">' + (i18n.noPhotos || 'No photos') + '</span>' : '') +
                 '</div>';
             $list.append(cardHtml);
+
+            // Data review table
+            var reviewHtml = '<details style="margin-bottom:0.75em;">' +
+                '<summary><strong>' + escapeHtml(name) + '</strong> (' + escapeHtml(site.raw_data.sample_id || '') + ')' +
+                (noPhotos ? ' <span class="ednasurvey-no-photo-badge">' + (i18n.noPhotos || 'No photos') + '</span>' : '') +
+                '</summary>' +
+                '<table class="ednasurvey-site-detail-table" style="margin-top:0.5em;"><tbody>';
+            var raw = site.raw_data || {};
+            for (var key in raw) {
+                if (!raw.hasOwnProperty(key) || skipKeys[key]) continue;
+                var val = raw[key];
+                if (val === null || val === undefined || val === '') continue;
+                reviewHtml += '<tr><th>' + escapeHtml(key) + '</th><td>' + escapeHtml(String(val)) + '</td></tr>';
+            }
+            // Show photo count
+            var photoCount = (site.matched_photos || []).length;
+            if (photoCount > 0) {
+                var photoNames = site.matched_photos.map(function(p) { return p.original_filename; }).join(', ');
+                reviewHtml += '<tr><th>photos</th><td>' + photoCount + ' (' + escapeHtml(photoNames) + ')</td></tr>';
+            }
+            reviewHtml += '</tbody></table></details>';
+            $review.append(reviewHtml);
 
             // Marker
             if (site.has_location) {

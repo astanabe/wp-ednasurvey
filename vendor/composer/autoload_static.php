@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit023e52a53046b63ede406a49e7e82053
 {
-    public static $files = array (
-        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'Z' => 
         array (
@@ -58,16 +54,6 @@ class ComposerStaticInit023e52a53046b63ede406a49e7e82053
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'H' => 
-        array (
-            'HTMLPurifier' => 
-            array (
-                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'EdnaSurvey_Activator' => __DIR__ . '/../..' . '/includes/class-activator.php',
@@ -77,12 +63,14 @@ class ComposerStaticInit023e52a53046b63ede406a49e7e82053
         'EdnaSurvey_Admin_Menu' => __DIR__ . '/../..' . '/includes/admin/class-admin-menu.php',
         'EdnaSurvey_Admin_Messages' => __DIR__ . '/../..' . '/includes/admin/class-admin-messages.php',
         'EdnaSurvey_Admin_Settings' => __DIR__ . '/../..' . '/includes/admin/class-admin-settings.php',
+        'EdnaSurvey_Admin_Site_Detail' => __DIR__ . '/../..' . '/includes/admin/class-admin-site-detail.php',
         'EdnaSurvey_Admin_Sites_Map' => __DIR__ . '/../..' . '/includes/admin/class-admin-sites-map.php',
         'EdnaSurvey_Ajax_Admin' => __DIR__ . '/../..' . '/includes/ajax/class-ajax-admin.php',
         'EdnaSurvey_Ajax_Chat' => __DIR__ . '/../..' . '/includes/ajax/class-ajax-chat.php',
         'EdnaSurvey_Ajax_Handler' => __DIR__ . '/../..' . '/includes/ajax/class-ajax-handler.php',
         'EdnaSurvey_Ajax_Sites' => __DIR__ . '/../..' . '/includes/ajax/class-ajax-sites.php',
         'EdnaSurvey_Ajax_Submission' => __DIR__ . '/../..' . '/includes/ajax/class-ajax-submission.php',
+        'EdnaSurvey_All_Sites_Table' => __DIR__ . '/../..' . '/includes/admin/class-admin-all-sites-table.php',
         'EdnaSurvey_Assets' => __DIR__ . '/../..' . '/includes/class-assets.php',
         'EdnaSurvey_CSV_Service' => __DIR__ . '/../..' . '/includes/services/class-csv-service.php',
         'EdnaSurvey_Chat_Controller' => __DIR__ . '/../..' . '/includes/controllers/class-chat-controller.php',
@@ -102,6 +90,7 @@ class ComposerStaticInit023e52a53046b63ede406a49e7e82053
         'EdnaSurvey_Photo_Service' => __DIR__ . '/../..' . '/includes/services/class-photo-service.php',
         'EdnaSurvey_Plugin' => __DIR__ . '/../..' . '/includes/class-plugin.php',
         'EdnaSurvey_Router' => __DIR__ . '/../..' . '/includes/class-router.php',
+        'EdnaSurvey_Site_Detail_Controller' => __DIR__ . '/../..' . '/includes/controllers/class-site-detail-controller.php',
         'EdnaSurvey_Site_Model' => __DIR__ . '/../..' . '/includes/models/class-site-model.php',
         'EdnaSurvey_Sites_Controller' => __DIR__ . '/../..' . '/includes/controllers/class-sites-controller.php',
         'EdnaSurvey_User_Import_Service' => __DIR__ . '/../..' . '/includes/services/class-user-import-service.php',
@@ -113,7 +102,6 @@ class ComposerStaticInit023e52a53046b63ede406a49e7e82053
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit023e52a53046b63ede406a49e7e82053::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit023e52a53046b63ede406a49e7e82053::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit023e52a53046b63ede406a49e7e82053::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit023e52a53046b63ede406a49e7e82053::$classMap;
 
         }, null, ClassLoader::class);
