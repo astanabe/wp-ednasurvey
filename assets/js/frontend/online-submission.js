@@ -217,6 +217,8 @@
             $btn.prop('disabled', true).text(i18n.submitting || 'Submitting...');
             $messages.empty();
 
+            // Re-enable disabled selects so their values are included in FormData
+            $form.find('select:disabled').prop('disabled', false);
             var formData = new FormData($form[0]);
 
             $.ajax({

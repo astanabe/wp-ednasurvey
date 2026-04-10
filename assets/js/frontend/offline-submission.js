@@ -244,6 +244,7 @@
         var $review = $('#ednasurvey-offline-data-review');
         $list.empty();
         $review.empty();
+        state.markers.forEach(function(m) { m.remove(); });
         state.markers = [];
         var bounds = [];
 

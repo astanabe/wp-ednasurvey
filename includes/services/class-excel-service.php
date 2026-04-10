@@ -488,6 +488,10 @@ class EdnaSurvey_Excel_Service {
                 // Apply INDIRECT validation to env_local columns
                 $envBroadColLetter = Coordinate::stringFromColumnIndex( $env_broad_col_idx + 1 );
 
+                // Localized labels for sterile water auto-fill in env_local1
+                $sterileWaterBroadLabel = $env_broad_choices['sterile water'] ?? '';
+                $sterileWaterLocalLabel = $env_local_choices['sterile water environment'] ?? '';
+
                 foreach ( $columns as $idx => $col ) {
                     if ( 'env_local' !== ( $col['type'] ?? '' ) ) {
                         continue;
@@ -504,6 +508,16 @@ class EdnaSurvey_Excel_Service {
                         $validation->setErrorTitle( $validationErrorTitle );
                         $validation->setError( $validationErrorMsg );
                         $validation->setFormula1( 'INDIRECT(SUBSTITUTE($' . $envBroadColLetter . $row . '," ","_"))' );
+                    }
+
+                    // Auto-fill env_local1: when env_broad is sterile water,
+                    // set env_local1 to the sterile water environment label.
+                    if ( 'env_local1' === $col['key'] && '' !== $sterileWaterBroadLabel && '' !== $sterileWaterLocalLabel ) {
+                        for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
+                            $sheet->getCell( $colLetter . $row )->setValue(
+                                '=IF($' . $envBroadColLetter . $row . '="' . $sterileWaterBroadLabel . '","' . $sterileWaterLocalLabel . '","")'
+                            );
+                        }
                     }
                 }
             }
@@ -646,7 +660,16 @@ class EdnaSurvey_Excel_Service {
             $isEmpty = true;
 
             for ( $c = 1; $c <= $maxColIndex; $c++ ) {
-                $value = $sheet->getCell( [ $c, $row ] )->getValue();
+                $cell  = $sheet->getCell( [ $c, $row ] );
+                $value = $cell->getValue();
+                // Resolve formula cells to their calculated value
+                if ( is_string( $value ) && str_starts_with( $value, '=' ) ) {
+                    try {
+                        $value = $cell->getCalculatedValue();
+                    } catch ( \Exception $e ) {
+                        $value = null;
+                    }
+                }
                 $key   = $headers[ $c ] ?? '';
 
                 // Convert Excel date serial to Y-m-d string

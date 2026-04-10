@@ -353,6 +353,7 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
 
             function updateEnvLocal() {
                 var choices = mapping[broadSel.value] || [];
+                var isSterile = (broadSel.value === 'sterile water');
                 for (var i = 1; i <= 7; i++) {
                     var sel = document.getElementById('env_local' + i);
                     var prev = sel.value;
@@ -368,6 +369,14 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
                         if (choices[j].key === prev) opt.selected = true;
                         sel.appendChild(opt);
                     }
+                }
+                // Auto-select and lock env_local1 for sterile water
+                var sel1 = document.getElementById('env_local1');
+                if (isSterile) {
+                    sel1.value = 'sterile water environment';
+                    sel1.disabled = true;
+                } else {
+                    sel1.disabled = false;
                 }
             }
 

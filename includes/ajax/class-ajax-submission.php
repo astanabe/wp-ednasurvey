@@ -28,6 +28,11 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                 $data[ $key ] = sanitize_text_field( $value );
             }
         }
+        // Force env_local1 for sterile water
+        if ( 'sterile water' === ( $data['env_broad'] ?? '' ) ) {
+            $data['env_local1'] = 'sterile water environment';
+        }
+
         $errors = $validation->validate_site_data( $data, $custom_fields );
 
         if ( ! empty( $errors ) ) {
@@ -297,6 +302,10 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
 
         foreach ( $sites_data as $os ) {
             $raw  = $os['raw_data'] ?? array();
+            // Force env_local1 for sterile water
+            if ( 'sterile water' === ( $raw['env_broad'] ?? '' ) ) {
+                $raw['env_local1'] = 'sterile water environment';
+            }
             $meta = $this->build_submission_meta( $user, 'offline' );
 
             $site_record = array(

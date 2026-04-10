@@ -65,6 +65,11 @@ class EdnaSurvey_Validation_Service {
             }
         }
 
+        // Force env_local1 for sterile water
+        if ( 'sterile water' === ( $data['env_broad'] ?? '' ) ) {
+            $data['env_local1'] = 'sterile water environment';
+        }
+
         // Environment (Local) — requires env_broad
         if ( ! empty( $fields_config['env_broad'] ) ) {
             if ( empty( $data['env_local1'] ) ) {
@@ -204,6 +209,11 @@ class EdnaSurvey_Validation_Service {
             $errors[] = $prefix . __( 'Environment (Broad) is required.', 'wp-ednasurvey' );
         } elseif ( ! isset( EdnaSurvey_I18n::get_env_broad_choices()[ (string) $data['env_broad'] ] ) ) {
             $errors[] = $prefix . __( 'Invalid selection for Environment (Broad).', 'wp-ednasurvey' );
+        }
+
+        // Force env_local1 for sterile water
+        if ( 'sterile water' === ( $data['env_broad'] ?? '' ) ) {
+            $data['env_local1'] = 'sterile water environment';
         }
 
         // Environment (Local)

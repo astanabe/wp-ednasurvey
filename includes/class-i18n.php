@@ -327,10 +327,15 @@ class EdnaSurvey_I18n {
         if ( isset( $choices[ $value ] ) ) {
             return $value;
         }
-        // Search reverse map for Japanese label
+        // Search reverse map for Japanese label, but validate against provided choices
         $ja_map = self::get_ja_reverse_map();
-        if ( isset( $ja_map[ $value ] ) ) {
+        if ( isset( $ja_map[ $value ] ) && isset( $choices[ $ja_map[ $value ] ] ) ) {
             return $ja_map[ $value ];
+        }
+        // Fallback: search by localized label in the provided choices
+        $key = array_search( $value, $choices, true );
+        if ( false !== $key ) {
+            return $key;
         }
         return $value;
     }
