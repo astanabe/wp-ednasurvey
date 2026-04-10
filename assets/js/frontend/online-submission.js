@@ -85,7 +85,15 @@
 
             for (var j = 0; j < files.length; j++) {
                 (function(file) {
-                    if (file.type.match(/image\/(jpeg|heic|heif)/)) {
+                    var ext = file.name.split('.').pop().toLowerCase();
+                    var isHeic = (ext === 'heic' || ext === 'heif' || file.type.match(/image\/(heic|heif)/));
+                    if (isHeic) {
+                        preview.append(
+                            '<div class="ednasurvey-photo-preview-placeholder">' +
+                            '<span>' + (i18n.heicNoPreview || 'HEIC/HEIF: Preview not available') + '</span>' +
+                            '</div>'
+                        );
+                    } else if (file.type.match(/image\/jpeg/)) {
                         var reader = new FileReader();
                         reader.onload = function(e) {
                             preview.append('<img src="' + e.target.result + '" alt="Preview">');
@@ -171,12 +179,12 @@
                         val = $input.find('option:selected').text().trim();
                         if (val === (i18n.selectPlaceholder || '-- Select --')) val = '';
                     } else if ($input.is('input[type="file"]')) {
-                        var files = $input[0].files;
-                        if (files && files.length > 0) {
-                            var names = [];
-                            for (var fi = 0; fi < files.length; fi++) names.push(files[fi].name);
-                            val = names.join(', ');
+                        if (!label) {
+                            label = $(this).closest('.ednasurvey-fieldset').find('legend').text() || '';
                         }
+                        var files = $input[0].files;
+                        var count = files ? files.length : 0;
+                        val = (i18n.photoFileCount || '{count} file(s)').replace('{count}', count);
                     } else {
                         val = $input.val() || '';
                     }

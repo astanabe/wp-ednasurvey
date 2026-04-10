@@ -136,6 +136,12 @@ msgstr ""
 msgid "Photos"
 msgstr ""
 
+msgid "HEIC/HEIF: Preview not available"
+msgstr ""
+
+msgid "{count} file(s)"
+msgstr ""
+
 #, php-format
 msgid "Upload up to %d photos (JPEG or HEIC/HEIF)."
 msgstr ""
