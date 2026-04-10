@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $page_title = EdnaSurvey_Router::get_page_titles()['map'];
 $content_callback = function () use ( $username, $sites, $settings ) {
-    $lang = EdnaSurvey_I18n::get_current_language();
+
     ?>
     <div id="ednasurvey-user-map" style="height: 600px;"></div>
 
@@ -16,12 +16,12 @@ $content_callback = function () use ( $username, $sites, $settings ) {
     </div>
 
     <script>
-        var ednasurveyUserSites = <?php echo wp_json_encode( array_map( function( $site ) use ( $lang ) {
+        var ednasurveyUserSites = <?php echo wp_json_encode( array_map( function( $site ) {
             return array(
                 'internal_sample_id' => $site->internal_sample_id,
                 'lat'                => (float) $site->latitude,
                 'lng'                => (float) $site->longitude,
-                'name'               => $lang === 'ja' ? $site->sitename_local : $site->sitename_en,
+                'name'               => EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' ),
                 'date'               => $site->survey_date ?? '',
                 'time'               => $site->survey_time ?? '',
                 'sample_id'          => $site->sample_id ?? '',

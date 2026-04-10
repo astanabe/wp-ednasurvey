@@ -3,8 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 $fields_config = $settings['default_fields_config'] ?? array();
-$lang = EdnaSurvey_I18n::get_current_language();
-$site_name = 'ja' === $lang ? ( $site->sitename_local ?: $site->sitename_en ) : ( $site->sitename_en ?: $site->sitename_local );
+$site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' );
 ?>
 <div class="wrap">
     <h1><?php echo esc_html( $site_name ?: __( 'Site Detail', 'wp-ednasurvey' ) ); ?></h1>
@@ -126,8 +125,8 @@ $site_name = 'ja' === $lang ? ( $site->sitename_local ?: $site->sitename_en ) : 
 
         <?php if ( ! empty( $fields_config['env_broad'] ) && ! empty( $site->env_broad ) ) : ?>
         <tr>
-            <th><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?></th>
-            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_env_broad_choices(), $site->env_broad, $lang ) ); ?></td>
+            <th><?php esc_html_e( 'Environment (Broad)', 'wp-ednasurvey' ); ?></th>
+            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_env_broad_choices(), $site->env_broad ) ); ?></td>
         </tr>
         <?php endif; ?>
 
@@ -137,32 +136,32 @@ $site_name = 'ja' === $lang ? ( $site->sitename_local ?: $site->sitename_en ) : 
             for ( $eli = 1; $eli <= 7; $eli++ ) {
                 $f = 'env_local' . $eli;
                 if ( ! empty( $site->$f ) ) {
-                    $env_locals[] = EdnaSurvey_I18n::get_choice_label( $env_local_all, $site->$f, $lang );
+                    $env_locals[] = EdnaSurvey_I18n::get_choice_label( $env_local_all, $site->$f );
                 }
             }
             if ( ! empty( $env_locals ) ) : ?>
         <tr>
-            <th><?php echo esc_html( 'ja' === $lang ? '環境(小)' : 'Environment (Local)' ); ?></th>
+            <th><?php esc_html_e( 'Environment (Local)', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( implode( ' | ', $env_locals ) ); ?></td>
         </tr>
         <?php endif; endif; ?>
 
         <?php if ( ! empty( $fields_config['weather'] ) && ! empty( $site->weather ) ) : ?>
         <tr>
-            <th><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?></th>
-            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_weather_choices(), $site->weather, $lang ) ); ?></td>
+            <th><?php esc_html_e( 'Weather', 'wp-ednasurvey' ); ?></th>
+            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_weather_choices(), $site->weather ) ); ?></td>
         </tr>
         <?php endif; ?>
 
         <?php if ( ! empty( $fields_config['wind'] ) && ! empty( $site->wind ) ) : ?>
         <tr>
-            <th><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?></th>
-            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_wind_choices(), $site->wind, $lang ) ); ?></td>
+            <th><?php esc_html_e( 'Wind', 'wp-ednasurvey' ); ?></th>
+            <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_wind_choices(), $site->wind ) ); ?></td>
         </tr>
         <?php endif; ?>
 
         <?php foreach ( $custom_data as $cd ) :
-            $cf_label = 'ja' === $lang ? $cd['field']->label_ja : $cd['field']->label_en;
+            $cf_label = EdnaSurvey_I18n::get_localized_field( $cd['field']->label_ja, $cd['field']->label_en );
         ?>
         <tr>
             <th><?php echo esc_html( $cf_label ); ?></th>

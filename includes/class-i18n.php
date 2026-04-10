@@ -74,86 +74,101 @@ class EdnaSurvey_I18n {
     }
 
     /**
-     * Environment (broad) choices: English key => array( 'ja' => ..., 'en' => ... )
+     * Get the localized value from a bilingual DB object.
+     * Falls back to the other language if the preferred one is empty.
+     *
+     * @param string $local_value  Value in the local/Japanese column.
+     * @param string $en_value     Value in the English column.
+     * @return string The appropriate value for the current locale.
+     */
+    public static function get_localized_field( string $local_value, string $en_value ): string {
+        if ( 'ja' === self::get_current_language() ) {
+            return $local_value ?: $en_value;
+        }
+        return $en_value ?: $local_value;
+    }
+
+    /**
+     * Environment (broad) choices: English key => localized label.
      */
     public static function get_env_broad_choices(): array {
         return array(
-            'marine'          => array( 'ja' => '海',                                           'en' => 'marine' ),
-            'estuarine'       => array( 'ja' => '河川感潮域',                                    'en' => 'estuarine' ),
-            'mangrove'        => array( 'ja' => 'マングローブ',                                 'en' => 'mangrove' ),
-            'large river'     => array( 'ja' => '大河川下流部',                                 'en' => 'large river' ),
-            'small river'     => array( 'ja' => '小河川や大河川上流部',                          'en' => 'small river' ),
-            'freshwater lake' => array( 'ja' => '淡水湖',                                       'en' => 'freshwater lake' ),
-            'brackish lake'   => array( 'ja' => '汽水湖',                                       'en' => 'brackish lake' ),
-            'saline lake'     => array( 'ja' => '塩湖',                                         'en' => 'saline lake' ),
-            'sterile water'   => array( 'ja' => '滅菌水',                                       'en' => 'sterile water' ),
+            'marine'          => __( 'marine', 'wp-ednasurvey' ),
+            'estuarine'       => __( 'estuarine', 'wp-ednasurvey' ),
+            'mangrove'        => __( 'mangrove', 'wp-ednasurvey' ),
+            'large river'     => __( 'large river', 'wp-ednasurvey' ),
+            'small river'     => __( 'small river', 'wp-ednasurvey' ),
+            'freshwater lake' => __( 'freshwater lake', 'wp-ednasurvey' ),
+            'brackish lake'   => __( 'brackish lake', 'wp-ednasurvey' ),
+            'saline lake'     => __( 'saline lake', 'wp-ednasurvey' ),
+            'sterile water'   => __( 'sterile water', 'wp-ednasurvey' ),
         );
     }
 
     /**
-     * Environment (local) choices: English key => array( 'ja' => ..., 'en' => ... )
+     * Environment (local) choices: English key => localized label.
      */
     public static function get_env_local_choices(): array {
         return array(
-            'reservoir'                => array( 'ja' => '人造湖',                               'en' => 'reservoir' ),
-            'natural lake'             => array( 'ja' => '天然湖沼',                             'en' => 'natural lake' ),
-            'ditch'                    => array( 'ja' => 'ドブ・溝',                             'en' => 'ditch' ),
-            'canal'                    => array( 'ja' => '用水路・運河',                         'en' => 'canal' ),
-            'canalized stream'         => array( 'ja' => '護岸された川',                         'en' => 'canalized stream' ),
-            'river'                    => array( 'ja' => 'その他の川',                           'en' => 'river' ),
-            'riffle'                   => array( 'ja' => '川の瀬',                               'en' => 'riffle' ),
-            'stream pool'              => array( 'ja' => '川の瀬に接している淵',                 'en' => 'stream pool' ),
-            'bayou'                    => array( 'ja' => '湿地帯のゆったり流れる川',             'en' => 'bayou' ),
-            'headwater'                => array( 'ja' => '源流部',                               'en' => 'headwater' ),
-            'meander'                  => array( 'ja' => '平地を蛇行して流れる川',               'en' => 'meander' ),
-            'plunge pool'              => array( 'ja' => '滝壺',                                 'en' => 'plunge pool' ),
-            'rapids'                   => array( 'ja' => '急流の川',                             'en' => 'rapids' ),
-            'stream mouth'             => array( 'ja' => '川から湖や海や潟への流入口',           'en' => 'stream mouth' ),
-            'ditch mouth'              => array( 'ja' => 'ドブ・溝から川や湖や海や潟への流入口', 'en' => 'ditch mouth' ),
-            'tributary'                => array( 'ja' => '支流',                                 'en' => 'tributary' ),
-            'distributary'             => array( 'ja' => '分流',                                 'en' => 'distributary' ),
-            'anabranch'                => array( 'ja' => '本流から一旦分かれて再び合流する支流',  'en' => 'anabranch' ),
-            'weir'                     => array( 'ja' => '堰・堰堤・頭首工',                     'en' => 'weir' ),
-            'ocean'                    => array( 'ja' => '洋',                                   'en' => 'ocean' ),
-            'bay'                      => array( 'ja' => '湾',                                   'en' => 'bay' ),
-            'lagoon'                   => array( 'ja' => '潟',                                   'en' => 'lagoon' ),
-            'mangrove swamp'           => array( 'ja' => 'マングローブ湿地帯',                   'en' => 'mangrove swamp' ),
-            'freshwater littoral zone' => array( 'ja' => '淡水沿岸域',                           'en' => 'freshwater littoral zone' ),
-            'marine littoral zone'     => array( 'ja' => '海洋沿岸域',                           'en' => 'marine littoral zone' ),
-            'littoral zone'            => array( 'ja' => 'その他沿岸域',                         'en' => 'littoral zone' ),
-            'limnetic zone'            => array( 'ja' => '湖沼の沖合表層',                       'en' => 'limnetic zone' ),
-            'profundal zone'           => array( 'ja' => '湖沼の沖合深層',                       'en' => 'profundal zone' ),
-            'marine neritic zone'      => array( 'ja' => '浅海域',                               'en' => 'marine neritic zone' ),
-            'marine pelagic zone'      => array( 'ja' => '外洋域',                               'en' => 'marine pelagic zone' ),
-            'sandy beach'              => array( 'ja' => '砂浜',                                 'en' => 'sandy beach' ),
-            'shingle beach'            => array( 'ja' => '砂利浜・礫浜',                         'en' => 'shingle beach' ),
-            'rocky shore'              => array( 'ja' => '磯・岩浜',                             'en' => 'rocky shore' ),
-            'revetted shore'           => array( 'ja' => '護岸',                                 'en' => 'revetted shore' ),
-            'rocky reef'               => array( 'ja' => '岩礁',                                 'en' => 'rocky reef' ),
-            'coral reef'               => array( 'ja' => 'サンゴ礁',                             'en' => 'coral reef' ),
-            'mussel reef'              => array( 'ja' => 'カキ礁',                               'en' => 'mussel reef' ),
-            'sea grass bed'            => array( 'ja' => '海草藻場',                             'en' => 'sea grass bed' ),
-            'kelp forest'              => array( 'ja' => '藻場',                                 'en' => 'kelp forest' ),
-            'freshwater algal bloom'   => array( 'ja' => '淡水植物プランクトンのブルーム',       'en' => 'freshwater algal bloom' ),
-            'marine algal bloom'       => array( 'ja' => '海洋植物プランクトンのブルーム',       'en' => 'marine algal bloom' ),
-            'artificial harbor'        => array( 'ja' => '人工港湾部',                           'en' => 'artificial harbor' ),
-            'jetty'                    => array( 'ja' => '突堤',                                 'en' => 'jetty' ),
-            'groin'                    => array( 'ja' => '短い突堤',                             'en' => 'groin' ),
-            'breakwater'               => array( 'ja' => 'その他の防波堤',                       'en' => 'breakwater' ),
-            'quay'                     => array( 'ja' => '埠頭・コンクリート岸壁',               'en' => 'quay' ),
-            'tetrapod'                 => array( 'ja' => '消波ブロック',                         'en' => 'tetrapod' ),
-            'gabion'                   => array( 'ja' => '蛇籠',                                 'en' => 'gabion' ),
-            'pier'                     => array( 'ja' => '桟橋',                                 'en' => 'pier' ),
-            'bridge'                   => array( 'ja' => '橋',                                   'en' => 'bridge' ),
-            'bar'                      => array( 'ja' => '砂州',                                 'en' => 'bar' ),
-            'natural harbor'           => array( 'ja' => '天然の港湾',                           'en' => 'natural harbor' ),
-            'tidal pool'               => array( 'ja' => 'タイドプール',                         'en' => 'tidal pool' ),
-            'protected area'           => array( 'ja' => '保護区',                               'en' => 'protected area' ),
-            'sterile water environment' => array( 'ja' => '滅菌水',                              'en' => 'sterile water environment' ),
-            'roadside'                 => array( 'ja' => '道路脇',                               'en' => 'roadside' ),
-            'room'                     => array( 'ja' => '室内',                                 'en' => 'room' ),
-            'paved parking lot'        => array( 'ja' => '舗装された駐車場',                     'en' => 'paved parking lot' ),
-            'field'                    => array( 'ja' => 'その他野外',                           'en' => 'field' ),
+            'reservoir'                => __( 'reservoir', 'wp-ednasurvey' ),
+            'natural lake'             => __( 'natural lake', 'wp-ednasurvey' ),
+            'ditch'                    => __( 'ditch', 'wp-ednasurvey' ),
+            'canal'                    => __( 'canal', 'wp-ednasurvey' ),
+            'canalized stream'         => __( 'canalized stream', 'wp-ednasurvey' ),
+            'river'                    => __( 'river', 'wp-ednasurvey' ),
+            'riffle'                   => __( 'riffle', 'wp-ednasurvey' ),
+            'stream pool'              => __( 'stream pool', 'wp-ednasurvey' ),
+            'bayou'                    => __( 'bayou', 'wp-ednasurvey' ),
+            'headwater'                => __( 'headwater', 'wp-ednasurvey' ),
+            'meander'                  => __( 'meander', 'wp-ednasurvey' ),
+            'plunge pool'              => __( 'plunge pool', 'wp-ednasurvey' ),
+            'rapids'                   => __( 'rapids', 'wp-ednasurvey' ),
+            'stream mouth'             => __( 'stream mouth', 'wp-ednasurvey' ),
+            'ditch mouth'              => __( 'ditch mouth', 'wp-ednasurvey' ),
+            'tributary'                => __( 'tributary', 'wp-ednasurvey' ),
+            'distributary'             => __( 'distributary', 'wp-ednasurvey' ),
+            'anabranch'                => __( 'anabranch', 'wp-ednasurvey' ),
+            'weir'                     => __( 'weir', 'wp-ednasurvey' ),
+            'ocean'                    => __( 'ocean', 'wp-ednasurvey' ),
+            'bay'                      => __( 'bay', 'wp-ednasurvey' ),
+            'lagoon'                   => __( 'lagoon', 'wp-ednasurvey' ),
+            'mangrove swamp'           => __( 'mangrove swamp', 'wp-ednasurvey' ),
+            'freshwater littoral zone' => __( 'freshwater littoral zone', 'wp-ednasurvey' ),
+            'marine littoral zone'     => __( 'marine littoral zone', 'wp-ednasurvey' ),
+            'littoral zone'            => __( 'littoral zone', 'wp-ednasurvey' ),
+            'limnetic zone'            => __( 'limnetic zone', 'wp-ednasurvey' ),
+            'profundal zone'           => __( 'profundal zone', 'wp-ednasurvey' ),
+            'marine neritic zone'      => __( 'marine neritic zone', 'wp-ednasurvey' ),
+            'marine pelagic zone'      => __( 'marine pelagic zone', 'wp-ednasurvey' ),
+            'sandy beach'              => __( 'sandy beach', 'wp-ednasurvey' ),
+            'shingle beach'            => __( 'shingle beach', 'wp-ednasurvey' ),
+            'rocky shore'              => __( 'rocky shore', 'wp-ednasurvey' ),
+            'revetted shore'           => __( 'revetted shore', 'wp-ednasurvey' ),
+            'rocky reef'               => __( 'rocky reef', 'wp-ednasurvey' ),
+            'coral reef'               => __( 'coral reef', 'wp-ednasurvey' ),
+            'mussel reef'              => __( 'mussel reef', 'wp-ednasurvey' ),
+            'sea grass bed'            => __( 'sea grass bed', 'wp-ednasurvey' ),
+            'kelp forest'              => __( 'kelp forest', 'wp-ednasurvey' ),
+            'freshwater algal bloom'   => __( 'freshwater algal bloom', 'wp-ednasurvey' ),
+            'marine algal bloom'       => __( 'marine algal bloom', 'wp-ednasurvey' ),
+            'artificial harbor'        => __( 'artificial harbor', 'wp-ednasurvey' ),
+            'jetty'                    => __( 'jetty', 'wp-ednasurvey' ),
+            'groin'                    => __( 'groin', 'wp-ednasurvey' ),
+            'breakwater'               => __( 'breakwater', 'wp-ednasurvey' ),
+            'quay'                     => __( 'quay', 'wp-ednasurvey' ),
+            'tetrapod'                 => __( 'tetrapod', 'wp-ednasurvey' ),
+            'gabion'                   => __( 'gabion', 'wp-ednasurvey' ),
+            'pier'                     => __( 'pier', 'wp-ednasurvey' ),
+            'bridge'                   => __( 'bridge', 'wp-ednasurvey' ),
+            'bar'                      => __( 'bar', 'wp-ednasurvey' ),
+            'natural harbor'           => __( 'natural harbor', 'wp-ednasurvey' ),
+            'tidal pool'               => __( 'tidal pool', 'wp-ednasurvey' ),
+            'protected area'           => __( 'protected area', 'wp-ednasurvey' ),
+            'sterile water environment' => __( 'sterile water environment', 'wp-ednasurvey' ),
+            'roadside'                 => __( 'roadside', 'wp-ednasurvey' ),
+            'room'                     => __( 'room', 'wp-ednasurvey' ),
+            'paved parking lot'        => __( 'paved parking lot', 'wp-ednasurvey' ),
+            'field'                    => __( 'field', 'wp-ednasurvey' ),
         );
     }
 
@@ -268,28 +283,28 @@ class EdnaSurvey_I18n {
     }
 
     /**
-     * Weather choices: English key => array( 'ja' => ..., 'en' => ... )
+     * Weather choices: English key => localized label.
      */
     public static function get_weather_choices(): array {
         return array(
-            'clear sky' => array( 'ja' => '快晴',    'en' => 'clear sky' ),
-            'sunny'     => array( 'ja' => '晴れ',    'en' => 'sunny' ),
-            'cloudy'    => array( 'ja' => '曇り',    'en' => 'cloudy' ),
-            'foggy'     => array( 'ja' => '霧',      'en' => 'foggy' ),
-            'rain'      => array( 'ja' => '雨',      'en' => 'rain' ),
-            'hail'      => array( 'ja' => '霰や雹',  'en' => 'hail' ),
-            'sleet'     => array( 'ja' => 'みぞれ',  'en' => 'sleet' ),
-            'snow'      => array( 'ja' => '雪',      'en' => 'snow' ),
+            'clear sky' => __( 'clear sky', 'wp-ednasurvey' ),
+            'sunny'     => __( 'sunny', 'wp-ednasurvey' ),
+            'cloudy'    => __( 'cloudy', 'wp-ednasurvey' ),
+            'foggy'     => __( 'foggy', 'wp-ednasurvey' ),
+            'rain'      => __( 'rain', 'wp-ednasurvey' ),
+            'hail'      => __( 'hail', 'wp-ednasurvey' ),
+            'sleet'     => __( 'sleet', 'wp-ednasurvey' ),
+            'snow'      => __( 'snow', 'wp-ednasurvey' ),
         );
     }
 
     /**
-     * Wind choices: English key => array( 'ja' => ..., 'en' => ... )
+     * Wind choices: English key => localized label.
      */
     public static function get_wind_choices(): array {
         return array(
-            'windy'     => array( 'ja' => '強風',        'en' => 'windy' ),
-            'not windy' => array( 'ja' => '無風～弱風',  'en' => 'not windy' ),
+            'windy'     => __( 'windy', 'wp-ednasurvey' ),
+            'not windy' => __( 'not windy', 'wp-ednasurvey' ),
         );
     }
 
@@ -297,11 +312,8 @@ class EdnaSurvey_I18n {
      * Get localized label for a stored value (English key) from a choices array.
      */
     public static function get_choice_label( array $choices, string $value, string $lang = '' ): string {
-        if ( '' === $lang ) {
-            $lang = self::get_current_language();
-        }
         if ( isset( $choices[ $value ] ) ) {
-            return $choices[ $value ][ $lang ] ?? $value;
+            return $choices[ $value ];
         }
         return $value;
     }
@@ -315,12 +327,101 @@ class EdnaSurvey_I18n {
         if ( isset( $choices[ $value ] ) ) {
             return $value;
         }
-        // Search for matching Japanese label
-        foreach ( $choices as $key => $labels ) {
-            if ( $labels['ja'] === $value ) {
-                return $key;
-            }
+        // Search reverse map for Japanese label
+        $ja_map = self::get_ja_reverse_map();
+        if ( isset( $ja_map[ $value ] ) ) {
+            return $ja_map[ $value ];
         }
         return $value;
+    }
+
+    /**
+     * Reverse map: Japanese label => English key.
+     * Used by normalize_choice_value() for Excel import compatibility.
+     */
+    private static function get_ja_reverse_map(): array {
+        return array(
+            // env_broad
+            '海'                                 => 'marine',
+            '河川感潮域'                          => 'estuarine',
+            'マングローブ'                        => 'mangrove',
+            '大河川下流部'                        => 'large river',
+            '小河川や大河川上流部'                 => 'small river',
+            '淡水湖'                              => 'freshwater lake',
+            '汽水湖'                              => 'brackish lake',
+            '塩湖'                                => 'saline lake',
+            '滅菌水'                              => 'sterile water',
+            // env_local
+            '人造湖'                              => 'reservoir',
+            '天然湖沼'                            => 'natural lake',
+            'ドブ・溝'                            => 'ditch',
+            '用水路・運河'                        => 'canal',
+            '護岸された川'                        => 'canalized stream',
+            'その他の川'                          => 'river',
+            '川の瀬'                              => 'riffle',
+            '川の瀬に接している淵'                => 'stream pool',
+            '湿地帯のゆったり流れる川'            => 'bayou',
+            '源流部'                              => 'headwater',
+            '平地を蛇行して流れる川'              => 'meander',
+            '滝壺'                                => 'plunge pool',
+            '急流の川'                            => 'rapids',
+            '川から湖や海や潟への流入口'          => 'stream mouth',
+            'ドブ・溝から川や湖や海や潟への流入口' => 'ditch mouth',
+            '支流'                                => 'tributary',
+            '分流'                                => 'distributary',
+            '本流から一旦分かれて再び合流する支流' => 'anabranch',
+            '堰・堰堤・頭首工'                    => 'weir',
+            '洋'                                  => 'ocean',
+            '湾'                                  => 'bay',
+            '潟'                                  => 'lagoon',
+            'マングローブ湿地帯'                  => 'mangrove swamp',
+            '淡水沿岸域'                          => 'freshwater littoral zone',
+            '海洋沿岸域'                          => 'marine littoral zone',
+            'その他沿岸域'                        => 'littoral zone',
+            '湖沼の沖合表層'                      => 'limnetic zone',
+            '湖沼の沖合深層'                      => 'profundal zone',
+            '浅海域'                              => 'marine neritic zone',
+            '外洋域'                              => 'marine pelagic zone',
+            '砂浜'                                => 'sandy beach',
+            '砂利浜・礫浜'                        => 'shingle beach',
+            '磯・岩浜'                            => 'rocky shore',
+            '護岸'                                => 'revetted shore',
+            '岩礁'                                => 'rocky reef',
+            'サンゴ礁'                            => 'coral reef',
+            'カキ礁'                              => 'mussel reef',
+            '海草藻場'                            => 'sea grass bed',
+            '藻場'                                => 'kelp forest',
+            '淡水植物プランクトンのブルーム'      => 'freshwater algal bloom',
+            '海洋植物プランクトンのブルーム'      => 'marine algal bloom',
+            '人工港湾部'                          => 'artificial harbor',
+            '突堤'                                => 'jetty',
+            '短い突堤'                            => 'groin',
+            'その他の防波堤'                      => 'breakwater',
+            '埠頭・コンクリート岸壁'              => 'quay',
+            '消波ブロック'                        => 'tetrapod',
+            '蛇籠'                                => 'gabion',
+            '桟橋'                                => 'pier',
+            '橋'                                  => 'bridge',
+            '砂州'                                => 'bar',
+            '天然の港湾'                          => 'natural harbor',
+            'タイドプール'                        => 'tidal pool',
+            '保護区'                              => 'protected area',
+            '道路脇'                              => 'roadside',
+            '室内'                                => 'room',
+            '舗装された駐車場'                    => 'paved parking lot',
+            'その他野外'                          => 'field',
+            // weather
+            '快晴'                                => 'clear sky',
+            '晴れ'                                => 'sunny',
+            '曇り'                                => 'cloudy',
+            '霧'                                  => 'foggy',
+            '雨'                                  => 'rain',
+            '霰や雹'                              => 'hail',
+            'みぞれ'                              => 'sleet',
+            '雪'                                  => 'snow',
+            // wind
+            '強風'                                => 'windy',
+            '無風～弱風'                          => 'not windy',
+        );
     }
 }

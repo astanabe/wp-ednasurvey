@@ -3,12 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$lang          = EdnaSurvey_I18n::get_current_language();
 $fields_config = $settings['default_fields_config'] ?? array();
-$site_name     = 'ja' === $lang ? ( $site->sitename_local ?: $site->sitename_en ) : ( $site->sitename_en ?: $site->sitename_local );
+$site_name     = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' );
 $page_title    = $site_name ?: EdnaSurvey_Router::get_page_titles()['sitedetail'];
 
-$content_callback = function () use ( $username, $site, $photos, $custom_data, $fields_config, $lang, $site_name ) {
+$content_callback = function () use ( $username, $site, $photos, $custom_data, $fields_config, $site_name ) {
     $is_admin = current_user_can( 'manage_options' );
     ?>
     <div class="ednasurvey-site-detail">
@@ -99,8 +98,8 @@ $content_callback = function () use ( $username, $site, $photos, $custom_data, $
 
             <?php if ( ! empty( $fields_config['env_broad'] ) && ! empty( $site->env_broad ) ) : ?>
             <tr>
-                <th><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?></th>
-                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_env_broad_choices(), $site->env_broad, $lang ) ); ?></td>
+                <th><?php esc_html_e( 'Environment (Broad)', 'wp-ednasurvey' ); ?></th>
+                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_env_broad_choices(), $site->env_broad ) ); ?></td>
             </tr>
             <?php endif; ?>
 
@@ -110,32 +109,32 @@ $content_callback = function () use ( $username, $site, $photos, $custom_data, $
                 for ( $eli = 1; $eli <= 7; $eli++ ) {
                     $f = 'env_local' . $eli;
                     if ( ! empty( $site->$f ) ) {
-                        $env_locals[] = EdnaSurvey_I18n::get_choice_label( $env_local_all, $site->$f, $lang );
+                        $env_locals[] = EdnaSurvey_I18n::get_choice_label( $env_local_all, $site->$f );
                     }
                 }
                 if ( ! empty( $env_locals ) ) : ?>
             <tr>
-                <th><?php echo esc_html( 'ja' === $lang ? '環境(小)' : 'Environment (Local)' ); ?></th>
+                <th><?php esc_html_e( 'Environment (Local)', 'wp-ednasurvey' ); ?></th>
                 <td><?php echo esc_html( implode( ' | ', $env_locals ) ); ?></td>
             </tr>
             <?php endif; endif; ?>
 
             <?php if ( ! empty( $fields_config['weather'] ) && ! empty( $site->weather ) ) : ?>
             <tr>
-                <th><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?></th>
-                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_weather_choices(), $site->weather, $lang ) ); ?></td>
+                <th><?php esc_html_e( 'Weather', 'wp-ednasurvey' ); ?></th>
+                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_weather_choices(), $site->weather ) ); ?></td>
             </tr>
             <?php endif; ?>
 
             <?php if ( ! empty( $fields_config['wind'] ) && ! empty( $site->wind ) ) : ?>
             <tr>
-                <th><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?></th>
-                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_wind_choices(), $site->wind, $lang ) ); ?></td>
+                <th><?php esc_html_e( 'Wind', 'wp-ednasurvey' ); ?></th>
+                <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_wind_choices(), $site->wind ) ); ?></td>
             </tr>
             <?php endif; ?>
 
             <?php foreach ( $custom_data as $cd ) :
-                $cf_label = 'ja' === $lang ? $cd['label']->label_ja : $cd['label']->label_en;
+                $cf_label = EdnaSurvey_I18n::get_localized_field( $cd['label']->label_ja, $cd['label']->label_en );
             ?>
             <tr>
                 <th><?php echo esc_html( $cf_label ); ?></th>

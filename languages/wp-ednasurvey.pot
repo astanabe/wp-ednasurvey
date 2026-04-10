@@ -1,565 +1,1442 @@
-# Japanese translations for eDNA Survey plugin.
+# Translation template for eDNA Survey plugin.
 # Copyright (C) 2024
 # This file is distributed under the same license as the wp-ednasurvey package.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-ednasurvey 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:00+0000\n"
-"PO-Revision-Date: 2024-01-01 00:00+0000\n"
-"Last-Translator: \n"
-"Language-Team: Japanese\n"
-"Language: ja\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: includes/class-activator.php
 msgid "eDNA Survey requires PHP 8.1 or higher."
-msgstr "eDNA SurveyにはPHP 8.1以上が必要です。"
+msgstr ""
 
 msgid "eDNA Survey requires WordPress 6.4 or higher."
-msgstr "eDNA SurveyにはWordPress 6.4以上が必要です。"
+msgstr ""
 
 #: includes/class-router.php
 msgid "You do not have permission to view this page."
-msgstr "このページを表示する権限がありません。"
+msgstr ""
 
 msgid "Page not found."
-msgstr "ページが見つかりません。"
+msgstr ""
 
 #: includes/ajax/class-ajax-handler.php
 msgid "Security check failed."
-msgstr "セキュリティチェックに失敗しました。"
+msgstr ""
 
 msgid "You must be logged in."
-msgstr "ログインが必要です。"
+msgstr ""
 
 msgid "You do not have permission."
-msgstr "権限がありません。"
+msgstr ""
 
 #: templates/frontend/dashboard.php
 msgid "eDNA Survey Dashboard"
-msgstr "eDNA調査ダッシュボード"
+msgstr ""
 
 msgid "Submit Survey Data Online"
-msgstr "オンラインで調査データを送信"
+msgstr ""
 
 msgid "Enter data for a single survey site"
-msgstr "1地点分の調査データを入力"
+msgstr ""
 
 msgid "Download Offline Template"
-msgstr "オフラインテンプレートをダウンロード"
+msgstr ""
 
 msgid "Excel template for field surveys without connectivity"
-msgstr "電波の届かない現地調査用Excelテンプレート"
+msgstr ""
 
 msgid "Upload Offline Data"
-msgstr "オフラインデータをアップロード"
+msgstr ""
 
 msgid "Upload completed Excel template and photos"
-msgstr "記入済みExcelテンプレートと写真をアップロード"
+msgstr ""
 
 msgid "My Sites"
-msgstr "報告済み地点一覧"
+msgstr ""
 
 msgid "View all your submitted survey sites"
-msgstr "投稿した全調査地点を一覧表示"
+msgstr ""
 
 msgid "My Sites Map"
-msgstr "報告地点マップ"
+msgstr ""
 
 msgid "View your survey sites on a map"
-msgstr "投稿した調査地点を地図で確認"
+msgstr ""
 
 msgid "Messages"
-msgstr "メッセージ"
+msgstr ""
 
 msgid "Chat with administrator"
-msgstr "管理者とチャット"
+msgstr ""
 
 #: templates/frontend/online-submission.php
 msgid "Submit Survey Data"
-msgstr "調査データを送信"
+msgstr ""
 
 msgid "Date & Time"
-msgstr "日時"
+msgstr ""
 
 msgid "Date"
-msgstr "日付"
+msgstr ""
 
 msgid "Time"
-msgstr "時刻"
+msgstr ""
 
 msgid "Location"
-msgstr "位置情報"
+msgstr ""
 
 msgid "Click/tap on the map to set the survey location."
-msgstr "地図上をクリック/タップして調査地点を設定してください。"
+msgstr ""
 
 msgid "No location set"
-msgstr "位置情報が設定されていません"
+msgstr ""
 
 msgid "Site Name"
-msgstr "地点名"
+msgstr ""
 
 msgid "Japanese"
-msgstr "日本語"
+msgstr ""
 
 msgid "English"
-msgstr "英語"
+msgstr ""
 
 msgid "Representative"
-msgstr "代表者"
+msgstr ""
 
 msgid "Name"
-msgstr "氏名"
+msgstr ""
 
 msgid "Collectors"
-msgstr "作業者"
+msgstr ""
 
 #, php-format
 msgid "Collector %d"
-msgstr "作業者%d"
+msgstr ""
 
 msgid "Sample ID"
-msgstr "サンプルID"
+msgstr ""
 
 msgid "Filtered Water Volume (mL)"
-msgstr "濾過水量 (mL)"
+msgstr ""
 
 msgid "Replicate 1"
-msgstr "レプリケート1"
+msgstr ""
 
 msgid "Replicate 2"
-msgstr "レプリケート2"
+msgstr ""
 
 msgid "Additional Fields"
-msgstr "追加項目"
+msgstr ""
 
 msgid "-- Select --"
-msgstr "-- 選択 --"
+msgstr ""
 
 msgid "Notes"
-msgstr "備考"
+msgstr ""
 
 msgid "Photos"
-msgstr "写真"
+msgstr ""
 
 #, php-format
 msgid "Upload up to %d photos (JPEG or HEIC/HEIF)."
-msgstr "最大%d枚の写真をアップロードできます（JPEGまたはHEIC/HEIF）。"
+msgstr ""
 
 msgid "Submit"
-msgstr "送信"
+msgstr ""
+
+msgid "Submitting..."
+msgstr ""
+
+msgid "Your survey data has been submitted successfully!"
+msgstr ""
+
+msgid "An error occurred."
+msgstr ""
+
+msgid "Server error. Please try again."
+msgstr ""
 
 msgid "Cancel"
-msgstr "キャンセル"
+msgstr ""
+
+msgid "Return to Dashboard without submitting"
+msgstr ""
 
 #: templates/frontend/offline-template.php
 msgid "Download an Excel template for recording survey data in the field without internet connectivity."
-msgstr "電波の届かない現地での調査データ記録用Excelテンプレートをダウンロードします。"
+msgstr ""
 
 msgid "Fill in the template during your field survey, then upload it along with your photos using the \"Upload Offline Data\" page."
-msgstr "現地調査中にテンプレートを記入し、「オフラインデータをアップロード」ページから写真とともにアップロードしてください。"
+msgstr ""
 
 msgid "Download Excel Template (.xlsx)"
-msgstr "Excelテンプレートをダウンロード (.xlsx)"
+msgstr ""
 
 msgid "Instructions"
-msgstr "使い方"
+msgstr ""
 
 msgid "Each row represents one survey site."
-msgstr "1行が1調査地点に対応しています。"
+msgstr ""
 
 msgid "Latitude and longitude can be left blank if your photos contain GPS data."
-msgstr "写真にGPSデータが含まれている場合、緯度経度は空欄でも構いません。"
+msgstr ""
 
 msgid "Enter photo filenames in the photo column (matching the actual file names)."
-msgstr "写真カラムに写真ファイル名を入力してください（実際のファイル名と一致させてください）。"
+msgstr ""
 
 msgid "Save the file and upload it together with your photos."
-msgstr "ファイルを保存し、写真とともにアップロードしてください。"
+msgstr ""
 
 #: templates/frontend/offline-submission.php
 msgid "Excel File"
-msgstr "Excelファイル"
+msgstr ""
 
 msgid "Select Excel file (.xlsx)"
-msgstr "Excelファイル(.xlsx)を選択"
+msgstr ""
 
 msgid "Select all photos taken during the survey. File names will be matched with the Excel data."
-msgstr "調査中に撮影した全写真を選択してください。ファイル名がExcelデータと照合されます。"
+msgstr ""
 
 msgid "Upload & Parse"
-msgstr "アップロードして解析"
+msgstr ""
 
 msgid "Confirm Site Locations"
-msgstr "地点位置の確認"
+msgstr ""
 
 msgid "Review and adjust pin locations on the map. Click on sites without location data to set their position."
-msgstr "地図上のピン位置を確認・調整してください。位置情報のない地点はクリックして設定してください。"
+msgstr ""
 
 msgid "Confirm & Submit All Sites"
-msgstr "確認して全地点を送信"
+msgstr ""
 
 msgid "Back"
-msgstr "戻る"
+msgstr ""
 
 #: templates/frontend/sites.php
 msgid "My Survey Sites"
-msgstr "報告済み調査地点一覧"
+msgstr ""
 
 msgid "You have not submitted any survey sites yet."
-msgstr "まだ調査地点を報告していません。"
+msgstr ""
 
 msgid "Site Name (JA)"
-msgstr "地点名（日本語）"
+msgstr ""
 
 msgid "Site Name (EN)"
-msgstr "地点名（英語）"
+msgstr ""
 
 msgid "Lat"
-msgstr "緯度"
+msgstr ""
 
 msgid "Lng"
-msgstr "経度"
+msgstr ""
 
 msgid "Actions"
-msgstr "操作"
+msgstr ""
 
 msgid "Copy & Resubmit"
-msgstr "コピーして再投稿"
+msgstr ""
+
+msgid "Edit & Resubmit"
+msgstr ""
+
+msgid "The original submission will remain as-is. Please ask the administrator via chat to delete the old submission."
+msgstr ""
 
 msgid "Back to Dashboard"
-msgstr "ダッシュボードに戻る"
+msgstr ""
 
 #: templates/frontend/chat.php
 msgid "No messages yet. Start a conversation!"
-msgstr "まだメッセージがありません。会話を始めましょう！"
+msgstr ""
 
 msgid "Type a message..."
-msgstr "メッセージを入力..."
+msgstr ""
 
 msgid "Send"
-msgstr "送信"
+msgstr ""
 
 #: includes/services/class-validation-service.php
 msgid "Survey date is required."
-msgstr "調査日は必須です。"
+msgstr ""
 
 msgid "Invalid date format."
-msgstr "無効な日付形式です。"
+msgstr ""
 
 msgid "Survey time is required."
-msgstr "調査時刻は必須です。"
+msgstr ""
 
 msgid "Invalid time format."
-msgstr "無効な時刻形式です。"
+msgstr ""
 
 msgid "Latitude is required. Please set a pin on the map."
-msgstr "緯度は必須です。地図上にピンを設置してください。"
+msgstr ""
 
 msgid "Latitude must be between -90 and 90."
-msgstr "緯度は-90〜90の範囲で指定してください。"
+msgstr ""
 
 msgid "Longitude is required. Please set a pin on the map."
-msgstr "経度は必須です。地図上にピンを設置してください。"
+msgstr ""
 
 msgid "Longitude must be between -180 and 180."
-msgstr "経度は-180〜180の範囲で指定してください。"
+msgstr ""
 
 msgid "At least one site name (Japanese or English) is required."
-msgstr "地点名（日本語または英語）を少なくとも1つ入力してください。"
+msgstr ""
 
 msgid "Sample ID is required."
-msgstr "サンプルIDは必須です。"
+msgstr ""
 
 msgid "Filtered water volume 1 must be a number."
-msgstr "濾過水量1は数値で入力してください。"
+msgstr ""
 
 msgid "Filtered water volume 2 must be a number."
-msgstr "濾過水量2は数値で入力してください。"
+msgstr ""
 
 #, php-format
 msgid "%s is required."
-msgstr "%sは必須です。"
+msgstr ""
 
 #, php-format
 msgid "%s must be a number."
-msgstr "%sは数値で入力してください。"
+msgstr ""
 
 #, php-format
 msgid "Invalid selection for %s."
-msgstr "%sの選択値が無効です。"
+msgstr ""
 
 #: includes/services/class-photo-service.php
 msgid "Failed to create upload directory."
-msgstr "アップロードディレクトリの作成に失敗しました。"
+msgstr ""
 
 #, php-format
 msgid "Upload error for %s."
-msgstr "%sのアップロードエラー。"
+msgstr ""
 
 #, php-format
 msgid "Invalid file type for %s. Only JPEG and HEIC/HEIF are allowed."
-msgstr "%sのファイル形式が無効です。JPEGまたはHEIC/HEIFのみ使用できます。"
+msgstr ""
 
 #, php-format
 msgid "Failed to convert %s from HEIC to JPEG."
-msgstr "%sのHEICからJPEGへの変換に失敗しました。"
+msgstr ""
 
 #, php-format
 msgid "Failed to save %s."
-msgstr "%sの保存に失敗しました。"
+msgstr ""
 
 #: includes/ajax/class-ajax-submission.php
 #, php-format
 msgid "Maximum %d photos allowed."
-msgstr "写真は最大%d枚までです。"
+msgstr ""
 
 msgid "Failed to save site data."
-msgstr "地点データの保存に失敗しました。"
+msgstr ""
 
 msgid "No Excel file uploaded."
-msgstr "Excelファイルがアップロードされていません。"
+msgstr ""
 
 msgid "Only .xlsx files are accepted."
-msgstr ".xlsxファイルのみ使用できます。"
+msgstr ""
 
 msgid "Failed to parse Excel file."
-msgstr "Excelファイルの解析に失敗しました。"
+msgstr ""
 
 msgid "No data found in the Excel file."
-msgstr "Excelファイルにデータがありません。"
+msgstr ""
 
 #: includes/ajax/class-ajax-chat.php
 msgid "Message cannot be empty."
-msgstr "メッセージを入力してください。"
+msgstr ""
 
 msgid "Permission denied."
-msgstr "権限がありません。"
+msgstr ""
 
 msgid "Failed to send message."
-msgstr "メッセージの送信に失敗しました。"
+msgstr ""
 
 #: includes/ajax/class-ajax-admin.php
 msgid "Invalid site ID."
-msgstr "無効な地点IDです。"
+msgstr ""
 
 msgid "Site not found."
-msgstr "地点が見つかりません。"
+msgstr ""
 
 msgid "Site deleted successfully."
-msgstr "地点を削除しました。"
+msgstr ""
 
 msgid "No file uploaded."
-msgstr "ファイルがアップロードされていません。"
+msgstr ""
 
 msgid "Only CSV/TSV files are accepted."
-msgstr "CSV/TSVファイルのみ使用できます。"
+msgstr ""
 
 #, php-format
 msgid "%1$d users created, %2$d skipped (already exist)."
-msgstr "%1$d名のユーザーを作成、%2$d名をスキップしました（既に存在）。"
+msgstr ""
 
 msgid "Invalid data."
-msgstr "無効なデータです。"
+msgstr ""
 
 msgid "Custom fields saved."
-msgstr "カスタムフィールドを保存しました。"
+msgstr ""
 
 #: includes/services/class-user-import-service.php
 msgid "Could not open file."
-msgstr "ファイルを開けません。"
+msgstr ""
 
 msgid "Empty file."
-msgstr "空のファイルです。"
+msgstr ""
 
 msgid "Missing \"email\" column."
-msgstr "\"email\"カラムがありません。"
+msgstr ""
 
 #: includes/services/class-notification-service.php
 #, php-format
 msgid "[%1$s] New message from %2$s"
-msgstr "[%1$s] %2$sからの新しいメッセージ"
+msgstr ""
 
 #, php-format
 msgid "%1$s sent a new message:\n\n%2$s\n\nView and reply: %3$s"
-msgstr "%1$sが新しいメッセージを送信しました:\n\n%2$s\n\n確認・返信: %3$s"
+msgstr ""
 
 #: includes/admin/class-admin-menu.php & templates/admin/
 msgid "eDNA Survey"
-msgstr "eDNA調査"
+msgstr ""
 
 msgid "Download Data"
-msgstr "データダウンロード"
+msgstr ""
 
 msgid "Add Users"
-msgstr "ユーザー追加"
+msgstr ""
 
 msgid "All Sites"
-msgstr "全地点一覧"
+msgstr ""
 
 msgid "Sites Map"
-msgstr "地点マップ"
+msgstr ""
 
 msgid "Settings"
-msgstr "設定"
+msgstr ""
 
 #: templates/admin/settings.php
 msgid "eDNA Survey Settings"
-msgstr "eDNA調査設定"
+msgstr ""
 
 msgid "Map Settings"
-msgstr "地図設定"
+msgstr ""
 
 msgid "Tile Server URL"
-msgstr "タイルサーバーURL"
+msgstr ""
 
 msgid "Tile Attribution"
-msgstr "タイル帰属表示"
+msgstr ""
 
 msgid "Default Center Latitude"
-msgstr "デフォルト中心緯度"
+msgstr ""
 
 msgid "Default Center Longitude"
-msgstr "デフォルト中心経度"
+msgstr ""
 
 msgid "Default Zoom Level"
-msgstr "デフォルトズームレベル"
+msgstr ""
 
 msgid "Photo Settings"
-msgstr "写真設定"
+msgstr ""
 
 msgid "Photo Upload Limit (per site)"
-msgstr "写真アップロード上限（1地点あたり）"
+msgstr ""
 
 msgid "Default Data Fields"
-msgstr "デフォルトデータ項目"
+msgstr ""
 
 msgid "Location (Lat/Lng)"
-msgstr "位置情報（緯度/経度）"
+msgstr ""
 
 msgid "Site Name (JA/EN)"
-msgstr "地点名（日英）"
+msgstr ""
 
 msgid "Representative Name"
-msgstr "代表者氏名"
+msgstr ""
 
 msgid "Collectors (up to 5)"
-msgstr "作業者（最大5名）"
+msgstr ""
 
 msgid "Filtered Water Volume"
-msgstr "濾過水量"
+msgstr ""
 
 msgid "Notes/Remarks"
-msgstr "備考"
+msgstr ""
 
 msgid "Enabled"
-msgstr "有効"
+msgstr ""
 
 msgid "Custom Data Fields"
-msgstr "カスタムデータ項目"
+msgstr ""
 
 msgid "Key"
-msgstr "キー"
+msgstr ""
 
 msgid "Label (JA)"
-msgstr "ラベル（日本語）"
+msgstr ""
 
 msgid "Label (EN)"
-msgstr "ラベル（英語）"
+msgstr ""
 
 msgid "Type"
-msgstr "タイプ"
+msgstr ""
 
 msgid "Required"
-msgstr "必須"
+msgstr ""
 
 msgid "Active"
-msgstr "有効"
+msgstr ""
 
 msgid "Options (JSON)"
-msgstr "オプション（JSON）"
+msgstr ""
 
 msgid "Remove"
-msgstr "削除"
+msgstr ""
 
 msgid "Add Custom Field"
-msgstr "カスタム項目を追加"
+msgstr ""
 
 msgid "Save Custom Fields"
-msgstr "カスタム項目を保存"
+msgstr ""
 
 msgid "Save Settings"
-msgstr "設定を保存"
+msgstr ""
 
 msgid "Settings saved."
-msgstr "設定を保存しました。"
+msgstr ""
 
 #: templates/admin/add-users.php
 msgid "Upload a CSV or TSV file to bulk register users as Subscribers."
-msgstr "CSVまたはTSVファイルをアップロードして、ユーザーをSubscriberとして一括登録します。"
+msgstr ""
 
 msgid "File format: email, firstname, lastname (one user per row, with header row)."
-msgstr "ファイル形式: email, firstname, lastname（1行1ユーザー、ヘッダー行あり）。"
+msgstr ""
 
 msgid "Note: Welcome emails will NOT be sent. Use a separate plugin to send welcome emails at the appropriate time."
-msgstr "注: Welcomeメールは送信されません。適切なタイミングで別のプラグインを使用して送信してください。"
+msgstr ""
 
 msgid "CSV/TSV File"
-msgstr "CSV/TSVファイル"
+msgstr ""
 
 msgid "Import Users"
-msgstr "ユーザーをインポート"
+msgstr ""
 
 msgid "Import Results"
-msgstr "インポート結果"
+msgstr ""
 
 #: templates/admin/all-sites.php
 msgid "No survey sites have been submitted yet."
-msgstr "まだ調査地点が報告されていません。"
+msgstr ""
 
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 msgid "User"
-msgstr "ユーザー"
+msgstr ""
 
 msgid "Delete"
-msgstr "削除"
+msgstr ""
 
 msgid "Unknown"
-msgstr "不明"
+msgstr ""
 
 #: templates/admin/messages.php
 msgid "No conversations yet."
-msgstr "まだ会話がありません。"
+msgstr ""
 
 msgid "Last Message"
-msgstr "最新メッセージ"
+msgstr ""
 
 msgid "Last Activity"
-msgstr "最終活動"
+msgstr ""
 
 msgid "Unread"
-msgstr "未読"
+msgstr ""
 
 msgid "View Chat"
-msgstr "チャットを見る"
+msgstr ""
 
 #: templates/admin/messages-chat.php
 #, php-format
 msgid "Chat with %s"
-msgstr "%sとのチャット"
+msgstr ""
 
 msgid "Back to All Messages"
-msgstr "全メッセージに戻る"
+msgstr ""
 
 msgid "No messages yet."
-msgstr "まだメッセージがありません。"
+msgstr ""
 
 msgid "Type a reply..."
-msgstr "返信を入力..."
+msgstr ""
+
+#: templates/admin/settings.php
+msgid "Server Environment"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Component"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Items marked with a red X are required for core functionality. Items marked with a warning may limit certain features but the plugin will still operate."
+msgstr ""
+
+#: includes/admin/class-admin-settings.php (environment checks)
+msgid "PHP 8.1 or later is required."
+msgstr ""
+
+msgid "PHP 8.1 or later is required. Current version does not meet the requirement."
+msgstr ""
+
+msgid "Not installed. CLI tools (heif-convert, ffmpeg, exiftool) will be used as fallback for HEIC/HEIF processing."
+msgstr ""
+
+msgid "Installed but HEIC format is not supported. CLI tools (heif-convert, ffmpeg, exiftool) will be used as fallback."
+msgstr ""
+
+msgid "HEIC/HEIF to JPEG conversion and GPS extraction from HEIC/HEIF photos are available."
+msgstr ""
+
+msgid "GPS data can be extracted from JPEG photo EXIF metadata."
+msgstr ""
+
+msgid "Not installed. GPS data cannot be extracted from JPEG photos. Location must be entered manually."
+msgstr ""
+
+msgid "Multi-byte string processing (Japanese text) is available."
+msgstr ""
+
+msgid "Not installed. Japanese text processing may not work correctly."
+msgstr ""
+
+msgid "Required by PhpSpreadsheet for Excel (.xlsx) file handling."
+msgstr ""
+
+msgid "Not installed. Excel template generation and offline submission upload will not work."
+msgstr ""
+
+msgid "Excel template generation and offline data upload are available."
+msgstr ""
+
+msgid "Not installed. Run \"composer install\" in the plugin directory. Excel template and offline submission features will not work."
+msgstr ""
+
+#: templates/admin/all-sites.php
+msgid "Internal Sample ID"
+msgstr ""
+
+msgid "Submitted"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "IP / Geo"
+msgstr ""
+
+#: includes/ajax/class-ajax-submission.php
+msgid "No site data received."
+msgstr ""
+
+#: includes/class-plugin.php (deactivation dialog)
+msgid "Do you want to delete all eDNA Survey data (database tables and uploaded photos) when the plugin is uninstalled?\n\nOK = Delete data on uninstall\nCancel = Keep data"
+msgstr ""
+
+msgid "Site Name (Local)"
+msgstr ""
+
+#: templates/frontend/offline-template.php (smartphone instructions)
+msgid "Using on a Smartphone"
+msgstr ""
+
+msgid "Google Sheets (Android / iPhone)"
+msgstr ""
+
+msgid "Install the Google Sheets app and sign in with your Google account."
+msgstr ""
+
+msgid "While online, download this template and open it in Google Sheets."
+msgstr ""
+
+msgid "Verify that the file opens correctly and the column headers are displayed."
+msgstr ""
+
+msgid "To use offline: open the file, tap the three-dot menu (⋮), and enable \"Make available offline\"."
+msgstr ""
+
+msgid "You can now enter data in the field without internet. Changes will sync automatically when you reconnect."
+msgstr ""
+
+msgid "After syncing, download the file as .xlsx from Google Sheets (File → Download → Microsoft Excel) and upload it here."
+msgstr ""
+
+msgid "Microsoft Excel (Android / iPhone)"
+msgstr ""
+
+msgid "Install the Microsoft Excel app and sign in (a free Microsoft account is sufficient)."
+msgstr ""
+
+msgid "While online, download this template and open it in Excel."
+msgstr ""
+
+msgid "If you save the file to OneDrive, it can be edited on your phone. Note that offline editing requires a Microsoft 365 subscription."
+msgstr ""
+
+msgid "If you save the file locally on the device, it can be edited without internet but make sure to back up the file."
+msgstr ""
+
+#: includes/admin/class-admin-settings.php (CLI tools)
+msgid "CLI tools"
+msgstr ""
+
+msgid "Available as fallback for HEIC/HEIF processing."
+msgstr ""
+
+msgid "CLI tools (missing)"
+msgstr ""
+
+msgid "Not found. Install with: apt install libheif-examples ffmpeg libimage-exiftool-perl"
+msgstr ""
+
+msgid "HEIC conversion"
+msgstr ""
+
+msgid "No method available. HEIC/HEIF photos cannot be processed. Install Imagick with HEIC support, or heif-convert, or ffmpeg."
+msgstr ""
+
+msgid "HEIC GPS extraction"
+msgstr ""
+
+msgid "No method available for GPS extraction from HEIC/HEIF. Install Imagick with HEIC support, or exiftool."
+msgstr ""
+
+msgid "HEIC to JPEG conversion (libheif)"
+msgstr ""
+
+msgid "HEIC to JPEG conversion (FFmpeg)"
+msgstr ""
+
+msgid "GPS extraction from HEIC/HEIF photos"
+msgstr ""
+
+#: templates/admin/settings.php (external command paths)
+msgid "External Command Paths"
+msgstr ""
+
+msgid "Specify full paths to external commands. Leave blank to auto-detect from PATH."
+msgstr ""
+
+msgid "ImageMagick (magick / convert)"
+msgstr ""
+
+msgid "HEIC to JPEG conversion. Auto-detects \"magick\" then \"convert\"."
+msgstr ""
+
+msgid "heif-convert (libheif)"
+msgstr ""
+
+msgid "heif-dec / heif-convert (libheif)"
+msgstr ""
+
+msgid "HEIC to JPEG conversion. Install: apt install libheif-examples"
+msgstr ""
+
+msgid "HEIC to JPEG conversion. Auto-detects \"heif-dec\" then \"heif-convert\". Install: apt install libheif-examples"
+msgstr ""
+
+msgid "FFmpeg"
+msgstr ""
+
+msgid "HEIC to JPEG conversion. Install: apt install ffmpeg"
+msgstr ""
+
+msgid "exiftool"
+msgstr ""
+
+msgid "GPS extraction from HEIC/HEIF. Install: apt install libimage-exiftool-perl"
+msgstr ""
+
+#, php-format
+msgid "Resolved: %s"
+msgstr ""
+
+msgid "Not found"
+msgstr ""
+
+msgid "not found"
+msgstr ""
+
+msgid "GPS extraction fallback when PHP exif extension is unavailable. Install: apt install libimage-exiftool-perl"
+msgstr ""
+
+msgid "GPS data can be extracted from all photos (HEIC/HEIF photos are converted to JPEG first, preserving EXIF)."
+msgstr ""
+
+msgid "Not installed. GPS data cannot be extracted from photos. Location must be entered manually."
+msgstr ""
+
+msgid "Available as additional GPS extraction method (PHP exif is primary)."
+msgstr ""
+
+msgid "GPS extraction via exiftool (PHP exif not available)."
+msgstr ""
+
+msgid "Not found. No method available for GPS extraction. Install PHP exif extension or exiftool."
+msgstr ""
+
+msgid "HEIC supported"
+msgstr ""
+
+msgid "found but HEIC not supported"
+msgstr ""
+
+#: templates/frontend/site-detail.php, sites.php, map popups
+msgid "Detail"
+msgstr ""
+
+msgid "Site Detail"
+msgstr ""
+
+msgid "Back to Site List"
+msgstr ""
+
+msgid "file(s)"
+msgstr ""
+
+msgid "Filtered Water Vol. 1 (mL)"
+msgstr ""
+
+msgid "Filtered Water Vol. 2 (mL)"
+msgstr ""
+
+#: templates/frontend/dashboard.php
+msgid "Log Out"
+msgstr ""
+
+msgid "Back to Map"
+msgstr ""
+
+msgid "Survey Date"
+msgstr ""
+
+msgid "Survey Time"
+msgstr ""
+
+#: offline submission
+msgid "Number of Survey Sites"
+msgstr ""
+
+msgid "How many survey sites are included in this upload?"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "You can proceed without photos if none were taken."
+msgstr ""
+
+msgid "Drag & drop photos here, or click to select files"
+msgstr ""
+
+msgid "Proceed to Excel Upload"
+msgstr ""
+
+msgid "Drag & drop Excel file here, or click to select"
+msgstr ""
+
+msgid "Upload & Analyze"
+msgstr ""
+
+msgid "Analyzing..."
+msgstr ""
+
+msgid "Upload up to {max} photos ({limit} per site)."
+msgstr ""
+
+msgid "Maximum {max} photos allowed. You can add {remaining} more."
+msgstr ""
+
+msgid "No photos"
+msgstr ""
+
+msgid "No location - click map to set"
+msgstr ""
+
+msgid "Some sites are missing location. Please set all locations on the map."
+msgstr ""
+
+msgid "GPS from Excel"
+msgstr ""
+
+msgid "GPS from photo EXIF"
+msgstr ""
+
+msgid "Photo Time Matching Threshold (minutes)"
+msgstr ""
+
+msgid "When photo_files is omitted in Excel, photos are matched to samples by comparing EXIF DateTimeOriginal with survey_date + survey_time within this threshold."
+msgstr ""
+
+msgid "Maximum %d photos allowed for this upload session."
+msgstr ""
+
+msgid "No photos selected."
+msgstr ""
+
+msgid "Photo not found."
+msgstr ""
+
+msgid "Local site name"
+msgstr ""
+
+msgid "English site name"
+msgstr ""
+
+msgid "Collector 1"
+msgstr ""
+
+msgid "Latitude/longitude required (no photo GPS available)."
+msgstr ""
+
+msgid "Invalid date format (YYYY-MM-DD)."
+msgstr ""
+
+msgid "Invalid time format (hh:mm)."
+msgstr ""
+
+#, php-format
+msgid "Row %d"
+msgstr ""
+
+#, php-format
+msgid "Row %1$d: Photo file \"%2$s\" not found in uploaded photos."
+msgstr ""
+
+#, php-format
+msgid "Photo \"%1$s\" (EXIF: %2$s) matches multiple samples (rows: %3$s). Please specify photo_files in Excel."
+msgstr ""
+
+#, php-format
+msgid "Row %d: No photos matched. This site will be registered without photos."
+msgstr ""
+
+#, php-format
+msgid "Photo \"%s\" was not matched to any sample."
+msgstr ""
+
+#: includes/class-router.php (page titles)
+msgid "Dashboard"
+msgstr ""
+
+msgid "Online Submission"
+msgstr ""
+
+msgid "Chat"
+msgstr ""
+
+#: templates/frontend/offline-template.php
+msgid "If you leave the photo filename column blank, photos will be automatically matched by comparing EXIF shooting time with the survey time you entered."
+msgstr ""
+
+msgid "Note on Photo Filenames (Android)"
+msgstr ""
+
+msgid "On Android devices, the filename shown in the file manager may differ from the filename the browser sends during upload. If you enter photo filenames in the Excel template, use the filenames displayed on the upload screen (Step 1), not the names shown in your file manager. Alternatively, leave the photo filename column blank and let the system match photos automatically by EXIF shooting time."
+msgstr ""
+
+# ============================================================
+# Choice labels: Environment (Broad)
+# ============================================================
+
+#: includes/class-i18n.php (env_broad choices)
+msgid "marine"
+msgstr ""
+
+msgid "estuarine"
+msgstr ""
+
+msgid "mangrove"
+msgstr ""
+
+msgid "large river"
+msgstr ""
+
+msgid "small river"
+msgstr ""
+
+msgid "freshwater lake"
+msgstr ""
+
+msgid "brackish lake"
+msgstr ""
+
+msgid "saline lake"
+msgstr ""
+
+msgid "sterile water"
+msgstr ""
+
+# ============================================================
+# Choice labels: Environment (Local)
+# ============================================================
+
+#: includes/class-i18n.php (env_local choices)
+msgid "reservoir"
+msgstr ""
+
+msgid "natural lake"
+msgstr ""
+
+msgid "ditch"
+msgstr ""
+
+msgid "canal"
+msgstr ""
+
+msgid "canalized stream"
+msgstr ""
+
+msgid "river"
+msgstr ""
+
+msgid "riffle"
+msgstr ""
+
+msgid "stream pool"
+msgstr ""
+
+msgid "bayou"
+msgstr ""
+
+msgid "headwater"
+msgstr ""
+
+msgid "meander"
+msgstr ""
+
+msgid "plunge pool"
+msgstr ""
+
+msgid "rapids"
+msgstr ""
+
+msgid "stream mouth"
+msgstr ""
+
+msgid "ditch mouth"
+msgstr ""
+
+msgid "tributary"
+msgstr ""
+
+msgid "distributary"
+msgstr ""
+
+msgid "anabranch"
+msgstr ""
+
+msgid "weir"
+msgstr ""
+
+msgid "ocean"
+msgstr ""
+
+msgid "bay"
+msgstr ""
+
+msgid "lagoon"
+msgstr ""
+
+msgid "mangrove swamp"
+msgstr ""
+
+msgid "freshwater littoral zone"
+msgstr ""
+
+msgid "marine littoral zone"
+msgstr ""
+
+msgid "littoral zone"
+msgstr ""
+
+msgid "limnetic zone"
+msgstr ""
+
+msgid "profundal zone"
+msgstr ""
+
+msgid "marine neritic zone"
+msgstr ""
+
+msgid "marine pelagic zone"
+msgstr ""
+
+msgid "sandy beach"
+msgstr ""
+
+msgid "shingle beach"
+msgstr ""
+
+msgid "rocky shore"
+msgstr ""
+
+msgid "revetted shore"
+msgstr ""
+
+msgid "rocky reef"
+msgstr ""
+
+msgid "coral reef"
+msgstr ""
+
+msgid "mussel reef"
+msgstr ""
+
+msgid "sea grass bed"
+msgstr ""
+
+msgid "kelp forest"
+msgstr ""
+
+msgid "freshwater algal bloom"
+msgstr ""
+
+msgid "marine algal bloom"
+msgstr ""
+
+msgid "artificial harbor"
+msgstr ""
+
+msgid "jetty"
+msgstr ""
+
+msgid "groin"
+msgstr ""
+
+msgid "breakwater"
+msgstr ""
+
+msgid "quay"
+msgstr ""
+
+msgid "tetrapod"
+msgstr ""
+
+msgid "gabion"
+msgstr ""
+
+msgid "pier"
+msgstr ""
+
+msgid "bridge"
+msgstr ""
+
+msgid "bar"
+msgstr ""
+
+msgid "natural harbor"
+msgstr ""
+
+msgid "tidal pool"
+msgstr ""
+
+msgid "protected area"
+msgstr ""
+
+msgid "sterile water environment"
+msgstr ""
+
+msgid "roadside"
+msgstr ""
+
+msgid "room"
+msgstr ""
+
+msgid "paved parking lot"
+msgstr ""
+
+msgid "field"
+msgstr ""
+
+# ============================================================
+# Choice labels: Weather
+# ============================================================
+
+#: includes/class-i18n.php (weather choices)
+msgid "clear sky"
+msgstr ""
+
+msgid "sunny"
+msgstr ""
+
+msgid "cloudy"
+msgstr ""
+
+msgid "foggy"
+msgstr ""
+
+msgid "rain"
+msgstr ""
+
+msgid "hail"
+msgstr ""
+
+msgid "sleet"
+msgstr ""
+
+msgid "snow"
+msgstr ""
+
+# ============================================================
+# Choice labels: Wind
+# ============================================================
+
+#: includes/class-i18n.php (wind choices)
+msgid "windy"
+msgstr ""
+
+msgid "not windy"
+msgstr ""
+
+# ============================================================
+# Template UI strings
+# ============================================================
+
+#: templates/frontend/online-submission.php
+msgid "Environment (Broad)"
+msgstr ""
+
+msgid "\"estuarine\": does not include areas outside the river mouth, even if nearby. \"mangrove\": mangroves in estuarine areas should be classified as mangrove. \"large river\": whether a sightseeing boat can operate (rapids boats do not count). \"saline lake\": does not include brackish lakes or lagoons. \"sterile water\": for blanks / negative controls."
+msgstr ""
+
+msgid "Environment (Local)"
+msgstr ""
+
+msgid "Select 1 to 7 items from the list filtered by Environment (Broad)."
+msgstr ""
+
+#, php-format
+msgid "Env. (Local) %d"
+msgstr ""
+
+msgid "Weather"
+msgstr ""
+
+msgid "Wind"
+msgstr ""
+
+msgid "Criterion for \"windy\": whether a syringe or filter holder used for filtration is continuously moved by the wind"
+msgstr ""
+
+msgid "Review before submitting"
+msgstr ""
+
+msgid "Please review your submission"
+msgstr ""
+
+msgid "Back to Edit"
+msgstr ""
+
+#: templates/frontend/offline-submission.php
+msgid "It may take a moment before the download starts."
+msgstr ""
+
+msgid "Submit All Sites"
+msgstr ""
+
+msgid "Review Data"
+msgstr ""
+
+#: templates/frontend/offline-template.php
+msgid "About Environment, Weather, and Wind"
+msgstr ""
+
+msgid "\"estuarine\" in the Environment (Broad) field: does not include areas outside the river mouth, even if nearby."
+msgstr ""
+
+msgid "\"mangrove\" in the Environment (Broad) field: mangroves in estuarine areas should be classified as mangrove."
+msgstr ""
+
+msgid "\"large river\" in the Environment (Broad) field: whether a sightseeing boat can operate (rapids boats do not count)."
+msgstr ""
+
+msgid "\"saline lake\" in the Environment (Broad) field: does not include brackish lakes or lagoons."
+msgstr ""
+
+msgid "\"sterile water\" in the Environment (Broad) field: for blanks / negative controls."
+msgstr ""
+
+msgid "\"windy\" in the Wind field: select \"windy\" if a syringe or filter holder used for filtration is continuously moved by the wind."
+msgstr ""
+
+# ============================================================
+# Validation error messages
+# ============================================================
+
+#: includes/services/class-validation-service.php
+msgid "Environment (Broad) is required."
+msgstr ""
+
+msgid "Invalid selection for Environment (Broad)."
+msgstr ""
+
+msgid "At least one Environment (Local) selection is required."
+msgstr ""
+
+#, php-format
+msgid "Invalid selection for Environment (Local) %d."
+msgstr ""
+
+msgid "Weather is required."
+msgstr ""
+
+msgid "Invalid selection for Weather."
+msgstr ""
+
+msgid "Wind is required."
+msgstr ""
+
+msgid "Invalid selection for Wind."
+msgstr ""
+
+#, php-format
+msgid "Environment (Local) \"%1$s\" and \"%2$s\" cannot be selected together."
+msgstr ""
+
+# ============================================================
+# Excel service strings
+# ============================================================
+
+#: includes/services/class-excel-service.php
+msgctxt "excel-font"
+msgid "Calibri"
+msgstr ""
+
+msgid "Assigned string"
+msgstr ""
+
+msgid "YYYY-MM-DD format"
+msgstr ""
+
+msgid "hh:mm (24-hour)"
+msgstr ""
+
+msgid "Omit if photo has GPS"
+msgstr ""
+
+msgid "Decimal (6 places). No DMS. South is negative"
+msgstr ""
+
+msgid "Decimal (6 places). No DMS. West is negative"
+msgstr ""
+
+msgid "Local Language Site Name"
+msgstr ""
+
+msgid "Local language string"
+msgstr ""
+
+msgid "Site Name (English)"
+msgstr ""
+
+msgid "Alphabet characters"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Taro Tohoku"
+msgstr ""
+
+msgid "Jiro Tohoku"
+msgstr ""
+
+msgid "Saburo Tohoku"
+msgstr ""
+
+msgid "Required (0 allowed)"
+msgstr ""
+
+msgid "Integer (mL)"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
+
+msgid "Select from list. \"estuarine\": excludes areas outside river mouth. \"mangrove\": estuarine mangroves = mangrove. \"large river\": whether a sightseeing boat can operate (not rapids boats). \"saline lake\": excludes brackish/lagoons. \"sterile water\": blanks/negative controls"
+msgstr ""
+
+msgid "Select from list based on Env. (Broad)"
+msgstr ""
+
+msgid "Select from list"
+msgstr ""
+
+msgid "Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind"
+msgstr ""
+
+msgid "Free text"
+msgstr ""
+
+msgid "Photo Filenames"
+msgstr ""
+
+msgid "Omit if no photos taken"
+msgstr ""
+
+msgid "Comma-separated for multiple"
+msgstr ""
+
+msgid "Input error"
+msgstr ""
+
+msgid "Please select from the list"
+msgstr ""
+
+msgid "Date format error"
+msgstr ""
+
+msgid "Enter in YYYY-MM-DD format"
+msgstr ""
+
+msgid "Time format error"
+msgstr ""
+
+msgid "Enter in hh:mm format"
+msgstr ""
+
+msgid "Latitude range error"
+msgstr ""
+
+msgid "Enter a value between -90 and 90"
+msgstr ""
+
+msgid "Longitude range error"
+msgstr ""
+
+msgid "Enter a value between -180 and 180"
+msgstr ""
+
+msgid "Integer error"
+msgstr ""
+
+msgid "Enter a whole number"
+msgstr ""
+
+msgid "Latitude"
+msgstr ""
+
+msgid "Longitude"
+msgstr ""

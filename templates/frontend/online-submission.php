@@ -7,7 +7,7 @@ $page_title = EdnaSurvey_Router::get_page_titles()['onlinesubmission'];
 $content_callback = function () use ( $username, $settings, $custom_fields, $copy_data, $target_user ) {
     $fields_config = $settings['default_fields_config'] ?? array();
     $photo_limit   = (int) ( $settings['photo_upload_limit'] ?? 10 );
-    $lang          = EdnaSurvey_I18n::get_current_language();
+
     ?>
     <div id="ednasurvey-submission-messages"></div>
 
@@ -130,19 +130,17 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
         ?>
         <fieldset class="ednasurvey-fieldset">
-            <legend><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?></legend>
+            <legend><?php esc_html_e( 'Environment (Broad)', 'wp-ednasurvey' ); ?></legend>
             <p class="ednasurvey-help">
-                <?php echo esc_html( 'ja' === $lang
-                    ? '「河川感潮域」: 河口から外は近くても含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるかどうかが基準（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガティブコントロール用。'
-                    : '"estuarine": does not include areas outside the river mouth, even if nearby. "mangrove": mangroves in estuarine areas should be classified as mangrove. "large river": whether a sightseeing boat can operate (rapids boats do not count). "saline lake": does not include brackish lakes or lagoons. "sterile water": for blanks / negative controls.' ); ?>
+                <?php esc_html_e( '"estuarine": does not include areas outside the river mouth, even if nearby. "mangrove": mangroves in estuarine areas should be classified as mangrove. "large river": whether a sightseeing boat can operate (rapids boats do not count). "saline lake": does not include brackish lakes or lagoons. "sterile water": for blanks / negative controls.', 'wp-ednasurvey' ); ?>
             </p>
             <div class="ednasurvey-field-row">
-                <label for="env_broad"><?php echo esc_html( 'ja' === $lang ? '環境(大)' : 'Environment (Broad)' ); ?> <span class="required">*</span></label>
+                <label for="env_broad"><?php esc_html_e( 'Environment (Broad)', 'wp-ednasurvey' ); ?> <span class="required">*</span></label>
                 <select id="env_broad" name="env_broad" required>
                     <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
-                    <?php foreach ( $env_broad_choices as $key => $labels ) : ?>
+                    <?php foreach ( $env_broad_choices as $key => $label ) : ?>
                         <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->env_broad ?? '', $key ); ?>>
-                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                            <?php echo esc_html( $label ); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -150,18 +148,16 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
         </fieldset>
 
         <fieldset class="ednasurvey-fieldset">
-            <legend><?php echo esc_html( 'ja' === $lang ? '環境(小)' : 'Environment (Local)' ); ?></legend>
+            <legend><?php esc_html_e( 'Environment (Local)', 'wp-ednasurvey' ); ?></legend>
             <p class="ednasurvey-help">
-                <?php echo esc_html( 'ja' === $lang
-                    ? '環境(大)の選択に応じた項目から1〜7個選択してください。'
-                    : 'Select 1 to 7 items from the list filtered by Environment (Broad).' ); ?>
+                <?php esc_html_e( 'Select 1 to 7 items from the list filtered by Environment (Broad).', 'wp-ednasurvey' ); ?>
             </p>
             <?php for ( $i = 1; $i <= 7; $i++ ) :
                 $field_name = 'env_local' . $i;
             ?>
             <div class="ednasurvey-field-row">
                 <label for="<?php echo esc_attr( $field_name ); ?>">
-                    <?php echo esc_html( ( 'ja' === $lang ? '環境(小)' : 'Env. (Local) ' ) . $i ); ?>
+                    <?php printf( esc_html__( 'Env. (Local) %d', 'wp-ednasurvey' ), $i ); ?>
                     <?php if ( 1 === $i ) : ?><span class="required">*</span><?php endif; ?>
                 </label>
                 <select id="<?php echo esc_attr( $field_name ); ?>" name="<?php echo esc_attr( $field_name ); ?>"
@@ -177,14 +173,14 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             $weather_choices = EdnaSurvey_I18n::get_weather_choices();
         ?>
         <fieldset class="ednasurvey-fieldset">
-            <legend><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?></legend>
+            <legend><?php esc_html_e( 'Weather', 'wp-ednasurvey' ); ?></legend>
             <div class="ednasurvey-field-row">
-                <label for="weather"><?php echo esc_html( 'ja' === $lang ? '天候' : 'Weather' ); ?> <span class="required">*</span></label>
+                <label for="weather"><?php esc_html_e( 'Weather', 'wp-ednasurvey' ); ?> <span class="required">*</span></label>
                 <select id="weather" name="weather" required>
                     <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
-                    <?php foreach ( $weather_choices as $key => $labels ) : ?>
+                    <?php foreach ( $weather_choices as $key => $label ) : ?>
                         <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->weather ?? '', $key ); ?>>
-                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                            <?php echo esc_html( $label ); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -196,19 +192,17 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             $wind_choices = EdnaSurvey_I18n::get_wind_choices();
         ?>
         <fieldset class="ednasurvey-fieldset">
-            <legend><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?></legend>
+            <legend><?php esc_html_e( 'Wind', 'wp-ednasurvey' ); ?></legend>
             <p class="ednasurvey-help">
-                <?php echo esc_html( 'ja' === $lang
-                    ? '「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか'
-                    : 'Criterion for "windy": whether a syringe or filter holder used for filtration is continuously moved by the wind' ); ?>
+                <?php esc_html_e( 'Criterion for "windy": whether a syringe or filter holder used for filtration is continuously moved by the wind', 'wp-ednasurvey' ); ?>
             </p>
             <div class="ednasurvey-field-row">
-                <label for="wind"><?php echo esc_html( 'ja' === $lang ? '風' : 'Wind' ); ?> <span class="required">*</span></label>
+                <label for="wind"><?php esc_html_e( 'Wind', 'wp-ednasurvey' ); ?> <span class="required">*</span></label>
                 <select id="wind" name="wind" required>
                     <option value=""><?php esc_html_e( '-- Select --', 'wp-ednasurvey' ); ?></option>
-                    <?php foreach ( $wind_choices as $key => $labels ) : ?>
+                    <?php foreach ( $wind_choices as $key => $label ) : ?>
                         <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $copy_data->wind ?? '', $key ); ?>>
-                            <?php echo esc_html( $labels[ $lang ] ); ?>
+                            <?php echo esc_html( $label ); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -229,7 +223,7 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
             }
             foreach ( $custom_fields as $cf ) :
                 $field_name = 'custom_' . $cf->id;
-                $label      = $lang === 'ja' ? $cf->label_ja : $cf->label_en;
+                $label      = EdnaSurvey_I18n::get_localized_field( $cf->label_ja, $cf->label_en );
                 $value      = $copy_custom_values[ (int) $cf->id ] ?? '';
                 $options    = $cf->field_options ? json_decode( $cf->field_options, true ) : array();
             ?>
@@ -297,25 +291,25 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
 
         <div class="ednasurvey-form-actions">
             <button type="submit" class="button button-primary ednasurvey-submit-btn">
-                <?php echo esc_html( 'ja' === $lang ? '内容を確認' : 'Review before submitting' ); ?>
+                <?php esc_html_e( 'Review before submitting', 'wp-ednasurvey' ); ?>
             </button>
             <a href="<?php echo esc_url( home_url( '/' . $username . '/' ) ); ?>" class="button">
-                <?php echo esc_html( 'ja' === $lang ? '送信せずにダッシュボードに戻る' : 'Return to Dashboard without submitting' ); ?>
+                <?php esc_html_e( 'Return to Dashboard without submitting', 'wp-ednasurvey' ); ?>
             </a>
         </div>
     </form>
 
     <div id="ednasurvey-confirm-review" style="display:none;">
-        <h2><?php echo esc_html( 'ja' === $lang ? '送信内容の確認' : 'Please review your submission' ); ?></h2>
+        <h2><?php esc_html_e( 'Please review your submission', 'wp-ednasurvey' ); ?></h2>
         <table id="ednasurvey-confirm-table" class="ednasurvey-site-detail-table">
             <tbody></tbody>
         </table>
         <div class="ednasurvey-form-actions">
             <button type="button" id="ednasurvey-confirm-submit" class="button button-primary ednasurvey-submit-btn">
-                <?php echo esc_html( 'ja' === $lang ? '送信' : 'Submit' ); ?>
+                <?php esc_html_e( 'Submit', 'wp-ednasurvey' ); ?>
             </button>
             <button type="button" id="ednasurvey-confirm-back" class="button">
-                <?php echo esc_html( 'ja' === $lang ? '修正する' : 'Back to Edit' ); ?>
+                <?php esc_html_e( 'Back to Edit', 'wp-ednasurvey' ); ?>
             </button>
         </div>
     </div>
@@ -336,7 +330,7 @@ $content_callback = function () use ( $username, $settings, $custom_fields, $cop
                 $items = array();
                 foreach ( $local_keys as $lk ) {
                     if ( isset( $env_local_choices[ $lk ] ) ) {
-                        $items[] = array( 'key' => $lk, 'label' => $env_local_choices[ $lk ][ $lang ] );
+                        $items[] = array( 'key' => $lk, 'label' => $env_local_choices[ $lk ] );
                     }
                 }
                 $js_mapping[ $broad_key ] = $items;

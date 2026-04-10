@@ -966,3 +966,488 @@ msgstr "写真ファイル名に関する注意（Android）"
 
 msgid "On Android devices, the filename shown in the file manager may differ from the filename the browser sends during upload. If you enter photo filenames in the Excel template, use the filenames displayed on the upload screen (Step 1), not the names shown in your file manager. Alternatively, leave the photo filename column blank and let the system match photos automatically by EXIF shooting time."
 msgstr "Android端末では、ファイルマネージャーに表示されるファイル名と、ブラウザがアップロード時に送信するファイル名が異なる場合があります。Excelに写真ファイル名を記入する場合は、ファイルマネージャーではなくアップロード画面（ステップ1）に表示されるファイル名を使用してください。あるいは、写真ファイル名の欄を空欄にして、EXIF撮影日時による自動マッチングに任せることもできます。"
+
+# ============================================================
+# Choice labels: Environment (Broad)
+# ============================================================
+
+#: includes/class-i18n.php (env_broad choices)
+msgid "marine"
+msgstr "海"
+
+msgid "estuarine"
+msgstr "河川感潮域"
+
+msgid "mangrove"
+msgstr "マングローブ"
+
+msgid "large river"
+msgstr "大河川下流部"
+
+msgid "small river"
+msgstr "小河川や大河川上流部"
+
+msgid "freshwater lake"
+msgstr "淡水湖"
+
+msgid "brackish lake"
+msgstr "汽水湖"
+
+msgid "saline lake"
+msgstr "塩湖"
+
+msgid "sterile water"
+msgstr "滅菌水"
+
+# ============================================================
+# Choice labels: Environment (Local)
+# ============================================================
+
+#: includes/class-i18n.php (env_local choices)
+msgid "reservoir"
+msgstr "人造湖"
+
+msgid "natural lake"
+msgstr "天然湖沼"
+
+msgid "ditch"
+msgstr "ドブ・溝"
+
+msgid "canal"
+msgstr "用水路・運河"
+
+msgid "canalized stream"
+msgstr "護岸された川"
+
+msgid "river"
+msgstr "その他の川"
+
+msgid "riffle"
+msgstr "川の瀬"
+
+msgid "stream pool"
+msgstr "川の瀬に接している淵"
+
+msgid "bayou"
+msgstr "湿地帯のゆったり流れる川"
+
+msgid "headwater"
+msgstr "源流部"
+
+msgid "meander"
+msgstr "平地を蛇行して流れる川"
+
+msgid "plunge pool"
+msgstr "滝壺"
+
+msgid "rapids"
+msgstr "急流の川"
+
+msgid "stream mouth"
+msgstr "川から湖や海や潟への流入口"
+
+msgid "ditch mouth"
+msgstr "ドブ・溝から川や湖や海や潟への流入口"
+
+msgid "tributary"
+msgstr "支流"
+
+msgid "distributary"
+msgstr "分流"
+
+msgid "anabranch"
+msgstr "本流から一旦分かれて再び合流する支流"
+
+msgid "weir"
+msgstr "堰・堰堤・頭首工"
+
+msgid "ocean"
+msgstr "洋"
+
+msgid "bay"
+msgstr "湾"
+
+msgid "lagoon"
+msgstr "潟"
+
+msgid "mangrove swamp"
+msgstr "マングローブ湿地帯"
+
+msgid "freshwater littoral zone"
+msgstr "淡水沿岸域"
+
+msgid "marine littoral zone"
+msgstr "海洋沿岸域"
+
+msgid "littoral zone"
+msgstr "その他沿岸域"
+
+msgid "limnetic zone"
+msgstr "湖沼の沖合表層"
+
+msgid "profundal zone"
+msgstr "湖沼の沖合深層"
+
+msgid "marine neritic zone"
+msgstr "浅海域"
+
+msgid "marine pelagic zone"
+msgstr "外洋域"
+
+msgid "sandy beach"
+msgstr "砂浜"
+
+msgid "shingle beach"
+msgstr "砂利浜・礫浜"
+
+msgid "rocky shore"
+msgstr "磯・岩浜"
+
+msgid "revetted shore"
+msgstr "護岸"
+
+msgid "rocky reef"
+msgstr "岩礁"
+
+msgid "coral reef"
+msgstr "サンゴ礁"
+
+msgid "mussel reef"
+msgstr "カキ礁"
+
+msgid "sea grass bed"
+msgstr "海草藻場"
+
+msgid "kelp forest"
+msgstr "藻場"
+
+msgid "freshwater algal bloom"
+msgstr "淡水植物プランクトンのブルーム"
+
+msgid "marine algal bloom"
+msgstr "海洋植物プランクトンのブルーム"
+
+msgid "artificial harbor"
+msgstr "人工港湾部"
+
+msgid "jetty"
+msgstr "突堤"
+
+msgid "groin"
+msgstr "短い突堤"
+
+msgid "breakwater"
+msgstr "その他の防波堤"
+
+msgid "quay"
+msgstr "埠頭・コンクリート岸壁"
+
+msgid "tetrapod"
+msgstr "消波ブロック"
+
+msgid "gabion"
+msgstr "蛇籠"
+
+msgid "pier"
+msgstr "桟橋"
+
+msgid "bridge"
+msgstr "橋"
+
+msgid "bar"
+msgstr "砂州"
+
+msgid "natural harbor"
+msgstr "天然の港湾"
+
+msgid "tidal pool"
+msgstr "タイドプール"
+
+msgid "protected area"
+msgstr "保護区"
+
+msgid "sterile water environment"
+msgstr "滅菌水"
+
+msgid "roadside"
+msgstr "道路脇"
+
+msgid "room"
+msgstr "室内"
+
+msgid "paved parking lot"
+msgstr "舗装された駐車場"
+
+msgid "field"
+msgstr "その他野外"
+
+# ============================================================
+# Choice labels: Weather
+# ============================================================
+
+#: includes/class-i18n.php (weather choices)
+msgid "clear sky"
+msgstr "快晴"
+
+msgid "sunny"
+msgstr "晴れ"
+
+msgid "cloudy"
+msgstr "曇り"
+
+msgid "foggy"
+msgstr "霧"
+
+msgid "rain"
+msgstr "雨"
+
+msgid "hail"
+msgstr "霰や雹"
+
+msgid "sleet"
+msgstr "みぞれ"
+
+msgid "snow"
+msgstr "雪"
+
+# ============================================================
+# Choice labels: Wind
+# ============================================================
+
+#: includes/class-i18n.php (wind choices)
+msgid "windy"
+msgstr "強風"
+
+msgid "not windy"
+msgstr "無風～弱風"
+
+# ============================================================
+# Template UI strings
+# ============================================================
+
+#: templates/frontend/online-submission.php
+msgid "Environment (Broad)"
+msgstr "環境(大)"
+
+msgid "\"estuarine\": does not include areas outside the river mouth, even if nearby. \"mangrove\": mangroves in estuarine areas should be classified as mangrove. \"large river\": whether a sightseeing boat can operate (rapids boats do not count). \"saline lake\": does not include brackish lakes or lagoons. \"sterile water\": for blanks / negative controls."
+msgstr "「河川感潮域」: 河口から外は近くても含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるかどうかが基準（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガティブコントロール用。"
+
+msgid "Environment (Local)"
+msgstr "環境(小)"
+
+msgid "Select 1 to 7 items from the list filtered by Environment (Broad)."
+msgstr "環境(大)の選択に応じた項目から1〜7個選択してください。"
+
+#, php-format
+msgid "Env. (Local) %d"
+msgstr "環境(小)%d"
+
+msgid "Weather"
+msgstr "天候"
+
+msgid "Wind"
+msgstr "風"
+
+msgid "Criterion for \"windy\": whether a syringe or filter holder used for filtration is continuously moved by the wind"
+msgstr "「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか"
+
+msgid "Review before submitting"
+msgstr "内容を確認"
+
+msgid "Please review your submission"
+msgstr "送信内容の確認"
+
+msgid "Back to Edit"
+msgstr "修正する"
+
+#: templates/frontend/offline-submission.php
+msgid "It may take a moment before the download starts."
+msgstr "ダウンロード開始まで時間がかかることがあります。"
+
+msgid "Submit All Sites"
+msgstr "全地点を送信"
+
+msgid "Review Data"
+msgstr "データの確認"
+
+#: templates/frontend/offline-template.php
+msgid "About Environment, Weather, and Wind"
+msgstr "環境・天候・風について"
+
+msgid "\"estuarine\" in the Environment (Broad) field: does not include areas outside the river mouth, even if nearby."
+msgstr "「環境(大)」欄の「河川感潮域」: 河口から外は近くても含まない。"
+
+msgid "\"mangrove\" in the Environment (Broad) field: mangroves in estuarine areas should be classified as mangrove."
+msgstr "「環境(大)」欄の「マングローブ」: 河川感潮域のマングローブはマングローブを選択。"
+
+msgid "\"large river\" in the Environment (Broad) field: whether a sightseeing boat can operate (rapids boats do not count)."
+msgstr "「環境(大)」欄の「大河川下流部」の判定基準: 遊覧船が運行できるかどうか（急流下り船は含まない）。"
+
+msgid "\"saline lake\" in the Environment (Broad) field: does not include brackish lakes or lagoons."
+msgstr "「環境(大)」欄の「塩湖」: 汽水湖や潟湖は含まない。"
+
+msgid "\"sterile water\" in the Environment (Broad) field: for blanks / negative controls."
+msgstr "「環境(大)」欄の「滅菌水」: ブランク・ネガティブコントロール用。"
+
+msgid "\"windy\" in the Wind field: select \"windy\" if a syringe or filter holder used for filtration is continuously moved by the wind."
+msgstr "「風」欄の「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうかを基準に選択してください。"
+
+# ============================================================
+# Validation error messages
+# ============================================================
+
+#: includes/services/class-validation-service.php
+msgid "Environment (Broad) is required."
+msgstr "環境(大)は必須です。"
+
+msgid "Invalid selection for Environment (Broad)."
+msgstr "環境(大)の選択が不正です。"
+
+msgid "At least one Environment (Local) selection is required."
+msgstr "環境(小)は少なくとも1つ選択してください。"
+
+#, php-format
+msgid "Invalid selection for Environment (Local) %d."
+msgstr "環境(小)%d の選択が不正です。"
+
+msgid "Weather is required."
+msgstr "天候は必須です。"
+
+msgid "Invalid selection for Weather."
+msgstr "天候の選択が不正です。"
+
+msgid "Wind is required."
+msgstr "風は必須です。"
+
+msgid "Invalid selection for Wind."
+msgstr "風の選択が不正です。"
+
+#, php-format
+msgid "Environment (Local) \"%1$s\" and \"%2$s\" cannot be selected together."
+msgstr "環境(小)の「%1$s」と「%2$s」は同時に選択できません。"
+
+# ============================================================
+# Excel service strings
+# ============================================================
+
+#: includes/services/class-excel-service.php
+msgctxt "excel-font"
+msgid "Calibri"
+msgstr "游ゴシック"
+
+msgid "Assigned string"
+msgstr "指定された文字列"
+
+msgid "YYYY-MM-DD format"
+msgstr "YYYY-MM-DD形式"
+
+msgid "hh:mm (24-hour)"
+msgstr "hh:mm（24時間表記）"
+
+msgid "Omit if photo has GPS"
+msgstr "写真にGPSがあれば省略可"
+
+msgid "Decimal (6 places). No DMS. South is negative"
+msgstr "小数表記（小数点以下6桁）。分秒表記禁止。南緯は負の値"
+
+msgid "Decimal (6 places). No DMS. West is negative"
+msgstr "小数表記（小数点以下6桁）。分秒表記禁止。西経は負の値"
+
+msgid "Local Language Site Name"
+msgstr "現地語地点名"
+
+msgid "Local language string"
+msgstr "日本語文字列"
+
+msgid "Site Name (English)"
+msgstr "英語地点名"
+
+msgid "Alphabet characters"
+msgstr "アルファベット表記"
+
+msgid "Text"
+msgstr "文字列"
+
+msgid "Taro Tohoku"
+msgstr "東北太郎"
+
+msgid "Jiro Tohoku"
+msgstr "東北次郎"
+
+msgid "Saburo Tohoku"
+msgstr "東北三郎"
+
+msgid "Required (0 allowed)"
+msgstr "必須（0可）"
+
+msgid "Integer (mL)"
+msgstr "整数値(mL)"
+
+msgid "Optional"
+msgstr "省略可"
+
+msgid "Select from list. \"estuarine\": excludes areas outside river mouth. \"mangrove\": estuarine mangroves = mangrove. \"large river\": whether a sightseeing boat can operate (not rapids boats). \"saline lake\": excludes brackish/lagoons. \"sterile water\": blanks/negative controls"
+msgstr "リストから選択。「河川感潮域」: 河口から外は含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるか（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガコン用"
+
+msgid "Select from list based on Env. (Broad)"
+msgstr "環境(大)に対応したリストから選択"
+
+msgid "Select from list"
+msgstr "リストから選択"
+
+msgid "Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind"
+msgstr "リストから選択。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか"
+
+msgid "Free text"
+msgstr "自由記述"
+
+msgid "Photo Filenames"
+msgstr "写真ファイル名"
+
+msgid "Omit if no photos taken"
+msgstr "写真未撮影なら省略可"
+
+msgid "Comma-separated for multiple"
+msgstr "カンマ区切りで複数記述"
+
+msgid "Input error"
+msgstr "入力エラー"
+
+msgid "Please select from the list"
+msgstr "リストから選択してください"
+
+msgid "Date format error"
+msgstr "日付形式エラー"
+
+msgid "Enter in YYYY-MM-DD format"
+msgstr "YYYY-MM-DD形式で入力してください"
+
+msgid "Time format error"
+msgstr "時刻形式エラー"
+
+msgid "Enter in hh:mm format"
+msgstr "hh:mm形式で入力してください"
+
+msgid "Latitude range error"
+msgstr "緯度範囲エラー"
+
+msgid "Enter a value between -90 and 90"
+msgstr "-90〜90の範囲で入力してください"
+
+msgid "Longitude range error"
+msgstr "経度範囲エラー"
+
+msgid "Enter a value between -180 and 180"
+msgstr "-180〜180の範囲で入力してください"
+
+msgid "Integer error"
+msgstr "整数エラー"
+
+msgid "Enter a whole number"
+msgstr "整数値を入力してください"
+
+msgid "Latitude"
+msgstr "緯度"
+
+msgid "Longitude"
+msgstr "経度"

@@ -18,9 +18,7 @@ $content_callback = function () use ( $username ) {
             </a>
         </div>
         <p class="ednasurvey-help" style="margin-bottom: 1.5em;">
-            <?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? 'ダウンロード開始まで時間がかかることがあります。'
-                : 'It may take a moment before the download starts.' ); ?>
+            <?php esc_html_e( 'It may take a moment before the download starts.', 'wp-ednasurvey' ); ?>
         </p>
 
         <h3><?php esc_html_e( 'Instructions', 'wp-ednasurvey' ); ?></h3>
@@ -32,26 +30,14 @@ $content_callback = function () use ( $username ) {
             <li><?php esc_html_e( 'Save the file and upload it together with your photos.', 'wp-ednasurvey' ); ?></li>
         </ol>
 
-        <h3><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language() ? '環境・天候・風について' : 'About Environment, Weather, and Wind' ); ?></h3>
+        <h3><?php esc_html_e( 'About Environment, Weather, and Wind', 'wp-ednasurvey' ); ?></h3>
         <ul>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「環境(大)」欄の「河川感潮域」: 河口から外は近くても含まない。'
-                : '"estuarine" in the Environment (Broad) field: does not include areas outside the river mouth, even if nearby.' ); ?></li>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「環境(大)」欄の「マングローブ」: 河川感潮域のマングローブはマングローブを選択。'
-                : '"mangrove" in the Environment (Broad) field: mangroves in estuarine areas should be classified as mangrove.' ); ?></li>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「環境(大)」欄の「大河川下流部」の判定基準: 遊覧船が運行できるかどうか（急流下り船は含まない）。'
-                : '"large river" in the Environment (Broad) field: whether a sightseeing boat can operate (rapids boats do not count).' ); ?></li>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「環境(大)」欄の「塩湖」: 汽水湖や潟湖は含まない。'
-                : '"saline lake" in the Environment (Broad) field: does not include brackish lakes or lagoons.' ); ?></li>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「環境(大)」欄の「滅菌水」: ブランク・ネガティブコントロール用。'
-                : '"sterile water" in the Environment (Broad) field: for blanks / negative controls.' ); ?></li>
-            <li><?php echo esc_html( 'ja' === EdnaSurvey_I18n::get_current_language()
-                ? '「風」欄の「強風」の判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうかを基準に選択してください。'
-                : '"windy" in the Wind field: select "windy" if a syringe or filter holder used for filtration is continuously moved by the wind.' ); ?></li>
+            <li><?php esc_html_e( '"estuarine" in the Environment (Broad) field: does not include areas outside the river mouth, even if nearby.', 'wp-ednasurvey' ); ?></li>
+            <li><?php esc_html_e( '"mangrove" in the Environment (Broad) field: mangroves in estuarine areas should be classified as mangrove.', 'wp-ednasurvey' ); ?></li>
+            <li><?php esc_html_e( '"large river" in the Environment (Broad) field: whether a sightseeing boat can operate (rapids boats do not count).', 'wp-ednasurvey' ); ?></li>
+            <li><?php esc_html_e( '"saline lake" in the Environment (Broad) field: does not include brackish lakes or lagoons.', 'wp-ednasurvey' ); ?></li>
+            <li><?php esc_html_e( '"sterile water" in the Environment (Broad) field: for blanks / negative controls.', 'wp-ednasurvey' ); ?></li>
+            <li><?php esc_html_e( '"windy" in the Wind field: select "windy" if a syringe or filter holder used for filtration is continuously moved by the wind.', 'wp-ednasurvey' ); ?></li>
         </ul>
 
         <h3><?php esc_html_e( 'Note on Photo Filenames (Android)', 'wp-ednasurvey' ); ?></h3>

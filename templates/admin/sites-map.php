@@ -2,7 +2,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-$lang = EdnaSurvey_I18n::get_current_language();
 ?>
 <div class="wrap">
     <h1><?php esc_html_e( 'Sites Map', 'wp-ednasurvey' ); ?></h1>
@@ -10,14 +9,14 @@ $lang = EdnaSurvey_I18n::get_current_language();
 </div>
 
 <script>
-    var ednasurveyAdminSites = <?php echo wp_json_encode( array_values( array_filter( array_map( function( $site ) use ( $lang ) {
+    var ednasurveyAdminSites = <?php echo wp_json_encode( array_values( array_filter( array_map( function( $site ) {
         if ( empty( $site->latitude ) || empty( $site->longitude ) ) {
             return null;
         }
         return array(
             'lat'                => (float) $site->latitude,
             'lng'                => (float) $site->longitude,
-            'name'               => $lang === 'ja' ? $site->sitename_local : $site->sitename_en,
+            'name'               => EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' ),
             'date'               => $site->survey_date ?? '',
             'user_login'         => $site->user_login ?? '',
             'correspondence'     => $site->correspondence ?? '',

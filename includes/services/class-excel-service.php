@@ -35,157 +35,151 @@ class EdnaSurvey_Excel_Service {
     private function get_columns(): array {
         $settings      = get_option( 'ednasurvey_settings', array() );
         $fields_config = $settings['default_fields_config'] ?? array();
-        $lang          = EdnaSurvey_I18n::get_current_language();
 
         $columns = array();
 
         if ( ! empty( $fields_config['sample_id'] ) ) {
             $columns[] = array(
-                'key' => 'sample_id', 'ja' => 'サンプルID', 'en' => 'Sample ID',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => '指定された文字列', 'hint_en' => 'Assigned string',
-                'example_ja' => 'EWJ0001', 'example_en' => 'EWJ0001',
+                'key' => 'sample_id', 'label' => __( 'Sample ID', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Assigned string', 'wp-ednasurvey' ),
+                'example' => 'EWJ0001',
                 'type' => 'text',
             );
         }
         if ( ! empty( $fields_config['survey_datetime'] ) ) {
             $columns[] = array(
-                'key' => 'survey_date', 'ja' => '採集日', 'en' => 'Survey Date',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'YYYY-MM-DD形式', 'hint_en' => 'YYYY-MM-DD format',
-                'example_ja' => '2026-04-09', 'example_en' => '2026-04-09',
+                'key' => 'survey_date', 'label' => __( 'Survey Date', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'YYYY-MM-DD format', 'wp-ednasurvey' ),
+                'example' => '2026-04-09',
                 'type' => 'date',
             );
             $columns[] = array(
-                'key' => 'survey_time', 'ja' => '採集時刻', 'en' => 'Survey Time',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'hh:mm（24時間表記）', 'hint_en' => 'hh:mm (24-hour)',
-                'example_ja' => '14:30', 'example_en' => '14:30',
+                'key' => 'survey_time', 'label' => __( 'Survey Time', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'hh:mm (24-hour)', 'wp-ednasurvey' ),
+                'example' => '14:30',
                 'type' => 'time',
             );
         }
         if ( ! empty( $fields_config['location'] ) ) {
             $columns[] = array(
-                'key' => 'latitude', 'ja' => '緯度', 'en' => 'Latitude',
-                'required_ja' => '写真にGPSがあれば省略可', 'required_en' => 'Omit if photo has GPS',
-                'hint_ja' => '小数表記（小数点以下6桁）。分秒表記禁止。南緯は負の値', 'hint_en' => 'Decimal (6 places). No DMS. South is negative',
-                'example_ja' => '38.268215', 'example_en' => '38.268215',
+                'key' => 'latitude', 'label' => __( 'Latitude', 'wp-ednasurvey' ),
+                'required_label' => __( 'Omit if photo has GPS', 'wp-ednasurvey' ),
+                'hint' => __( 'Decimal (6 places). No DMS. South is negative', 'wp-ednasurvey' ),
+                'example' => '38.268215',
                 'type' => 'latitude',
             );
             $columns[] = array(
-                'key' => 'longitude', 'ja' => '経度', 'en' => 'Longitude',
-                'required_ja' => '写真にGPSがあれば省略可', 'required_en' => 'Omit if photo has GPS',
-                'hint_ja' => '小数表記（小数点以下6桁）。分秒表記禁止。西経は負の値', 'hint_en' => 'Decimal (6 places). No DMS. West is negative',
-                'example_ja' => '140.981483', 'example_en' => '140.981483',
+                'key' => 'longitude', 'label' => __( 'Longitude', 'wp-ednasurvey' ),
+                'required_label' => __( 'Omit if photo has GPS', 'wp-ednasurvey' ),
+                'hint' => __( 'Decimal (6 places). No DMS. West is negative', 'wp-ednasurvey' ),
+                'example' => '140.981483',
                 'type' => 'longitude',
             );
         }
         if ( ! empty( $fields_config['site_name'] ) ) {
             $columns[] = array(
-                'key' => 'sitename_local', 'ja' => '現地語地点名', 'en' => 'Local Language Site Name',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => '日本語文字列', 'hint_en' => 'Local language string',
-                'example_ja' => '仙台湾荒浜', 'example_en' => '仙台湾荒浜',
+                'key' => 'sitename_local', 'label' => __( 'Local Language Site Name', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Local language string', 'wp-ednasurvey' ),
+                'example' => '仙台湾荒浜',
                 'type' => 'text',
             );
             $columns[] = array(
-                'key' => 'sitename_en', 'ja' => '英語地点名', 'en' => 'Site Name (English)',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'アルファベット表記', 'hint_en' => 'Alphabet characters',
-                'example_ja' => 'Arahama coast, Sendai bay', 'example_en' => 'Arahama coast, Sendai bay',
+                'key' => 'sitename_en', 'label' => __( 'Site Name (English)', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Alphabet characters', 'wp-ednasurvey' ),
+                'example' => 'Arahama coast, Sendai bay',
                 'type' => 'text',
             );
         }
         if ( ! empty( $fields_config['correspondence'] ) ) {
             $columns[] = array(
-                'key' => 'correspondence', 'ja' => '代表者氏名', 'en' => 'Representative',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => '文字列', 'hint_en' => 'Text',
-                'example_ja' => '東北太郎', 'example_en' => 'Taro Tohoku',
+                'key' => 'correspondence', 'label' => __( 'Representative', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Text', 'wp-ednasurvey' ),
+                'example' => __( 'Taro Tohoku', 'wp-ednasurvey' ),
                 'type' => 'text',
             );
         }
         if ( ! empty( $fields_config['collectors'] ) ) {
-            $example_names_ja = array( '東北太郎', '東北次郎', '東北三郎', '', '' );
-            $example_names_en = array( 'Taro Tohoku', 'Jiro Tohoku', 'Saburo Tohoku', '', '' );
+            $example_names = array(
+                __( 'Taro Tohoku', 'wp-ednasurvey' ),
+                __( 'Jiro Tohoku', 'wp-ednasurvey' ),
+                __( 'Saburo Tohoku', 'wp-ednasurvey' ),
+                '', '',
+            );
             for ( $i = 1; $i <= 5; $i++ ) {
                 $columns[] = array(
-                    'key' => 'collector' . $i, 'ja' => '採集者' . $i, 'en' => 'Collector ' . $i,
-                    'required_ja' => 1 === $i ? '必須' : '省略可',
-                    'required_en' => 1 === $i ? 'Required' : 'Optional',
-                    'hint_ja' => '文字列', 'hint_en' => 'Text',
-                    'example_ja' => $example_names_ja[ $i - 1 ], 'example_en' => $example_names_en[ $i - 1 ],
+                    'key' => 'collector' . $i,
+                    'label' => sprintf( __( 'Collector %d', 'wp-ednasurvey' ), $i ),
+                    'required_label' => 1 === $i ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
+                    'hint' => __( 'Text', 'wp-ednasurvey' ),
+                    'example' => $example_names[ $i - 1 ],
                     'type' => 'text',
                 );
             }
         }
         if ( ! empty( $fields_config['water_volume'] ) ) {
             $columns[] = array(
-                'key' => 'watervol1', 'ja' => '濾過水量1(mL)', 'en' => 'Filtered Water Vol. 1 (mL)',
-                'required_ja' => '必須（0可）', 'required_en' => 'Required (0 allowed)',
-                'hint_ja' => '整数値(mL)', 'hint_en' => 'Integer (mL)',
-                'example_ja' => '500', 'example_en' => '500',
+                'key' => 'watervol1', 'label' => __( 'Filtered Water Vol. 1 (mL)', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required (0 allowed)', 'wp-ednasurvey' ),
+                'hint' => __( 'Integer (mL)', 'wp-ednasurvey' ),
+                'example' => '500',
                 'type' => 'integer',
             );
             $columns[] = array(
-                'key' => 'watervol2', 'ja' => '濾過水量2(mL)', 'en' => 'Filtered Water Vol. 2 (mL)',
-                'required_ja' => '必須（0可）', 'required_en' => 'Required (0 allowed)',
-                'hint_ja' => '整数値(mL)', 'hint_en' => 'Integer (mL)',
-                'example_ja' => '500', 'example_en' => '500',
+                'key' => 'watervol2', 'label' => __( 'Filtered Water Vol. 2 (mL)', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required (0 allowed)', 'wp-ednasurvey' ),
+                'hint' => __( 'Integer (mL)', 'wp-ednasurvey' ),
+                'example' => '500',
                 'type' => 'integer',
             );
         }
 
         if ( ! empty( $fields_config['env_broad'] ) ) {
             $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
-            $env_broad_labels  = array_map( fn( $c ) => $c[ $lang ], $env_broad_choices );
             $columns[] = array(
-                'key' => 'env_broad', 'ja' => '環境(大)', 'en' => 'Environment (Broad)',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'リストから選択。「河川感潮域」: 河口から外は含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるか（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガコン用',
-                'hint_en' => 'Select from list. "estuarine": excludes areas outside river mouth. "mangrove": estuarine mangroves = mangrove. "large river": whether a sightseeing boat can operate (not rapids boats). "saline lake": excludes brackish/lagoons. "sterile water": blanks/negative controls',
-                'example_ja' => '海', 'example_en' => 'marine',
+                'key' => 'env_broad', 'label' => __( 'Environment (Broad)', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Select from list. "estuarine": excludes areas outside river mouth. "mangrove": estuarine mangroves = mangrove. "large river": whether a sightseeing boat can operate (not rapids boats). "saline lake": excludes brackish/lagoons. "sterile water": blanks/negative controls', 'wp-ednasurvey' ),
+                'example' => __( 'marine', 'wp-ednasurvey' ),
                 'type' => 'select',
-                'options' => array( 'choices' => array_values( $env_broad_labels ) ),
+                'options' => array( 'choices' => array_values( $env_broad_choices ) ),
             );
             for ( $eli = 1; $eli <= 7; $eli++ ) {
                 $columns[] = array(
                     'key' => 'env_local' . $eli,
-                    'ja' => '環境(小)' . $eli,
-                    'en' => 'Env. (Local) ' . $eli,
-                    'required_ja' => 1 === $eli ? '必須' : '省略可',
-                    'required_en' => 1 === $eli ? 'Required' : 'Optional',
-                    'hint_ja' => '環境(大)に対応したリストから選択',
-                    'hint_en' => 'Select from list based on Env. (Broad)',
-                    'example_ja' => 1 === $eli ? '湾' : '',
-                    'example_en' => 1 === $eli ? 'bay' : '',
+                    'label' => sprintf( __( 'Env. (Local) %d', 'wp-ednasurvey' ), $eli ),
+                    'required_label' => 1 === $eli ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
+                    'hint' => __( 'Select from list based on Env. (Broad)', 'wp-ednasurvey' ),
+                    'example' => 1 === $eli ? __( 'bay', 'wp-ednasurvey' ) : '',
                     'type' => 'env_local',
                 );
             }
         }
         if ( ! empty( $fields_config['weather'] ) ) {
             $weather_choices = EdnaSurvey_I18n::get_weather_choices();
-            $weather_labels  = array_map( fn( $c ) => $c[ $lang ], $weather_choices );
             $columns[] = array(
-                'key' => 'weather', 'ja' => '天候', 'en' => 'Weather',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'リストから選択', 'hint_en' => 'Select from list',
-                'example_ja' => '晴れ', 'example_en' => 'sunny',
+                'key' => 'weather', 'label' => __( 'Weather', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Select from list', 'wp-ednasurvey' ),
+                'example' => __( 'sunny', 'wp-ednasurvey' ),
                 'type' => 'select',
-                'options' => array( 'choices' => array_values( $weather_labels ) ),
+                'options' => array( 'choices' => array_values( $weather_choices ) ),
             );
         }
         if ( ! empty( $fields_config['wind'] ) ) {
             $wind_choices = EdnaSurvey_I18n::get_wind_choices();
-            $wind_labels  = array_map( fn( $c ) => $c[ $lang ], $wind_choices );
             $columns[] = array(
-                'key' => 'wind', 'ja' => '風', 'en' => 'Wind',
-                'required_ja' => '必須', 'required_en' => 'Required',
-                'hint_ja' => 'リストから選択。判定基準: 濾過に使用するシリンジまたはフィルターホルダーが風で継続的に動いていくかどうか',
-                'hint_en' => 'Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind',
-                'example_ja' => '無風～弱風', 'example_en' => 'not windy',
+                'key' => 'wind', 'label' => __( 'Wind', 'wp-ednasurvey' ),
+                'required_label' => __( 'Required', 'wp-ednasurvey' ),
+                'hint' => __( 'Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind', 'wp-ednasurvey' ),
+                'example' => __( 'not windy', 'wp-ednasurvey' ),
                 'type' => 'select',
-                'options' => array( 'choices' => array_values( $wind_labels ) ),
+                'options' => array( 'choices' => array_values( $wind_choices ) ),
             );
         }
 
@@ -194,35 +188,31 @@ class EdnaSurvey_Excel_Service {
         $custom_fields = $field_model->get_active_fields();
         foreach ( $custom_fields as $cf ) {
             $columns[] = array(
-                'key'         => 'custom_' . $cf->field_key,
-                'ja'          => $cf->label_ja,
-                'en'          => $cf->label_en,
-                'required_ja' => $cf->is_required ? '必須' : '省略可',
-                'required_en' => $cf->is_required ? 'Required' : 'Optional',
-                'hint_ja'     => $cf->field_type,
-                'hint_en'     => $cf->field_type,
-                'example_ja'  => '',
-                'example_en'  => '',
-                'type'        => $cf->field_type,
-                'options'     => $cf->field_options ? json_decode( $cf->field_options, true ) : null,
+                'key'            => 'custom_' . $cf->field_key,
+                'label'          => EdnaSurvey_I18n::get_localized_field( $cf->label_ja, $cf->label_en ),
+                'required_label' => $cf->is_required ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
+                'hint'           => $cf->field_type,
+                'example'        => '',
+                'type'           => $cf->field_type,
+                'options'        => $cf->field_options ? json_decode( $cf->field_options, true ) : null,
             );
         }
 
         if ( ! empty( $fields_config['notes'] ) ) {
             $columns[] = array(
-                'key' => 'notes', 'ja' => '備考', 'en' => 'Notes',
-                'required_ja' => '省略可', 'required_en' => 'Optional',
-                'hint_ja' => '自由記述', 'hint_en' => 'Free text',
-                'example_ja' => '強風', 'example_en' => 'Strong wind',
+                'key' => 'notes', 'label' => __( 'Notes', 'wp-ednasurvey' ),
+                'required_label' => __( 'Optional', 'wp-ednasurvey' ),
+                'hint' => __( 'Free text', 'wp-ednasurvey' ),
+                'example' => '',
                 'type' => 'text',
             );
         }
         if ( ! empty( $fields_config['photos'] ) ) {
             $columns[] = array(
-                'key' => 'photo_files', 'ja' => '写真ファイル名', 'en' => 'Photo Filenames',
-                'required_ja' => '写真未撮影なら省略可', 'required_en' => 'Omit if no photos taken',
-                'hint_ja' => 'カンマ区切りで複数記述', 'hint_en' => 'Comma-separated for multiple',
-                'example_ja' => 'IMG_001.jpg,IMG_002.jpg', 'example_en' => 'IMG_001.jpg,IMG_002.jpg',
+                'key' => 'photo_files', 'label' => __( 'Photo Filenames', 'wp-ednasurvey' ),
+                'required_label' => __( 'Omit if no photos taken', 'wp-ednasurvey' ),
+                'hint' => __( 'Comma-separated for multiple', 'wp-ednasurvey' ),
+                'example' => 'IMG_001.jpg,IMG_002.jpg',
                 'type' => 'text',
             );
         }
@@ -274,11 +264,11 @@ class EdnaSurvey_Excel_Service {
         $sheet       = $spreadsheet->getActiveSheet();
         $sheet->setTitle( 'Sheet1' );
 
-        $lang = EdnaSurvey_I18n::get_current_language();
-
         // Set default font
-        if ( 'ja' === $lang ) {
-            $spreadsheet->getDefaultStyle()->getFont()->setName( '游ゴシック' )->setSize( 11 );
+        /* translators: Default font for Excel templates. Use a CJK font for Japanese (e.g. 游ゴシック). */
+        $font_name = _x( 'Calibri', 'excel-font', 'wp-ednasurvey' );
+        if ( 'Calibri' !== $font_name ) {
+            $spreadsheet->getDefaultStyle()->getFont()->setName( $font_name )->setSize( 11 );
         }
         $columns = $this->get_columns();
         $colCount = count( $columns );
@@ -293,24 +283,16 @@ class EdnaSurvey_Excel_Service {
             $sheet->getCell( [ $c, 1 ] )->setValue( $col['key'] );
 
             // Row 2: Language label
-            $sheet->getCell( [ $c, 2 ] )->setValue(
-                'ja' === $lang ? $col['ja'] : $col['en']
-            );
+            $sheet->getCell( [ $c, 2 ] )->setValue( $col['label'] );
 
             // Row 3: Required / Optional
-            $sheet->getCell( [ $c, 3 ] )->setValue(
-                'ja' === $lang ? ( $col['required_ja'] ?? '' ) : ( $col['required_en'] ?? '' )
-            );
+            $sheet->getCell( [ $c, 3 ] )->setValue( $col['required_label'] ?? '' );
 
             // Row 4: Input format instructions
-            $sheet->getCell( [ $c, 4 ] )->setValue(
-                'ja' === $lang ? $col['hint_ja'] : $col['hint_en']
-            );
+            $sheet->getCell( [ $c, 4 ] )->setValue( $col['hint'] );
 
             // Row 5: Example data
-            $sheet->getCell( [ $c, 5 ] )->setValue(
-                'ja' === $lang ? ( $col['example_ja'] ?? '' ) : ( $col['example_en'] ?? '' )
-            );
+            $sheet->getCell( [ $c, 5 ] )->setValue( $col['example'] ?? '' );
 
             $sheet->getColumnDimension( Coordinate::stringFromColumnIndex( $c ) )->setAutoSize( true );
         }
@@ -422,8 +404,8 @@ class EdnaSurvey_Excel_Service {
             $listsSheet->setTitle( 'Lists' );
             $listCol = 1;
 
-            $validationErrorTitle = 'ja' === $lang ? '入力エラー' : 'Input error';
-            $validationErrorMsg   = 'ja' === $lang ? 'リストから選択してください' : 'Please select from the list';
+            $validationErrorTitle = __( 'Input error', 'wp-ednasurvey' );
+            $validationErrorMsg   = __( 'Please select from the list', 'wp-ednasurvey' );
 
             // --- 1. Simple select columns (env_broad, weather, wind, custom selects) ---
 
@@ -482,14 +464,14 @@ class EdnaSurvey_Excel_Service {
                 $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
 
                 foreach ( $env_local_map as $broad_key => $local_keys ) {
-                    $broad_label = $env_broad_choices[ $broad_key ][ $lang ];
+                    $broad_label = $env_broad_choices[ $broad_key ];
                     $range_name  = str_replace( ' ', '_', $broad_label );
 
                     $listRow = 1;
                     foreach ( $local_keys as $lk ) {
                         if ( isset( $env_local_choices[ $lk ] ) ) {
                             $listsSheet->getCell( [ $listCol, $listRow ] )
-                                ->setValue( $env_local_choices[ $lk ][ $lang ] );
+                                ->setValue( $env_local_choices[ $lk ] );
                             $listRow++;
                         }
                     }
@@ -554,8 +536,8 @@ class EdnaSurvey_Excel_Service {
                 $validation->setErrorStyle( DataValidation::STYLE_STOP );
                 $validation->setAllowBlank( true );
                 $validation->setShowErrorMessage( true );
-                $validation->setErrorTitle( 'ja' === EdnaSurvey_I18n::get_current_language() ? '日付形式エラー' : 'Date format error' );
-                $validation->setError( 'ja' === EdnaSurvey_I18n::get_current_language() ? 'YYYY-MM-DD形式で入力してください' : 'Enter in YYYY-MM-DD format' );
+                $validation->setErrorTitle( __( 'Date format error', 'wp-ednasurvey' ) );
+                $validation->setError( __( 'Enter in YYYY-MM-DD format', 'wp-ednasurvey' ) );
                 // Custom formula: must be 10 chars and parseable as date
                 $validation->setFormula1( 'AND(LEN(' . $cellRef . ')=10,ISNUMBER(DATEVALUE(' . $cellRef . ')))' );
                 break;
@@ -568,8 +550,8 @@ class EdnaSurvey_Excel_Service {
                 $validation->setErrorStyle( DataValidation::STYLE_STOP );
                 $validation->setAllowBlank( true );
                 $validation->setShowErrorMessage( true );
-                $validation->setErrorTitle( 'ja' === EdnaSurvey_I18n::get_current_language() ? '時刻形式エラー' : 'Time format error' );
-                $validation->setError( 'ja' === EdnaSurvey_I18n::get_current_language() ? 'hh:mm形式で入力してください' : 'Enter in hh:mm format' );
+                $validation->setErrorTitle( __( 'Time format error', 'wp-ednasurvey' ) );
+                $validation->setError( __( 'Enter in hh:mm format', 'wp-ednasurvey' ) );
                 $validation->setFormula1( 'AND(LEN(' . $cellRef . ')=5,ISNUMBER(TIMEVALUE(' . $cellRef . ')))' );
                 break;
 
@@ -581,8 +563,8 @@ class EdnaSurvey_Excel_Service {
                 $validation->setErrorStyle( DataValidation::STYLE_STOP );
                 $validation->setAllowBlank( true );
                 $validation->setShowErrorMessage( true );
-                $validation->setErrorTitle( 'ja' === EdnaSurvey_I18n::get_current_language() ? '緯度範囲エラー' : 'Latitude range error' );
-                $validation->setError( 'ja' === EdnaSurvey_I18n::get_current_language() ? '-90〜90の範囲で入力してください' : 'Enter a value between -90 and 90' );
+                $validation->setErrorTitle( __( 'Latitude range error', 'wp-ednasurvey' ) );
+                $validation->setError( __( 'Enter a value between -90 and 90', 'wp-ednasurvey' ) );
                 $validation->setFormula1( '-90' );
                 $validation->setFormula2( '90' );
                 break;
@@ -595,8 +577,8 @@ class EdnaSurvey_Excel_Service {
                 $validation->setErrorStyle( DataValidation::STYLE_STOP );
                 $validation->setAllowBlank( true );
                 $validation->setShowErrorMessage( true );
-                $validation->setErrorTitle( 'ja' === EdnaSurvey_I18n::get_current_language() ? '経度範囲エラー' : 'Longitude range error' );
-                $validation->setError( 'ja' === EdnaSurvey_I18n::get_current_language() ? '-180〜180の範囲で入力してください' : 'Enter a value between -180 and 180' );
+                $validation->setErrorTitle( __( 'Longitude range error', 'wp-ednasurvey' ) );
+                $validation->setError( __( 'Enter a value between -180 and 180', 'wp-ednasurvey' ) );
                 $validation->setFormula1( '-180' );
                 $validation->setFormula2( '180' );
                 break;
@@ -609,8 +591,8 @@ class EdnaSurvey_Excel_Service {
                 $validation->setErrorStyle( DataValidation::STYLE_STOP );
                 $validation->setAllowBlank( true );
                 $validation->setShowErrorMessage( true );
-                $validation->setErrorTitle( 'ja' === EdnaSurvey_I18n::get_current_language() ? '整数エラー' : 'Integer error' );
-                $validation->setError( 'ja' === EdnaSurvey_I18n::get_current_language() ? '整数値を入力してください' : 'Enter a whole number' );
+                $validation->setErrorTitle( __( 'Integer error', 'wp-ednasurvey' ) );
+                $validation->setError( __( 'Enter a whole number', 'wp-ednasurvey' ) );
                 $validation->setFormula1( '0' );
                 $validation->setFormula2( '9999999' );
                 break;
