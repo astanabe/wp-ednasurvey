@@ -6,9 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class EdnaSurvey_Online_Submission_Controller {
 
     public function render( WP_User $target_user ): void {
-        $username = $target_user->user_login;
-        $settings = get_option( 'ednasurvey_settings', array() );
-        $field_model = new EdnaSurvey_Custom_Field_Model();
+        $username      = $target_user->user_login;
+        $settings      = get_option( 'ednasurvey_settings', array() );
+        $registry      = EdnaSurvey_Field_Registry::get_instance();
+        $field_model   = new EdnaSurvey_Custom_Field_Model();
         $custom_fields = $field_model->get_active_fields();
 
         // Check if copying from existing site (copy_from = internal_sample_id)

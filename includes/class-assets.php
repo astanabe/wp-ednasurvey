@@ -165,10 +165,11 @@ class EdnaSurvey_Assets {
                 );
 
                 wp_localize_script( 'ednasurvey-admin-' . $js_file, 'ednasurveyAdmin', array(
-                    'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-                    'restUrl'   => rest_url( 'ednasurvey/v1/' ),
-                    'nonce'     => wp_create_nonce( 'ednasurvey_nonce' ),
-                    'restNonce' => wp_create_nonce( 'wp_rest' ),
+                    'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+                    'restUrl'    => rest_url( 'ednasurvey/v1/' ),
+                    'nonce'      => wp_create_nonce( 'ednasurvey_nonce' ),
+                    'restNonce'  => wp_create_nonce( 'wp_rest' ),
+                    'modeLabels' => EdnaSurvey_Field_Registry::get_mode_labels(),
                 ) );
                 break;
             }

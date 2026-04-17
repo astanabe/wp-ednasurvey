@@ -44,14 +44,17 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
 
         // Insert site
         $site_model = new EdnaSurvey_Site_Model();
+        // Inject default values for required_hidden fields
+        $data = $this->apply_hidden_defaults( $data );
+
         $site_data  = array(
             'user_id'              => $user->ID,
             'survey_date'          => $data['survey_date'] ?? null,
             'survey_time'          => $data['survey_time'] ?? null,
             'latitude'             => ! empty( $data['latitude'] ) ? round( (float) $data['latitude'], 6 ) : null,
             'longitude'            => ! empty( $data['longitude'] ) ? round( (float) $data['longitude'], 6 ) : null,
-            'sitename_local'         => $data['sitename_local'] ?? '',
-            'sitename_en'         => $data['sitename_en'] ?? '',
+            'sitename_local'       => $data['sitename_local'] ?? '',
+            'sitename_en'          => $data['sitename_en'] ?? '',
             'correspondence'       => $data['correspondence'] ?? '',
             'collector1'           => $data['collector1'] ?? '',
             'collector2'           => $data['collector2'] ?? '',
@@ -59,9 +62,15 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             'collector4'           => $data['collector4'] ?? '',
             'collector5'           => $data['collector5'] ?? '',
             'sample_id'            => $data['sample_id'] ?? '',
-            'watervol1'          => ! empty( $data['watervol1'] ) ? (float) $data['watervol1'] : null,
-            'watervol2'          => ! empty( $data['watervol2'] ) ? (float) $data['watervol2'] : null,
+            'watervol1'            => isset( $data['watervol1'] ) && '' !== $data['watervol1'] ? (float) $data['watervol1'] : null,
+            'watervol2'            => isset( $data['watervol2'] ) && '' !== $data['watervol2'] ? (float) $data['watervol2'] : null,
+            'airvol1'              => isset( $data['airvol1'] ) && '' !== $data['airvol1'] ? (float) $data['airvol1'] : null,
+            'airvol2'              => isset( $data['airvol2'] ) && '' !== $data['airvol2'] ? (float) $data['airvol2'] : null,
+            'weight1'              => isset( $data['weight1'] ) && '' !== $data['weight1'] ? (float) $data['weight1'] : null,
+            'weight2'              => isset( $data['weight2'] ) && '' !== $data['weight2'] ? (float) $data['weight2'] : null,
+            'filter_name'          => $data['filter_name'] ?? '',
             'env_broad'            => $data['env_broad'] ?? '',
+            'env_medium'           => $data['env_medium'] ?? '',
             'env_local1'           => $data['env_local1'] ?? '',
             'env_local2'           => $data['env_local2'] ?? '',
             'env_local3'           => $data['env_local3'] ?? '',
@@ -302,6 +311,9 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             }
             $meta = $this->build_submission_meta( $user, 'offline' );
 
+            // Inject defaults for required_hidden fields
+            $raw = $this->apply_hidden_defaults( $raw );
+
             $site_record = array(
                 'user_id'              => $user->ID,
                 'survey_date'          => $raw['survey_date'] ?? null,
@@ -317,9 +329,15 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                 'collector4'           => $raw['collector4'] ?? '',
                 'collector5'           => $raw['collector5'] ?? '',
                 'sample_id'            => $raw['sample_id'] ?? '',
-                'watervol1'            => $raw['watervol1'] ?? null,
-                'watervol2'            => $raw['watervol2'] ?? null,
+                'watervol1'            => isset( $raw['watervol1'] ) && '' !== $raw['watervol1'] ? (float) $raw['watervol1'] : null,
+                'watervol2'            => isset( $raw['watervol2'] ) && '' !== $raw['watervol2'] ? (float) $raw['watervol2'] : null,
+                'airvol1'              => isset( $raw['airvol1'] ) && '' !== $raw['airvol1'] ? (float) $raw['airvol1'] : null,
+                'airvol2'              => isset( $raw['airvol2'] ) && '' !== $raw['airvol2'] ? (float) $raw['airvol2'] : null,
+                'weight1'              => isset( $raw['weight1'] ) && '' !== $raw['weight1'] ? (float) $raw['weight1'] : null,
+                'weight2'              => isset( $raw['weight2'] ) && '' !== $raw['weight2'] ? (float) $raw['weight2'] : null,
+                'filter_name'          => $raw['filter_name'] ?? '',
                 'env_broad'            => $raw['env_broad'] ?? '',
+                'env_medium'           => $raw['env_medium'] ?? '',
                 'env_local1'           => $raw['env_local1'] ?? '',
                 'env_local2'           => $raw['env_local2'] ?? '',
                 'env_local3'           => $raw['env_local3'] ?? '',
@@ -387,6 +405,26 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             'site_ids'     => $inserted_ids,
             'redirect_url' => home_url( '/' . $user->user_login . '/' ),
         ) );
+    }
+
+    /**
+     * Inject default values for standard fields in required_hidden mode.
+     * Also handles required_hidden custom fields (stored via EAV, not here).
+     */
+    private function apply_hidden_defaults( array $data ): array {
+        $registry = EdnaSurvey_Field_Registry::get_instance();
+
+        foreach ( $registry->get_standard_fields() as $key => $field ) {
+            if ( EdnaSurvey_Field_Registry::MODE_REQUIRED_HIDDEN !== ( $field['mode'] ?? '' ) ) {
+                continue;
+            }
+            $default = $field['default_value'] ?? '';
+            if ( '' !== $default && ( ! isset( $data[ $key ] ) || '' === $data[ $key ] ) ) {
+                $data[ $key ] = $default;
+            }
+        }
+
+        return $data;
     }
 
     /**

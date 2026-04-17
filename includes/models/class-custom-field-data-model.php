@@ -33,7 +33,7 @@ class EdnaSurvey_Custom_Field_Data_Model {
         global $wpdb;
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT d.*, f.field_key, f.label_ja, f.label_en, f.field_type
+                "SELECT d.*, f.field_key, f.label_local, f.label_en, f.field_type
                  FROM {$this->table} d
                  JOIN {$wpdb->prefix}ednasurvey_custom_fields f ON d.field_id = f.id
                  WHERE d.site_id = %d

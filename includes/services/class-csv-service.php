@@ -6,27 +6,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 class EdnaSurvey_CSV_Service {
 
     public function generate_csv( array $sites, string $separator = ',' ): string {
-        $settings = get_option( 'ednasurvey_settings', array() );
-        $fields_config = $settings['default_fields_config'] ?? array();
+        $registry = EdnaSurvey_Field_Registry::get_instance();
+        $headers  = $this->build_headers( $registry );
 
-        $headers = $this->build_headers( $fields_config );
-        $photo_model = new EdnaSurvey_Photo_Model();
+        $photo_model        = new EdnaSurvey_Photo_Model();
         $custom_field_model = new EdnaSurvey_Custom_Field_Model();
         $custom_data_model  = new EdnaSurvey_Custom_Field_Data_Model();
         $custom_fields      = $custom_field_model->get_active_fields();
+
+        // Ordered standard field keys for CSV (matching header order)
+        $ordered_keys = array(
+            'sample_id', 'survey_date', 'survey_time',
+            'latitude', 'longitude',
+            'sitename_local', 'sitename_en',
+            'correspondence',
+            'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
+            'watervol1', 'watervol2', 'airvol1', 'airvol2',
+            'weight1', 'weight2', 'filter_name',
+            'env_broad', 'env_medium',
+            'env_local1', 'env_local2', 'env_local3',
+            'env_local4', 'env_local5', 'env_local6', 'env_local7',
+            'weather', 'wind',
+        );
 
         $output = fopen( 'php://temp', 'r+' );
         fputcsv( $output, $headers, $separator );
 
         $number = 1;
         foreach ( $sites as $site ) {
-            $photos     = $photo_model->get_by_site( (int) $site->id );
+            $photos      = $photo_model->get_by_site( (int) $site->id );
             $photo_names = array_map( fn( $p ) => $p->original_filename, $photos );
 
             $row = array();
             $row[] = $number++;
 
-            // Submission metadata (admin-only columns)
+            // Submission metadata
             $row[] = $site->internal_sample_id ?? '';
             $row[] = $site->submitted_user_login ?? '';
             $row[] = $site->submitted_user_email ?? '';
@@ -38,51 +52,16 @@ class EdnaSurvey_CSV_Service {
             $row[] = $site->submitted_user_agent ?? '';
             $row[] = $site->submitted_method ?? '';
 
-            if ( ! empty( $fields_config['sample_id'] ) ) {
-                $row[] = $site->sample_id ?? '';
-            }
-            if ( ! empty( $fields_config['survey_datetime'] ) ) {
-                $row[] = $site->survey_date ?? '';
-                $row[] = $site->survey_time ?? '';
-            }
-            if ( ! empty( $fields_config['location'] ) ) {
-                $row[] = $site->latitude ?? '';
-                $row[] = $site->longitude ?? '';
-            }
-            if ( ! empty( $fields_config['site_name'] ) ) {
-                $row[] = $site->sitename_local ?? '';
-                $row[] = $site->sitename_en ?? '';
-            }
-            if ( ! empty( $fields_config['correspondence'] ) ) {
-                $row[] = $site->correspondence ?? '';
-            }
-            if ( ! empty( $fields_config['collectors'] ) ) {
-                $row[] = $site->collector1 ?? '';
-                $row[] = $site->collector2 ?? '';
-                $row[] = $site->collector3 ?? '';
-                $row[] = $site->collector4 ?? '';
-                $row[] = $site->collector5 ?? '';
-            }
-            if ( ! empty( $fields_config['water_volume'] ) ) {
-                $row[] = $site->watervol1 ?? '';
-                $row[] = $site->watervol2 ?? '';
-            }
-            if ( ! empty( $fields_config['env_broad'] ) ) {
-                $row[] = $site->env_broad ?? '';
-                for ( $eli = 1; $eli <= 7; $eli++ ) {
-                    $f = 'env_local' . $eli;
-                    $row[] = $site->$f ?? '';
+            // Standard fields (active only)
+            foreach ( $ordered_keys as $key ) {
+                if ( ! $registry->is_active( $key ) ) {
+                    continue;
                 }
-            }
-            if ( ! empty( $fields_config['weather'] ) ) {
-                $row[] = $site->weather ?? '';
-            }
-            if ( ! empty( $fields_config['wind'] ) ) {
-                $row[] = $site->wind ?? '';
+                $row[] = $site->$key ?? '';
             }
 
             // Custom fields
-            $custom_data = $custom_data_model->get_by_site( (int) $site->id );
+            $custom_data   = $custom_data_model->get_by_site( (int) $site->id );
             $custom_values = array();
             foreach ( $custom_data as $cd ) {
                 $custom_values[ (int) $cd->field_id ] = $cd->field_value;
@@ -91,12 +70,13 @@ class EdnaSurvey_CSV_Service {
                 $row[] = $custom_values[ (int) $cf->id ] ?? '';
             }
 
-            if ( ! empty( $fields_config['notes'] ) ) {
+            // Notes
+            if ( $registry->is_active( 'notes' ) ) {
                 $row[] = $site->notes ?? '';
             }
-            if ( ! empty( $fields_config['photos'] ) ) {
-                $row[] = implode( '; ', $photo_names );
-            }
+
+            // Photos (always)
+            $row[] = implode( '; ', $photo_names );
 
             fputcsv( $output, $row, $separator );
         }
@@ -121,7 +101,7 @@ class EdnaSurvey_CSV_Service {
         return implode( "\n", $lines );
     }
 
-    private function build_headers( array $fields_config ): array {
+    private function build_headers( EdnaSurvey_Field_Registry $registry ): array {
         $headers = array( 'number' );
 
         // Submission metadata headers
@@ -136,46 +116,25 @@ class EdnaSurvey_CSV_Service {
         $headers[] = 'submitted_user_agent';
         $headers[] = 'submitted_method';
 
-        if ( ! empty( $fields_config['sample_id'] ) ) {
-            $headers[] = 'sample_id';
-        }
-        if ( ! empty( $fields_config['survey_datetime'] ) ) {
-            $headers[] = 'survey_date';
-            $headers[] = 'survey_time';
-        }
-        if ( ! empty( $fields_config['location'] ) ) {
-            $headers[] = 'latitude';
-            $headers[] = 'longitude';
-        }
-        if ( ! empty( $fields_config['site_name'] ) ) {
-            $headers[] = 'sitename_local';
-            $headers[] = 'sitename_en';
-        }
-        if ( ! empty( $fields_config['correspondence'] ) ) {
-            $headers[] = 'correspondence';
-        }
-        if ( ! empty( $fields_config['collectors'] ) ) {
-            $headers[] = 'collector1';
-            $headers[] = 'collector2';
-            $headers[] = 'collector3';
-            $headers[] = 'collector4';
-            $headers[] = 'collector5';
-        }
-        if ( ! empty( $fields_config['water_volume'] ) ) {
-            $headers[] = 'watervol1';
-            $headers[] = 'watervol2';
-        }
-        if ( ! empty( $fields_config['env_broad'] ) ) {
-            $headers[] = 'env_broad';
-            for ( $eli = 1; $eli <= 7; $eli++ ) {
-                $headers[] = 'env_local' . $eli;
+        // Standard fields (active = mode != disabled)
+        $ordered_keys = array(
+            'sample_id', 'survey_date', 'survey_time',
+            'latitude', 'longitude',
+            'sitename_local', 'sitename_en',
+            'correspondence',
+            'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
+            'watervol1', 'watervol2', 'airvol1', 'airvol2',
+            'weight1', 'weight2', 'filter_name',
+            'env_broad', 'env_medium',
+            'env_local1', 'env_local2', 'env_local3',
+            'env_local4', 'env_local5', 'env_local6', 'env_local7',
+            'weather', 'wind',
+        );
+
+        foreach ( $ordered_keys as $key ) {
+            if ( $registry->is_active( $key ) ) {
+                $headers[] = $key;
             }
-        }
-        if ( ! empty( $fields_config['weather'] ) ) {
-            $headers[] = 'weather';
-        }
-        if ( ! empty( $fields_config['wind'] ) ) {
-            $headers[] = 'wind';
         }
 
         // Custom fields
@@ -185,12 +144,11 @@ class EdnaSurvey_CSV_Service {
             $headers[] = 'custom_' . $cf->field_key;
         }
 
-        if ( ! empty( $fields_config['notes'] ) ) {
+        if ( $registry->is_active( 'notes' ) ) {
             $headers[] = 'notes';
         }
-        if ( ! empty( $fields_config['photos'] ) ) {
-            $headers[] = 'photo_files';
-        }
+
+        $headers[] = 'photo_files';
 
         return $headers;
     }

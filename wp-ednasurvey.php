@@ -3,7 +3,7 @@
  * Plugin Name: eDNA Survey
  * Plugin URI:
  * Description: Environmental DNA Citizen Survey Reporting Site Plugin
- * Version: 1.9.0
+ * Version: 2.0.0
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author:
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'EDNASURVEY_VERSION', '1.9.0' );
-define( 'EDNASURVEY_DB_VERSION', '1.5.0' );
+define( 'EDNASURVEY_VERSION', '2.0.0' );
+define( 'EDNASURVEY_DB_VERSION', '2.0.0' );
 define( 'EDNASURVEY_PLUGIN_FILE', __FILE__ );
 define( 'EDNASURVEY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'EDNASURVEY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -66,6 +66,7 @@ require_once EDNASURVEY_PLUGIN_DIR . 'includes/admin/class-admin-messages.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/admin/class-admin-site-detail.php';
 
 // Services
+require_once EDNASURVEY_PLUGIN_DIR . 'includes/services/class-field-registry.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/services/class-excel-service.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/services/class-photo-service.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/services/class-csv-service.php';

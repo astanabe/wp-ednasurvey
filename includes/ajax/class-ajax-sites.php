@@ -154,13 +154,22 @@ class EdnaSurvey_Ajax_Sites extends EdnaSurvey_Ajax_Handler {
     }
 
     public function rest_get_fields( WP_REST_Request $request ): WP_REST_Response {
-        $settings      = get_option( 'ednasurvey_settings', array() );
+        $registry      = EdnaSurvey_Field_Registry::get_instance();
         $field_model   = new EdnaSurvey_Custom_Field_Model();
         $custom_fields = $field_model->get_active_fields();
 
+        // Build a simplified field config for frontend JS
+        $field_config = array();
+        foreach ( $registry->get_all_fields() as $key => $field ) {
+            $field_config[ $key ] = array(
+                'mode'  => $field['mode'] ?? 'disabled',
+                'label' => $registry->get_label( $key ),
+            );
+        }
+
         return new WP_REST_Response( array(
-            'default_fields_config' => $settings['default_fields_config'] ?? array(),
-            'custom_fields'         => $custom_fields,
+            'field_config'  => $field_config,
+            'custom_fields' => $custom_fields,
         ), 200 );
     }
 }

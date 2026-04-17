@@ -1000,7 +1000,7 @@ msgid "marine"
 msgstr "海"
 
 msgid "estuarine"
-msgstr "河川感潮域"
+msgstr "汽水域"
 
 msgid "mangrove"
 msgstr "マングローブ"
@@ -1190,6 +1190,90 @@ msgstr "タイドプール"
 msgid "protected area"
 msgstr "保護区"
 
+msgid "farm pond"
+msgstr "ため池"
+
+msgid "natural pond"
+msgstr "天然池"
+
+msgid "garden pond"
+msgstr "庭園池・公園池"
+
+msgid "oxbow lake"
+msgstr "三日月湖"
+
+msgid "deep sea"
+msgstr "深海"
+
+msgid "hydrothermal vent"
+msgstr "海底熱水噴出孔"
+
+msgid "salt marsh"
+msgstr "塩性湿地"
+
+msgid "tidal flat"
+msgstr "干潟"
+
+msgid "tidal creek"
+msgstr "潮汐クリーク"
+
+msgid "freshwater marsh"
+msgstr "淡水湿地（草本）"
+
+msgid "freshwater swamp"
+msgstr "淡水湿地（木本）"
+
+msgid "bog"
+msgstr "高層湿原"
+
+msgid "fen"
+msgstr "低層湿原"
+
+msgid "floodplain"
+msgstr "氾濫原"
+
+msgid "spring"
+msgstr "湧水"
+
+msgid "spring pool"
+msgstr "湧水池"
+
+msgid "cave water"
+msgstr "洞窟内水域"
+
+msgid "well"
+msgstr "井戸"
+
+msgid "hot spring"
+msgstr "温泉"
+
+msgid "hot spring pool"
+msgstr "温泉池"
+
+msgid "hot spring stream"
+msgstr "温泉流水"
+
+msgid "paddy field"
+msgstr "水田・湛水農地"
+
+msgid "paddy ditch"
+msgstr "水田水路"
+
+msgid "spring-fed cultivation"
+msgstr "湧水栽培地"
+
+msgid "aquaculture pond"
+msgstr "養殖池"
+
+msgid "fish cage"
+msgstr "養殖いけす"
+
+msgid "shellfish farm"
+msgstr "貝類養殖場"
+
+msgid "seaweed farm"
+msgstr "海藻養殖場"
+
 msgid "sterile water environment"
 msgstr "滅菌水"
 
@@ -1253,8 +1337,8 @@ msgstr "無風～弱風"
 msgid "Environment (Broad)"
 msgstr "環境(大)"
 
-msgid "\"estuarine\": does not include areas outside the river mouth, even if nearby. \"mangrove\": mangroves in estuarine areas should be classified as mangrove. \"large river\": whether a sightseeing boat can operate (rapids boats do not count). \"saline lake\": does not include brackish lakes or lagoons. \"sterile water\": for blanks / negative controls."
-msgstr "「河川感潮域」: 河口から外は近くても含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるかどうかが基準（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガティブコントロール用。"
+msgid "\"estuarine\": does not include areas outside the river mouth, even if nearby. Does not include brackish lakes. \"mangrove\": mangroves in estuarine areas should be classified as mangrove. \"large river\": whether a sightseeing boat can operate (rapids boats do not count). \"saline lake\": does not include brackish lakes or lagoons. \"sterile water\": for blanks / negative controls."
+msgstr "「汽水域」: 河口から外は近くても含まない。汽水湖も含まない。「マングローブ」: 汽水域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるかどうかが基準（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガティブコントロール用。"
 
 msgid "Environment (Local)"
 msgstr "環境(小)"
@@ -1299,10 +1383,10 @@ msgid "About Environment, Weather, and Wind"
 msgstr "環境・天候・風について"
 
 msgid "\"estuarine\" in the Environment (Broad) field: does not include areas outside the river mouth, even if nearby."
-msgstr "「環境(大)」欄の「河川感潮域」: 河口から外は近くても含まない。"
+msgstr "「環境(大)」欄の「汽水域」: 河口から外は近くても含まない。汽水湖も含まない。"
 
 msgid "\"mangrove\" in the Environment (Broad) field: mangroves in estuarine areas should be classified as mangrove."
-msgstr "「環境(大)」欄の「マングローブ」: 河川感潮域のマングローブはマングローブを選択。"
+msgstr "「環境(大)」欄の「マングローブ」: 汽水域のマングローブはマングローブを選択。"
 
 msgid "\"large river\" in the Environment (Broad) field: whether a sightseeing boat can operate (rapids boats do not count)."
 msgstr "「環境(大)」欄の「大河川下流部」の判定基準: 遊覧船が運行できるかどうか（急流下り船は含まない）。"
@@ -1411,7 +1495,7 @@ msgid "Optional"
 msgstr "省略可"
 
 msgid "Select from list. \"estuarine\": excludes areas outside river mouth. \"mangrove\": estuarine mangroves = mangrove. \"large river\": whether a sightseeing boat can operate (not rapids boats). \"saline lake\": excludes brackish/lagoons. \"sterile water\": blanks/negative controls"
-msgstr "リストから選択。「河川感潮域」: 河口から外は含まない。「マングローブ」: 河川感潮域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるか（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガコン用"
+msgstr "リストから選択。「汽水域」: 河口から外は近くても含まない。汽水湖も含まない。「マングローブ」: 汽水域のマングローブはマングローブを選択。「大河川下流部」: 遊覧船が運行できるか（急流下り船は含まない）。「塩湖」: 汽水湖や潟湖は含まない。「滅菌水」: ブランク・ネガコン用"
 
 msgid "Select from list based on Env. (Broad)"
 msgstr "環境(大)に対応したリストから選択"

@@ -107,17 +107,27 @@ class EdnaSurvey_Ajax_Admin extends EdnaSurvey_Ajax_Handler {
 
         $field_model  = new EdnaSurvey_Custom_Field_Model();
         $existing_ids = array();
+        $valid_modes  = EdnaSurvey_Field_Registry::valid_modes();
 
         foreach ( $fields as $index => $field ) {
+            $mode = sanitize_text_field( $field['field_mode'] ?? 'enabled' );
+            if ( ! in_array( $mode, $valid_modes, true ) ) {
+                $mode = 'enabled';
+            }
+
             $data = array(
-                'field_key'     => sanitize_key( $field['field_key'] ?? '' ),
-                'label_ja'      => sanitize_text_field( $field['label_ja'] ?? '' ),
-                'label_en'      => sanitize_text_field( $field['label_en'] ?? '' ),
-                'field_type'    => sanitize_text_field( $field['field_type'] ?? 'text' ),
-                'field_options'  => ! empty( $field['field_options'] ) ? wp_json_encode( $field['field_options'] ) : null,
-                'is_required'   => ! empty( $field['is_required'] ) ? 1 : 0,
-                'sort_order'    => $index,
-                'is_active'     => ! empty( $field['is_active'] ) ? 1 : 0,
+                'field_key'         => sanitize_key( $field['field_key'] ?? '' ),
+                'label_local'       => sanitize_text_field( $field['label_local'] ?? '' ),
+                'label_en'          => sanitize_text_field( $field['label_en'] ?? '' ),
+                'description_local' => sanitize_text_field( $field['description_local'] ?? '' ),
+                'description_en'    => sanitize_text_field( $field['description_en'] ?? '' ),
+                'example_local'     => sanitize_text_field( $field['example_local'] ?? '' ),
+                'example_en'        => sanitize_text_field( $field['example_en'] ?? '' ),
+                'field_type'        => sanitize_text_field( $field['field_type'] ?? 'text' ),
+                'field_options'     => ! empty( $field['field_options'] ) ? wp_json_encode( $field['field_options'] ) : null,
+                'field_mode'        => $mode,
+                'default_value'     => sanitize_text_field( $field['default_value'] ?? '' ),
+                'sort_order'        => $index,
             );
 
             if ( ! empty( $field['id'] ) ) {
@@ -140,6 +150,8 @@ class EdnaSurvey_Ajax_Admin extends EdnaSurvey_Ajax_Handler {
                 $field_model->delete( (int) $f->id );
             }
         }
+
+        EdnaSurvey_Field_Registry::reset();
 
         wp_send_json_success( array( 'message' => __( 'Custom fields saved.', 'wp-ednasurvey' ) ) );
     }

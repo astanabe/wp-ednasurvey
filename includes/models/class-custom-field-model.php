@@ -12,10 +12,13 @@ class EdnaSurvey_Custom_Field_Model {
         $this->table = $wpdb->prefix . 'ednasurvey_custom_fields';
     }
 
+    /**
+     * Get fields that are not disabled (have data or require input).
+     */
     public function get_active_fields(): array {
         global $wpdb;
         return $wpdb->get_results(
-            "SELECT * FROM {$this->table} WHERE is_active = 1 ORDER BY sort_order ASC, id ASC"
+            "SELECT * FROM {$this->table} WHERE field_mode != 'disabled' ORDER BY sort_order ASC, id ASC"
         );
     }
 

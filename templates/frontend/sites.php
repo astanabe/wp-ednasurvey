@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $page_title = EdnaSurvey_Router::get_page_titles()['sites'];
 $content_callback = function () use ( $username, $sites, $settings ) {
-    $fields_config = $settings['default_fields_config'] ?? array();
     ?>
     <?php if ( empty( $sites ) ) : ?>
         <p><?php esc_html_e( 'You have not submitted any survey sites yet.', 'wp-ednasurvey' ); ?></p>
@@ -27,16 +26,12 @@ $content_callback = function () use ( $username, $sites, $settings ) {
                 <?php endif; ?>
                 <div class="ednasurvey-site-card-body">
                     <span class="ednasurvey-site-card-num">#<?php echo (int) ( $i + 1 ); ?></span>
-                    <?php if ( ! empty( $fields_config['site_name'] ) ) : ?>
-                        <strong><?php echo esc_html( EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' ) ); ?></strong>
-                    <?php endif; ?>
-                    <?php if ( ! empty( $fields_config['survey_datetime'] ) ) : ?>
-                        <span class="ednasurvey-site-card-detail"><?php echo esc_html( ( $site->survey_date ?? '' ) . ' ' . substr( $site->survey_time ?? '', 0, 5 ) ); ?></span>
-                    <?php endif; ?>
-                    <?php if ( ! empty( $fields_config['sample_id'] ) && ! empty( $site->sample_id ) ) : ?>
+                    <strong><?php echo esc_html( EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' ) ); ?></strong>
+                    <span class="ednasurvey-site-card-detail"><?php echo esc_html( ( $site->survey_date ?? '' ) . ' ' . substr( $site->survey_time ?? '', 0, 5 ) ); ?></span>
+                    <?php if ( ! empty( $site->sample_id ) ) : ?>
                         <span class="ednasurvey-site-card-detail"><?php esc_html_e( 'Sample ID', 'wp-ednasurvey' ); ?>: <?php echo esc_html( $site->sample_id ); ?></span>
                     <?php endif; ?>
-                    <?php if ( ! empty( $fields_config['location'] ) && ! empty( $site->latitude ) ) : ?>
+                    <?php if ( ! empty( $site->latitude ) ) : ?>
                         <span class="ednasurvey-site-card-detail"><?php echo esc_html( $site->latitude . ', ' . $site->longitude ); ?></span>
                     <?php endif; ?>
                 </div>

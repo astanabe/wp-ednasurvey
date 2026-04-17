@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-$fields_config = $settings['default_fields_config'] ?? array();
+$registry = EdnaSurvey_Field_Registry::get_instance();
 $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', $site->sitename_en ?? '' );
 ?>
 <div class="wrap">
@@ -55,7 +55,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
             <td style="font-size: 0.85em; word-break: break-all;"><?php echo esc_html( $site->submitted_user_agent ?? '' ); ?></td>
         </tr>
 
-        <?php if ( ! empty( $fields_config['survey_datetime'] ) ) : ?>
+        <?php if ( ! empty( true /* Group A */ ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Survey Date', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->survey_date ?? '' ); ?></td>
@@ -66,7 +66,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['location'] ) ) : ?>
+        <?php if ( ! empty( true /* Group A */ ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Latitude', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->latitude ?? '' ); ?></td>
@@ -77,7 +77,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['site_name'] ) ) : ?>
+        <?php if ( ! empty( true /* Group A */ ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Site Name (Local)', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->sitename_local ); ?></td>
@@ -88,14 +88,14 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['correspondence'] ) ) : ?>
+        <?php if ( ! empty( true /* Group B */ ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Representative', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->correspondence ); ?></td>
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['collectors'] ) ) : ?>
+        <?php if ( ! empty( $registry->is_active( 'collector1' ) ) ) : ?>
         <?php for ( $i = 1; $i <= 5; $i++ ) :
             $col = 'collector' . $i;
             if ( ! empty( $site->$col ) ) : ?>
@@ -105,14 +105,14 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; endfor; endif; ?>
 
-        <?php if ( ! empty( $fields_config['sample_id'] ) ) : ?>
+        <?php if ( ! empty( true /* Group B */ ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Sample ID', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->sample_id ); ?></td>
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['water_volume'] ) ) : ?>
+        <?php if ( ! empty( $registry->is_active( 'watervol1' ) ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Filtered Water Vol. 1 (mL)', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( $site->watervol1 ?? '' ); ?></td>
@@ -123,14 +123,14 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['env_broad'] ) && ! empty( $site->env_broad ) ) : ?>
+        <?php if ( ! empty( true /* Group B */ ) && ! empty( $site->env_broad ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Environment (Broad)', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_env_broad_choices(), $site->env_broad ) ); ?></td>
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['env_broad'] ) ) :
+        <?php if ( ! empty( true /* Group B */ ) ) :
             $env_local_all = EdnaSurvey_I18n::get_env_local_choices();
             $env_locals = array();
             for ( $eli = 1; $eli <= 7; $eli++ ) {
@@ -146,14 +146,21 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; endif; ?>
 
-        <?php if ( ! empty( $fields_config['weather'] ) && ! empty( $site->weather ) ) : ?>
+        <?php if ( $registry->is_active( 'env_medium' ) && ! empty( $site->env_medium ) ) : ?>
+        <tr>
+            <th><?php echo esc_html( $registry->get_label( 'env_medium' ) ); ?></th>
+            <td><?php echo esc_html( $site->env_medium ); ?></td>
+        </tr>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $registry->is_active( 'weather' ) ) && ! empty( $site->weather ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Weather', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_weather_choices(), $site->weather ) ); ?></td>
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $fields_config['wind'] ) && ! empty( $site->wind ) ) : ?>
+        <?php if ( ! empty( $registry->is_active( 'wind' ) ) && ! empty( $site->wind ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Wind', 'wp-ednasurvey' ); ?></th>
             <td><?php echo esc_html( EdnaSurvey_I18n::get_choice_label( EdnaSurvey_I18n::get_wind_choices(), $site->wind ) ); ?></td>
@@ -161,7 +168,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         <?php endif; ?>
 
         <?php foreach ( $custom_data as $cd ) :
-            $cf_label = EdnaSurvey_I18n::get_localized_field( $cd['field']->label_ja, $cd['field']->label_en );
+            $cf_label = EdnaSurvey_I18n::get_localized_field( $cd['field']->label_local ?? '', $cd['field']->label_en ?? '' );
         ?>
         <tr>
             <th><?php echo esc_html( $cf_label ); ?></th>
@@ -169,7 +176,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endforeach; ?>
 
-        <?php if ( ! empty( $fields_config['notes'] ) && ! empty( $site->notes ) ) : ?>
+        <?php if ( ! empty( $registry->is_active( 'notes' ) ) && ! empty( $site->notes ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Notes', 'wp-ednasurvey' ); ?></th>
             <td><?php echo nl2br( esc_html( $site->notes ) ); ?></td>

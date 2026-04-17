@@ -20,202 +20,142 @@ use PhpOffice\PhpSpreadsheet\NamedRange;
 class EdnaSurvey_Excel_Service {
 
     /**
-     * Column definitions for the template.
+     * Column definitions for the template, driven by the Field Registry.
      *
      * Each entry:
-     *   key       – DB column name (row 1 label)
-     *   ja        – Japanese label (row 2)
-     *   en        – English label (row 2)
-     *   hint_ja   – Japanese input note (row 3)
-     *   hint_en   – English input note (row 3)
-     *   example_ja – Japanese example (row 4)
-     *   example_en – English example (row 4)
-     *   type      – validation type
+     *   key            – DB column name (row 1)
+     *   label          – Localized label (row 2)
+     *   required_label – Required / Optional (row 3)
+     *   hint           – Description / format hint (row 4)
+     *   example        – Example value (row 5)
+     *   type           – validation type
+     *   options        – for select fields: { choices: [...] }
      */
     private function get_columns(): array {
-        $settings      = get_option( 'ednasurvey_settings', array() );
-        $fields_config = $settings['default_fields_config'] ?? array();
+        $registry = EdnaSurvey_Field_Registry::get_instance();
+        $columns  = array();
 
-        $columns = array();
+        $req_label = __( 'Required', 'wp-ednasurvey' );
+        $opt_label = __( 'Optional', 'wp-ednasurvey' );
 
-        if ( ! empty( $fields_config['sample_id'] ) ) {
-            $columns[] = array(
-                'key' => 'sample_id', 'label' => __( 'Sample ID', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Assigned string', 'wp-ednasurvey' ),
-                'example' => 'EWJ0001',
-                'type' => 'text',
-            );
-        }
-        if ( ! empty( $fields_config['survey_datetime'] ) ) {
-            $columns[] = array(
-                'key' => 'survey_date', 'label' => __( 'Survey Date', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'YYYY-MM-DD format', 'wp-ednasurvey' ),
-                'example' => '2026-04-09',
-                'type' => 'date',
-            );
-            $columns[] = array(
-                'key' => 'survey_time', 'label' => __( 'Survey Time', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'hh:mm (24-hour)', 'wp-ednasurvey' ),
-                'example' => '14:30',
-                'type' => 'time',
-            );
-        }
-        if ( ! empty( $fields_config['location'] ) ) {
-            $columns[] = array(
-                'key' => 'latitude', 'label' => __( 'Latitude', 'wp-ednasurvey' ),
-                'required_label' => __( 'Omit if photo has GPS', 'wp-ednasurvey' ),
-                'hint' => __( 'Decimal (6 places). No DMS. South is negative', 'wp-ednasurvey' ),
-                'example' => '38.268215',
-                'type' => 'latitude',
-            );
-            $columns[] = array(
-                'key' => 'longitude', 'label' => __( 'Longitude', 'wp-ednasurvey' ),
-                'required_label' => __( 'Omit if photo has GPS', 'wp-ednasurvey' ),
-                'hint' => __( 'Decimal (6 places). No DMS. West is negative', 'wp-ednasurvey' ),
-                'example' => '140.981483',
-                'type' => 'longitude',
-            );
-        }
-        if ( ! empty( $fields_config['site_name'] ) ) {
-            $columns[] = array(
-                'key' => 'sitename_local', 'label' => __( 'Local Language Site Name', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Local language string', 'wp-ednasurvey' ),
-                'example' => '仙台湾荒浜',
-                'type' => 'text',
-            );
-            $columns[] = array(
-                'key' => 'sitename_en', 'label' => __( 'Site Name (English)', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Alphabet characters', 'wp-ednasurvey' ),
-                'example' => 'Arahama coast, Sendai bay',
-                'type' => 'text',
-            );
-        }
-        if ( ! empty( $fields_config['correspondence'] ) ) {
-            $columns[] = array(
-                'key' => 'correspondence', 'label' => __( 'Representative', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Text', 'wp-ednasurvey' ),
-                'example' => __( 'Taro Tohoku', 'wp-ednasurvey' ),
-                'type' => 'text',
-            );
-        }
-        if ( ! empty( $fields_config['collectors'] ) ) {
-            $example_names = array(
-                __( 'Taro Tohoku', 'wp-ednasurvey' ),
-                __( 'Jiro Tohoku', 'wp-ednasurvey' ),
-                __( 'Saburo Tohoku', 'wp-ednasurvey' ),
-                '', '',
-            );
-            for ( $i = 1; $i <= 5; $i++ ) {
-                $columns[] = array(
-                    'key' => 'collector' . $i,
-                    'label' => sprintf( __( 'Collector %d', 'wp-ednasurvey' ), $i ),
-                    'required_label' => 1 === $i ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
-                    'hint' => __( 'Text', 'wp-ednasurvey' ),
-                    'example' => $example_names[ $i - 1 ],
-                    'type' => 'text',
-                );
+        // Map field_type to Excel validation type
+        $type_map = array(
+            'date'     => 'date',
+            'time'     => 'time',
+            'number'   => 'integer',
+            'decimal'  => 'number',
+            'select'   => 'select',
+            'text'     => 'text',
+            'textarea' => 'text',
+        );
+
+        // Canonical column order for standard fields
+        $ordered_keys = array(
+            'sample_id', 'survey_date', 'survey_time',
+            'latitude', 'longitude',
+            'sitename_local', 'sitename_en',
+            'correspondence',
+            'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
+            'watervol1', 'watervol2', 'airvol1', 'airvol2',
+            'weight1', 'weight2', 'filter_name',
+            'env_broad', 'env_medium',
+            'env_local1', 'env_local2', 'env_local3',
+            'env_local4', 'env_local5', 'env_local6', 'env_local7',
+            'weather', 'wind',
+        );
+
+        // Select field choice maps
+        $choice_maps = array(
+            'env_broad' => array_values( EdnaSurvey_I18n::get_env_broad_choices() ),
+            'weather'   => array_values( EdnaSurvey_I18n::get_weather_choices() ),
+            'wind'      => array_values( EdnaSurvey_I18n::get_wind_choices() ),
+        );
+
+        foreach ( $ordered_keys as $key ) {
+            if ( ! $registry->is_in_excel( $key ) ) {
+                continue;
             }
-        }
-        if ( ! empty( $fields_config['water_volume'] ) ) {
-            $columns[] = array(
-                'key' => 'watervol1', 'label' => __( 'Filtered Water Vol. 1 (mL)', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required (0 allowed)', 'wp-ednasurvey' ),
-                'hint' => __( 'Integer (mL)', 'wp-ednasurvey' ),
-                'example' => '500',
-                'type' => 'integer',
-            );
-            $columns[] = array(
-                'key' => 'watervol2', 'label' => __( 'Filtered Water Vol. 2 (mL)', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required (0 allowed)', 'wp-ednasurvey' ),
-                'hint' => __( 'Integer (mL)', 'wp-ednasurvey' ),
-                'example' => '500',
-                'type' => 'integer',
-            );
-        }
 
-        if ( ! empty( $fields_config['env_broad'] ) ) {
-            $env_broad_choices = EdnaSurvey_I18n::get_env_broad_choices();
-            $columns[] = array(
-                'key' => 'env_broad', 'label' => __( 'Environment (Broad)', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Select from list. "estuarine": excludes areas outside river mouth. "mangrove": estuarine mangroves = mangrove. "large river": whether a sightseeing boat can operate (not rapids boats). "saline lake": excludes brackish/lagoons. "sterile water": blanks/negative controls', 'wp-ednasurvey' ),
-                'example' => __( 'marine', 'wp-ednasurvey' ),
-                'type' => 'select',
-                'options' => array( 'choices' => array_values( $env_broad_choices ) ),
-            );
-            for ( $eli = 1; $eli <= 7; $eli++ ) {
-                $columns[] = array(
-                    'key' => 'env_local' . $eli,
-                    'label' => sprintf( __( 'Env. (Local) %d', 'wp-ednasurvey' ), $eli ),
-                    'required_label' => 1 === $eli ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
-                    'hint' => __( 'Select from list based on Env. (Broad)', 'wp-ednasurvey' ),
-                    'example' => 1 === $eli ? __( 'bay', 'wp-ednasurvey' ) : '',
-                    'type' => 'env_local',
-                );
+            $field      = $registry->get_field( $key );
+            $field_type = $field['field_type'] ?? 'text';
+
+            // Determine validation type
+            if ( 'latitude' === $key ) {
+                $val_type = 'latitude';
+            } elseif ( 'longitude' === $key ) {
+                $val_type = 'longitude';
+            } elseif ( str_starts_with( $key, 'env_local' ) ) {
+                $val_type = 'env_local';
+            } else {
+                $val_type = $type_map[ $field_type ] ?? 'text';
             }
-        }
-        if ( ! empty( $fields_config['weather'] ) ) {
-            $weather_choices = EdnaSurvey_I18n::get_weather_choices();
-            $columns[] = array(
-                'key' => 'weather', 'label' => __( 'Weather', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Select from list', 'wp-ednasurvey' ),
-                'example' => __( 'sunny', 'wp-ednasurvey' ),
-                'type' => 'select',
-                'options' => array( 'choices' => array_values( $weather_choices ) ),
+
+            // Required label
+            if ( in_array( $key, array( 'latitude', 'longitude' ), true ) ) {
+                $rl = __( 'Omit if photo has GPS', 'wp-ednasurvey' );
+            } else {
+                $rl = $registry->is_required( $key ) ? $req_label : $opt_label;
+            }
+
+            $col = array(
+                'key'            => $key,
+                'label'          => $registry->get_label( $key ),
+                'required_label' => $rl,
+                'hint'           => $registry->get_description( $key ),
+                'example'        => $registry->get_example( $key ),
+                'type'           => $val_type,
             );
+
+            // Add choices for select fields
+            if ( isset( $choice_maps[ $key ] ) ) {
+                $col['options'] = array( 'choices' => $choice_maps[ $key ] );
+            }
+
+            $columns[] = $col;
         }
-        if ( ! empty( $fields_config['wind'] ) ) {
-            $wind_choices = EdnaSurvey_I18n::get_wind_choices();
+
+        // Custom fields (only those with input)
+        foreach ( $registry->get_custom_fields() as $cf_key => $cf ) {
+            if ( ! $registry->has_input( $cf_key ) ) {
+                continue;
+            }
+
+            $cf_type = $type_map[ $cf['field_type'] ?? 'text' ] ?? 'text';
+
+            $col = array(
+                'key'            => 'custom_' . $cf['custom_field_key'],
+                'label'          => $registry->get_label( $cf_key ),
+                'required_label' => $registry->is_required( $cf_key ) ? $req_label : $opt_label,
+                'hint'           => $registry->get_description( $cf_key ),
+                'example'        => $registry->get_example( $cf_key ),
+                'type'           => $cf_type,
+                'options'        => $cf['field_options'] ?? null,
+            );
+
+            $columns[] = $col;
+        }
+
+        // Notes (if has input)
+        if ( $registry->has_input( 'notes' ) ) {
             $columns[] = array(
-                'key' => 'wind', 'label' => __( 'Wind', 'wp-ednasurvey' ),
-                'required_label' => __( 'Required', 'wp-ednasurvey' ),
-                'hint' => __( 'Select from list. Criterion: whether a syringe or filter holder used for filtration is continuously moved by the wind', 'wp-ednasurvey' ),
-                'example' => __( 'not windy', 'wp-ednasurvey' ),
-                'type' => 'select',
-                'options' => array( 'choices' => array_values( $wind_choices ) ),
+                'key'            => 'notes',
+                'label'          => $registry->get_label( 'notes' ),
+                'required_label' => $registry->is_required( 'notes' ) ? $req_label : $opt_label,
+                'hint'           => $registry->get_description( 'notes' ),
+                'example'        => $registry->get_example( 'notes' ),
+                'type'           => 'text',
             );
         }
 
-        // Dynamic custom fields
-        $field_model   = new EdnaSurvey_Custom_Field_Model();
-        $custom_fields = $field_model->get_active_fields();
-        foreach ( $custom_fields as $cf ) {
-            $columns[] = array(
-                'key'            => 'custom_' . $cf->field_key,
-                'label'          => EdnaSurvey_I18n::get_localized_field( $cf->label_ja, $cf->label_en ),
-                'required_label' => $cf->is_required ? __( 'Required', 'wp-ednasurvey' ) : __( 'Optional', 'wp-ednasurvey' ),
-                'hint'           => $cf->field_type,
-                'example'        => '',
-                'type'           => $cf->field_type,
-                'options'        => $cf->field_options ? json_decode( $cf->field_options, true ) : null,
-            );
-        }
-
-        if ( ! empty( $fields_config['notes'] ) ) {
-            $columns[] = array(
-                'key' => 'notes', 'label' => __( 'Notes', 'wp-ednasurvey' ),
-                'required_label' => __( 'Optional', 'wp-ednasurvey' ),
-                'hint' => __( 'Free text', 'wp-ednasurvey' ),
-                'example' => '',
-                'type' => 'text',
-            );
-        }
-        if ( ! empty( $fields_config['photos'] ) ) {
-            $columns[] = array(
-                'key' => 'photo_files', 'label' => __( 'Photo Filenames', 'wp-ednasurvey' ),
-                'required_label' => __( 'Omit if no photos taken', 'wp-ednasurvey' ),
-                'hint' => __( 'Comma-separated for multiple', 'wp-ednasurvey' ),
-                'example' => 'IMG_001.jpg,IMG_002.jpg',
-                'type' => 'text',
-            );
-        }
+        // Photo filenames (always included)
+        $columns[] = array(
+            'key'            => 'photo_files',
+            'label'          => __( 'Photo Filenames', 'wp-ednasurvey' ),
+            'required_label' => __( 'Omit if no photos taken', 'wp-ednasurvey' ),
+            'hint'           => __( 'Comma-separated for multiple', 'wp-ednasurvey' ),
+            'example'        => 'IMG_001.jpg,IMG_002.jpg',
+            'type'           => 'text',
+        );
 
         return $columns;
     }
@@ -251,7 +191,7 @@ class EdnaSurvey_Excel_Service {
      * Row 1: DB column names — locked, dark blue background
      * Row 2: Language-specific labels — locked, light yellow, bold
      * Row 3: Required/Optional — locked, light yellow
-     * Row 4: Input format instructions — locked, light yellow
+     * Row 4: Description — locked, light yellow, wrap text
      * Row 5: Example data — locked, light yellow
      * Row 6+: Data entry area — unlocked, white, with validation
      *

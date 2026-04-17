@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $page_title = EdnaSurvey_Router::get_page_titles()['dashboard'];
 $content_callback = function () use ( $username, $settings ) {
-    $fields_config = $settings['default_fields_config'] ?? array();
     $base_url = home_url( '/' . $username );
     $current_user = wp_get_current_user();
     ?>

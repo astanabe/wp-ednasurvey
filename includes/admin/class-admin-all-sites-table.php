@@ -18,8 +18,7 @@ class EdnaSurvey_All_Sites_Table extends WP_List_Table {
     }
 
     public function get_columns(): array {
-        $settings      = get_option( 'ednasurvey_settings', array() );
-        $fields_config = $settings['default_fields_config'] ?? array();
+        $registry = EdnaSurvey_Field_Registry::get_instance();
 
         $columns = array(
             'cb'                 => '<input type="checkbox" />',
@@ -30,39 +29,45 @@ class EdnaSurvey_All_Sites_Table extends WP_List_Table {
             'submitted_ip'       => __( 'IP / Geo', 'wp-ednasurvey' ),
         );
 
-        if ( ! empty( $fields_config['survey_datetime'] ) ) {
-            $columns['survey_date'] = __( 'Survey Date', 'wp-ednasurvey' );
-            $columns['survey_time'] = __( 'Survey Time', 'wp-ednasurvey' );
-        }
-        if ( ! empty( $fields_config['location'] ) ) {
-            $columns['latitude']  = __( 'Lat', 'wp-ednasurvey' );
-            $columns['longitude'] = __( 'Lon', 'wp-ednasurvey' );
-        }
-        if ( ! empty( $fields_config['site_name'] ) ) {
-            $columns['sitename_local'] = __( 'Site Name (Local)', 'wp-ednasurvey' );
-            $columns['sitename_en']    = __( 'Site Name (EN)', 'wp-ednasurvey' );
-        }
-        if ( ! empty( $fields_config['correspondence'] ) ) {
-            $columns['correspondence'] = __( 'Representative', 'wp-ednasurvey' );
-        }
-        if ( ! empty( $fields_config['collectors'] ) ) {
-            for ( $i = 1; $i <= 5; $i++ ) {
-                $columns[ 'collector' . $i ] = sprintf( __( 'Collector %d', 'wp-ednasurvey' ), $i );
+        // Group A: always shown
+        $columns['survey_date']    = $registry->get_label( 'survey_date' );
+        $columns['survey_time']    = $registry->get_label( 'survey_time' );
+        $columns['latitude']       = __( 'Lat', 'wp-ednasurvey' );
+        $columns['longitude']      = __( 'Lon', 'wp-ednasurvey' );
+        $columns['sitename_local'] = $registry->get_label( 'sitename_local' );
+        $columns['sitename_en']    = $registry->get_label( 'sitename_en' );
+
+        // Group B: always shown
+        $columns['correspondence'] = $registry->get_label( 'correspondence' );
+        $columns['sample_id']      = $registry->get_label( 'sample_id' );
+
+        // Collector 1 (Group B) always shown
+        $columns['collector1'] = $registry->get_label( 'collector1' );
+        // Collectors 2-5 (Group C grouped)
+        if ( $registry->is_active( 'collector2' ) ) {
+            for ( $i = 2; $i <= 5; $i++ ) {
+                $columns[ 'collector' . $i ] = $registry->get_label( 'collector' . $i );
             }
         }
-        if ( ! empty( $fields_config['sample_id'] ) ) {
-            $columns['sample_id'] = __( 'Sample ID', 'wp-ednasurvey' );
+
+        // Group C: mode-dependent
+        $numeric_fields = array( 'watervol1', 'watervol2', 'airvol1', 'airvol2', 'weight1', 'weight2' );
+        foreach ( $numeric_fields as $nf ) {
+            if ( $registry->is_active( $nf ) ) {
+                $columns[ $nf ] = $registry->get_label( $nf );
+            }
         }
-        if ( ! empty( $fields_config['water_volume'] ) ) {
-            $columns['watervol1'] = __( 'Filtered Water Vol. 1 (mL)', 'wp-ednasurvey' );
-            $columns['watervol2'] = __( 'Filtered Water Vol. 2 (mL)', 'wp-ednasurvey' );
+        if ( $registry->is_active( 'filter_name' ) ) {
+            $columns['filter_name'] = $registry->get_label( 'filter_name' );
         }
-        if ( ! empty( $fields_config['notes'] ) ) {
-            $columns['notes'] = __( 'Notes', 'wp-ednasurvey' );
+        if ( $registry->is_active( 'env_medium' ) ) {
+            $columns['env_medium'] = $registry->get_label( 'env_medium' );
         }
-        if ( ! empty( $fields_config['photos'] ) ) {
-            $columns['photos'] = __( 'Photos', 'wp-ednasurvey' );
+        if ( $registry->is_active( 'notes' ) ) {
+            $columns['notes'] = $registry->get_label( 'notes' );
         }
+
+        $columns['photos'] = __( 'Photos', 'wp-ednasurvey' );
 
         return $columns;
     }
