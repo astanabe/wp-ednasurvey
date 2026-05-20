@@ -6,7 +6,8 @@
 
     var state = {
         sessionId: null,
-        photos: []  // [{stored_filename, original_filename, thumbnail_url, exif_datetime, exif_latitude, exif_longitude}]
+        photos: [],  // [{stored_filename, original_filename, thumbnail_url, exif_datetime, exif_latitude, exif_longitude}]
+        uploadingCount: 0
     };
 
     function initMap() {
@@ -76,7 +77,7 @@
     // ── Photo upload (temp) ───────────────────────────────────────
 
     function initPhotoUpload() {
-        $('#photos').on('change', function() {
+        $('.ednasurvey-photo-input').on('change', function() {
             var files = this.files;
             if (!files || !files.length) return;
 
@@ -97,15 +98,19 @@
                 fd.append('photos[]', files[j]);
             }
 
-            var $ph = $('<div class="ednasurvey-photo-uploading">' + escapeHtml(i18n.uploading || 'Uploading...') + '</div>');
-            $('#ednasurvey-photo-list').append($ph);
+            var $phTop    = $('<div class="ednasurvey-photo-uploading">' + escapeHtml(i18n.uploading || 'Uploading...') + '</div>');
+            var $phBottom = $phTop.clone();
+            $('#ednasurvey-photo-list-top').append($phTop);
+            $('#ednasurvey-photo-list-bottom').append($phBottom);
             this.value = '';
+            state.uploadingCount++;
 
             $.ajax({
                 url: ednasurveyAjax.ajaxUrl, type: 'POST', data: fd,
                 processData: false, contentType: false,
                 success: function(res) {
-                    $ph.remove();
+                    $phTop.remove();
+                    $phBottom.remove();
                     if (res.success) {
                         if (!state.sessionId) state.sessionId = res.data.session_id;
                         $('#ednasurvey-session-id').val(state.sessionId);
@@ -115,15 +120,19 @@
                         showErrors(res.data.messages || [i18n.errorOccurred || 'Upload failed.']);
                     }
                 },
-                error: function() { $ph.remove(); showErrors([i18n.serverError || 'Server error.']); }
+                error: function() {
+                    $phTop.remove();
+                    $phBottom.remove();
+                    showErrors([i18n.serverError || 'Server error.']);
+                },
+                complete: function() {
+                    state.uploadingCount = Math.max(0, state.uploadingCount - 1);
+                }
             });
         });
     }
 
     function renderPhotoList() {
-        var $list = $('#ednasurvey-photo-list');
-        $list.empty();
-
         // Sort by exif_datetime ascending; photos without datetime go last
         state.photos.sort(function(a, b) {
             var da = a.exif_datetime || '';
@@ -133,25 +142,34 @@
             return da < db ? -1 : da > db ? 1 : 0;
         });
 
-        state.photos.forEach(function(p, idx) {
-            var gps = (p.exif_latitude && p.exif_longitude)
-                ? p.exif_latitude + ', ' + p.exif_longitude : 'N/A';
-            var dt = p.exif_datetime ? p.exif_datetime.substring(0, 16) : 'N/A';
+        $('.ednasurvey-photo-list').each(function() {
+            var $list = $(this);
+            // Detach any "uploading" placeholders so we can re-append them at the end
+            var $placeholders = $list.children('.ednasurvey-photo-uploading').detach();
+            $list.empty();
 
-            var $item = $('<div class="ednasurvey-temp-photo-item">');
-            var $img  = $('<img>').attr('src', p.thumbnail_url).attr('alt', '');
-            var $info = $('<div class="ednasurvey-temp-photo-info">')
-                .append($('<strong>').text(p.original_filename))
-                .append('<br>' + escapeHtml(i18n.exifDatetime || 'Date/Time') + ': ' + escapeHtml(dt))
-                .append('<br>GPS: ' + escapeHtml(gps));
-            var $btn  = $('<button type="button" class="button button-small">')
-                .text('\u00D7')
-                .on('click', (function(photoIdx) {
-                    return function() { deletePhoto(photoIdx); };
-                })(idx));
+            state.photos.forEach(function(p, idx) {
+                var gps = (p.exif_latitude && p.exif_longitude)
+                    ? p.exif_latitude + ', ' + p.exif_longitude : 'N/A';
+                var dt = p.exif_datetime ? p.exif_datetime.substring(0, 16) : 'N/A';
 
-            $item.append($img).append($info).append($btn);
-            $list.append($item);
+                var $item = $('<div class="ednasurvey-temp-photo-item">');
+                var $img  = $('<img>').attr('src', p.thumbnail_url).attr('alt', '');
+                var $info = $('<div class="ednasurvey-temp-photo-info">')
+                    .append($('<strong>').text(p.original_filename))
+                    .append('<br>' + escapeHtml(i18n.exifDatetime || 'Date/Time') + ': ' + escapeHtml(dt))
+                    .append('<br>GPS: ' + escapeHtml(gps));
+                var $btn  = $('<button type="button" class="button button-small">')
+                    .text('\u00D7')
+                    .on('click', (function(photoIdx) {
+                        return function() { deletePhoto(photoIdx); };
+                    })(idx));
+
+                $item.append($img).append($info).append($btn);
+                $list.append($item);
+            });
+
+            $list.append($placeholders);
         });
     }
 
@@ -226,6 +244,12 @@
             e.preventDefault();
             $('#ednasurvey-submission-messages').empty();
 
+            // Block while photo uploads are still in flight
+            if (state.uploadingCount > 0) {
+                showErrors([i18n.photoUploadInProgress || 'Please wait until photo upload is complete.']);
+                return;
+            }
+
             // Client-side env_local conflict check
             var conflictErrors = checkEnvLocalConflicts();
             if (conflictErrors.length > 0) {
@@ -233,9 +257,9 @@
                 return;
             }
 
-            // Build confirmation table from form fields
+            // Build confirmation table from form fields (skip duplicated fieldsets)
             var rows = '';
-            $form.find('.ednasurvey-fieldset').each(function() {
+            $form.find('.ednasurvey-fieldset').not('.ednasurvey-skip-in-confirm').each(function() {
                 var legend = $(this).find('legend').text();
                 $(this).find('.ednasurvey-field-row, .ednasurvey-file-select').each(function() {
                     var label = $(this).find('label').first().clone().children('.required').remove().end().text().trim();
@@ -280,6 +304,13 @@
             var $btn = $(this);
             var $messages = $('#ednasurvey-submission-messages');
             var btnLabel = $btn.text();
+
+            // Safety net: if somehow uploads are still in flight, block here too
+            if (state.uploadingCount > 0) {
+                showErrors([i18n.photoUploadInProgress || 'Please wait until photo upload is complete.']);
+                return;
+            }
+
             $btn.prop('disabled', true).text(i18n.submitting || 'Submitting...');
             $messages.empty();
 

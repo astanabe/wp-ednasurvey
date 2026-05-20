@@ -11,6 +11,18 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
         add_action( 'wp_ajax_ednasurvey_delete_temp_photo', array( $this, 'handle_delete_temp_photo' ) );
         add_action( 'wp_ajax_ednasurvey_analyze_offline_excel', array( $this, 'handle_analyze_offline_excel' ) );
         add_action( 'wp_ajax_ednasurvey_confirm_offline', array( $this, 'handle_confirm_offline' ) );
+        add_action( 'wp_ajax_ednasurvey_reset_online_defaults', array( $this, 'handle_reset_online_defaults' ) );
+    }
+
+    public function handle_reset_online_defaults(): void {
+        $this->verify_nonce();
+        $user = $this->require_login();
+
+        delete_user_meta( $user->ID, 'ednasurvey_online_defaults' );
+
+        wp_send_json_success( array(
+            'message' => __( 'Online submission defaults have been reset.', 'wp-ednasurvey' ),
+        ) );
     }
 
     public function handle_submit_site(): void {
@@ -97,6 +109,9 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
         if ( ! $site_id ) {
             wp_send_json_error( array( 'messages' => array( __( 'Failed to save site data.', 'wp-ednasurvey' ) ) ) );
         }
+
+        // Update per-user defaults for fields whose "Set this as default for next time" was checked
+        $this->update_user_defaults( $user->ID, $data, $raw_post );
 
         // Save custom field values
         $custom_data_model = new EdnaSurvey_Custom_Field_Data_Model();
@@ -405,6 +420,66 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             'site_ids'     => $inserted_ids,
             'redirect_url' => home_url( '/' . $user->user_login . '/' ),
         ) );
+    }
+
+    /**
+     * Fields eligible for per-user "Set as default for next time" persistence.
+     */
+    private const USER_DEFAULTS_ALLOWED_FIELDS = array(
+        'correspondence',
+        'collector1',
+        'collector2',
+        'collector3',
+        'collector4',
+        'collector5',
+        'env_broad',
+        'watervol1',
+        'watervol2',
+    );
+
+    /**
+     * For each allowed field with a checked `set_default_<key>` flag in the
+     * submission, save its current value (or clear it if empty) into the
+     * user's `ednasurvey_online_defaults` meta.
+     *
+     * @param int   $user_id  User to update.
+     * @param array $data     Sanitized form data.
+     * @param array $raw_post Unsanitized POST (used only to detect checkbox presence).
+     */
+    private function update_user_defaults( int $user_id, array $data, array $raw_post ): void {
+        $defaults = get_user_meta( $user_id, 'ednasurvey_online_defaults', true );
+        if ( ! is_array( $defaults ) ) {
+            $defaults = array();
+        }
+
+        $changed = false;
+        foreach ( self::USER_DEFAULTS_ALLOWED_FIELDS as $key ) {
+            $flag_key = 'set_default_' . $key;
+            if ( empty( $raw_post[ $flag_key ] ) ) {
+                continue;
+            }
+
+            $value = isset( $data[ $key ] ) ? (string) $data[ $key ] : '';
+            if ( '' === $value ) {
+                if ( isset( $defaults[ $key ] ) ) {
+                    unset( $defaults[ $key ] );
+                    $changed = true;
+                }
+            } else {
+                if ( ! isset( $defaults[ $key ] ) || $defaults[ $key ] !== $value ) {
+                    $defaults[ $key ] = $value;
+                    $changed = true;
+                }
+            }
+        }
+
+        if ( $changed ) {
+            if ( empty( $defaults ) ) {
+                delete_user_meta( $user_id, 'ednasurvey_online_defaults' );
+            } else {
+                update_user_meta( $user_id, 'ednasurvey_online_defaults', $defaults );
+            }
+        }
     }
 
     /**

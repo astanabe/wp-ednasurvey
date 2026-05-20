@@ -17,6 +17,15 @@
     text-decoration: none;
 }
 
+.ednasurvey-dashboard-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 1.5em;
+}
+
 /* Dashboard Navigation */
 .ednasurvey-dashboard-nav ul {
     list-style: none;
@@ -173,6 +182,22 @@
 
 .ednasurvey-field-row textarea {
     max-width: 100%;
+}
+
+/* "Set this as default for next time" checkbox shown next to certain fields */
+.ednasurvey-field-row .ednasurvey-save-default {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    margin-top: 0.4em;
+    font-weight: normal;
+    font-size: 0.9em;
+    color: #555;
+    cursor: pointer;
+}
+
+.ednasurvey-field-row .ednasurvey-save-default input[type="checkbox"] {
+    margin: 0;
 }
 
 .ednasurvey-help {

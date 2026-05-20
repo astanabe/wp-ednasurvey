@@ -4,18 +4,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $page_title = EdnaSurvey_Router::get_page_titles()['onlinesubmission'];
-$content_callback = function () use ( $username, $settings, $registry, $custom_fields, $copy_data, $target_user ) {
+$content_callback = function () use ( $username, $settings, $registry, $custom_fields, $copy_data, $target_user, $user_defaults ) {
     $photo_limit = (int) ( $settings['photo_upload_limit'] ?? 10 );
 
     /**
-     * Get value for a field: copy_data if available, then registry default, then fallback.
+     * Get value for a field: copy_data → per-user saved default → registry default → fallback.
      */
-    $fval = function ( string $key, string $fallback = '' ) use ( $copy_data, $registry ) {
+    $fval = function ( string $key, string $fallback = '' ) use ( $copy_data, $registry, $user_defaults ) {
         if ( $copy_data && isset( $copy_data->$key ) ) {
             return $copy_data->$key;
         }
+        if ( isset( $user_defaults[ $key ] ) && '' !== $user_defaults[ $key ] ) {
+            return $user_defaults[ $key ];
+        }
         $default = $registry->get_default_value( $key );
         return '' !== $default ? $default : $fallback;
+    };
+
+    /**
+     * Render the "Set this as default for next time" checkbox.
+     */
+    $save_default_checkbox = function ( string $key ) {
+        ?>
+        <label class="ednasurvey-save-default">
+            <input type="checkbox" name="set_default_<?php echo esc_attr( $key ); ?>" value="1">
+            <?php esc_html_e( 'Set this as default for next time', 'wp-ednasurvey' ); ?>
+        </label>
+        <?php
     };
 
     $req = function ( string $key ) use ( $registry ) {
@@ -41,6 +56,23 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
         <?php wp_nonce_field( 'ednasurvey_nonce', 'nonce' ); ?>
         <input type="hidden" name="action" value="ednasurvey_submit_site">
         <input type="hidden" name="session_id" id="ednasurvey-session-id" value="">
+
+        <!-- Photos (top, synced with bottom) -->
+        <fieldset class="ednasurvey-fieldset ednasurvey-skip-in-confirm">
+            <legend><?php esc_html_e( 'Photos', 'wp-ednasurvey' ); ?></legend>
+            <p class="ednasurvey-help">
+                <?php
+                /* translators: %d: maximum number of photos */
+                printf( esc_html__( 'Upload up to %d photos (JPEG or HEIC/HEIF).', 'wp-ednasurvey' ), $photo_limit );
+                ?>
+                <br>
+                <?php esc_html_e( 'You can start uploading here and continue filling in other fields while photos are being processed.', 'wp-ednasurvey' ); ?>
+            </p>
+            <div class="ednasurvey-file-select">
+                <input type="file" id="photos-top" class="ednasurvey-photo-input" multiple accept=".jpg,.jpeg,.heic,.heif">
+            </div>
+            <div id="ednasurvey-photo-list-top" class="ednasurvey-photo-list"></div>
+        </fieldset>
 
         <!-- Date & Time (Group A: always required) -->
         <fieldset class="ednasurvey-fieldset">
@@ -109,6 +141,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                 <label for="correspondence"><?php echo esc_html( $registry->get_label( 'correspondence' ) ); ?> <span class="required">*</span></label>
                 <input type="text" id="correspondence" name="correspondence"
                        value="<?php echo esc_attr( $fval( 'correspondence' ) ); ?>" required>
+                <?php $save_default_checkbox( 'correspondence' ); ?>
             </div>
         </fieldset>
 
@@ -120,6 +153,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                 <?php $desc( 'collector1' ); ?>
                 <input type="text" id="collector1" name="collector1"
                        value="<?php echo esc_attr( $fval( 'collector1' ) ); ?>" required>
+                <?php $save_default_checkbox( 'collector1' ); ?>
             </div>
             <?php if ( $registry->has_input( 'collector2' ) ) :
                 for ( $i = 2; $i <= 5; $i++ ) :
@@ -131,6 +165,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                 </label>
                 <input type="text" id="<?php echo esc_attr( $ck ); ?>" name="<?php echo esc_attr( $ck ); ?>"
                        value="<?php echo esc_attr( $fval( $ck ) ); ?>">
+                <?php $save_default_checkbox( $ck ); ?>
             </div>
             <?php endfor; endif; ?>
         </fieldset>
@@ -154,6 +189,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <?php $save_default_checkbox( 'env_broad' ); ?>
             </div>
         </fieldset>
 
@@ -265,6 +301,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                        step="<?php echo esc_attr( $step ); ?>" min="0"
                        value="<?php echo esc_attr( $fval( $nf ) ); ?>"
                        <?php echo $registry->is_required( $nf ) ? 'required' : ''; ?>>
+                <?php if ( in_array( $nf, array( 'watervol1', 'watervol2' ), true ) ) { $save_default_checkbox( $nf ); } ?>
             </div>
             <?php endforeach; ?>
         </fieldset>
@@ -356,7 +393,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
         </fieldset>
         <?php endif; ?>
 
-        <!-- Photos (always enabled) -->
+        <!-- Photos (bottom, synced with top) -->
         <fieldset class="ednasurvey-fieldset">
             <legend><?php esc_html_e( 'Photos', 'wp-ednasurvey' ); ?></legend>
             <p class="ednasurvey-help">
@@ -366,9 +403,9 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
                 ?>
             </p>
             <div class="ednasurvey-file-select">
-                <input type="file" id="photos" multiple accept=".jpg,.jpeg,.heic,.heif">
+                <input type="file" id="photos-bottom" class="ednasurvey-photo-input" multiple accept=".jpg,.jpeg,.heic,.heif">
             </div>
-            <div id="ednasurvey-photo-list"></div>
+            <div id="ednasurvey-photo-list-bottom" class="ednasurvey-photo-list"></div>
         </fieldset>
 
         <div class="ednasurvey-form-actions">

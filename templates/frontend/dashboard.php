@@ -15,9 +15,6 @@ $content_callback = function () use ( $username, $settings ) {
             printf( esc_html__( 'Welcome, %s', 'wp-ednasurvey' ), esc_html( $current_user->display_name ) );
             ?>
         </p>
-        <a href="<?php echo esc_url( wp_logout_url( site_url( '/wp-login.php?loggedout=true' ) ) ); ?>" class="button ednasurvey-logout-btn">
-            <?php esc_html_e( 'Log Out', 'wp-ednasurvey' ); ?>
-        </a>
     </div>
 
     <nav class="ednasurvey-dashboard-nav">
@@ -66,6 +63,50 @@ $content_callback = function () use ( $username, $settings ) {
             </li>
         </ul>
     </nav>
+
+    <div class="ednasurvey-dashboard-footer-actions">
+        <button type="button"
+                id="ednasurvey-reset-online-defaults"
+                class="button ednasurvey-reset-defaults-btn"
+                data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"
+                data-nonce="<?php echo esc_attr( wp_create_nonce( 'ednasurvey_nonce' ) ); ?>"
+                data-confirm="<?php echo esc_attr__( 'Reset all defaults for the online submission page?', 'wp-ednasurvey' ); ?>"
+                data-success="<?php echo esc_attr__( 'Online submission defaults have been reset.', 'wp-ednasurvey' ); ?>"
+                data-error="<?php echo esc_attr__( 'Failed to reset defaults. Please try again.', 'wp-ednasurvey' ); ?>">
+            <?php esc_html_e( 'Reset Online Submission Defaults', 'wp-ednasurvey' ); ?>
+        </button>
+        <a href="<?php echo esc_url( wp_logout_url( site_url( '/wp-login.php?loggedout=true' ) ) ); ?>" class="button ednasurvey-logout-btn">
+            <?php esc_html_e( 'Log Out', 'wp-ednasurvey' ); ?>
+        </a>
+    </div>
+
+    <script>
+    (function() {
+        var btn = document.getElementById('ednasurvey-reset-online-defaults');
+        if (!btn) return;
+        btn.addEventListener('click', function() {
+            if (!window.confirm(btn.dataset.confirm)) return;
+            btn.disabled = true;
+            var body = new URLSearchParams();
+            body.append('action', 'ednasurvey_reset_online_defaults');
+            body.append('nonce', btn.dataset.nonce);
+            fetch(btn.dataset.ajaxUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: body.toString()
+            }).then(function(r) { return r.json(); })
+              .then(function(res) {
+                  btn.disabled = false;
+                  window.alert(res && res.success ? btn.dataset.success : btn.dataset.error);
+              })
+              .catch(function() {
+                  btn.disabled = false;
+                  window.alert(btn.dataset.error);
+              });
+        });
+    })();
+    </script>
     <?php
 };
 

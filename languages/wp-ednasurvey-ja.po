@@ -178,6 +178,12 @@ msgstr "送信"
 msgid "Uploading..."
 msgstr "アップロード中..."
 
+msgid "Please wait until photo upload is complete."
+msgstr "写真のアップロードが完了するまでお待ちください。"
+
+msgid "You can start uploading here and continue filling in other fields while photos are being processed."
+msgstr "ここでアップロードを開始すれば、写真の処理中も他の項目の入力を続けられます。"
+
 msgid "Submitting..."
 msgstr "送信中..."
 
@@ -859,6 +865,21 @@ msgstr "濾過水量2 (mL)"
 #: templates/frontend/dashboard.php
 msgid "Log Out"
 msgstr "ログアウト"
+
+msgid "Reset Online Submission Defaults"
+msgstr "オンライン調査データ送信ページのデフォルト値リセット"
+
+msgid "Reset all defaults for the online submission page?"
+msgstr "オンライン調査データ送信ページのデフォルト値をすべてリセットしてよろしいですか？"
+
+msgid "Online submission defaults have been reset."
+msgstr "オンライン調査データ送信ページのデフォルト値をリセットしました。"
+
+msgid "Failed to reset defaults. Please try again."
+msgstr "デフォルト値のリセットに失敗しました。もう一度お試しください。"
+
+msgid "Set this as default for next time"
+msgstr "この内容を次回以降のデフォルト値にする"
 
 msgid "Back to Map"
 msgstr "マップに戻る"

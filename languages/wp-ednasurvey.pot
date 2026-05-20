@@ -167,6 +167,12 @@ msgstr ""
 msgid "Uploading..."
 msgstr ""
 
+msgid "Please wait until photo upload is complete."
+msgstr ""
+
+msgid "You can start uploading here and continue filling in other fields while photos are being processed."
+msgstr ""
+
 msgid "Submitting..."
 msgstr ""
 
@@ -847,6 +853,21 @@ msgstr ""
 
 #: templates/frontend/dashboard.php
 msgid "Log Out"
+msgstr ""
+
+msgid "Reset Online Submission Defaults"
+msgstr ""
+
+msgid "Reset all defaults for the online submission page?"
+msgstr ""
+
+msgid "Online submission defaults have been reset."
+msgstr ""
+
+msgid "Failed to reset defaults. Please try again."
+msgstr ""
+
+msgid "Set this as default for next time"
 msgstr ""
 
 msgid "Back to Map"

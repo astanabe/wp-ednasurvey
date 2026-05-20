@@ -12,6 +12,12 @@ class EdnaSurvey_Online_Submission_Controller {
         $field_model   = new EdnaSurvey_Custom_Field_Model();
         $custom_fields = $field_model->get_active_fields();
 
+        // Per-user defaults saved via "Set this as default for next time" checkbox
+        $user_defaults = get_user_meta( $target_user->ID, 'ednasurvey_online_defaults', true );
+        if ( ! is_array( $user_defaults ) ) {
+            $user_defaults = array();
+        }
+
         // Check if copying from existing site (copy_from = internal_sample_id)
         $copy_data = null;
         if ( ! empty( $_GET['copy_from'] ) ) {
