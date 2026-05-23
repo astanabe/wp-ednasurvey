@@ -27,6 +27,20 @@ class EdnaSurvey_Online_Submission_Controller {
                 $copy_data = $site;
                 $custom_data_model = new EdnaSurvey_Custom_Field_Data_Model();
                 $copy_data->custom_fields = $custom_data_model->get_by_site( (int) $site->id );
+
+                // Expose child-table filter values as waterfilter1/watervol1/...
+                // properties so the form's $fval() can pre-fill them on resubmit.
+                $filter_model = new EdnaSurvey_Site_Filter_Model();
+                $types_meta   = EdnaSurvey_Filter_Fields::types();
+                foreach ( $filter_model->get_by_site( (int) $site->id ) as $frow ) {
+                    $meta = $types_meta[ $frow->filter_type ] ?? null;
+                    if ( ! $meta ) {
+                        continue;
+                    }
+                    $idx                                            = (int) $frow->filter_index;
+                    $copy_data->{ $meta['id_key_base'] . $idx }     = $frow->filter_id;
+                    $copy_data->{ $meta['val_key_base'] . $idx }    = $frow->filter_value;
+                }
             }
         }
 

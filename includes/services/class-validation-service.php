@@ -148,17 +148,11 @@ class EdnaSurvey_Validation_Service {
             }
         }
 
-        // Numeric fields: watervol1/2, airvol1/2, weight1/2
-        $numeric_fields = array( 'watervol1', 'watervol2', 'airvol1', 'airvol2', 'weight1', 'weight2' );
-        foreach ( $numeric_fields as $nf ) {
-            if ( ! $registry->has_input( $nf ) ) {
-                continue;
-            }
-            $val = $data[ $nf ] ?? '';
-            if ( $registry->is_required( $nf ) && ( ! isset( $data[ $nf ] ) || '' === $data[ $nf ] ) ) {
-                $errors[] = sprintf( __( '%s is required.', 'wp-ednasurvey' ), $registry->get_label( $nf ) );
-            } elseif ( '' !== $val && ! is_numeric( $val ) ) {
-                $errors[] = sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $registry->get_label( $nf ) );
+        // Filtration/measurement values (water/air/container) — numeric, optional
+        foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+            $val = $data[ $inst['val_key'] ] ?? '';
+            if ( '' !== $val && ! is_numeric( $val ) ) {
+                $errors[] = sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $inst['val_label'] );
             }
         }
 
@@ -249,21 +243,11 @@ class EdnaSurvey_Validation_Service {
 
         // --- Group C: Mode-dependent (only validate fields with input) ---
 
-        // Numeric fields
-        $numeric_fields = array( 'watervol1', 'watervol2', 'airvol1', 'airvol2', 'weight1', 'weight2' );
-        foreach ( $numeric_fields as $nf ) {
-            if ( ! $registry->has_input( $nf ) ) {
-                continue;
-            }
-            $val = $data[ $nf ] ?? '';
-            if ( $registry->is_required( $nf ) ) {
-                if ( ! isset( $data[ $nf ] ) || '' === $data[ $nf ] ) {
-                    $errors[] = $prefix . sprintf( __( '%s is required.', 'wp-ednasurvey' ), $registry->get_label( $nf ) );
-                } elseif ( ! is_numeric( $data[ $nf ] ) ) {
-                    $errors[] = $prefix . sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $registry->get_label( $nf ) );
-                }
-            } elseif ( '' !== $val && ! is_numeric( $val ) ) {
-                $errors[] = $prefix . sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $registry->get_label( $nf ) );
+        // Filtration/measurement values (water/air/container) — numeric, optional
+        foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+            $val = $data[ $inst['val_key'] ] ?? '';
+            if ( '' !== $val && ! is_numeric( $val ) ) {
+                $errors[] = $prefix . sprintf( __( '%s must be a number.', 'wp-ednasurvey' ), $inst['val_label'] );
             }
         }
 

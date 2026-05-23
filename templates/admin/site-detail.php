@@ -90,7 +90,7 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
 
         <?php if ( ! empty( true /* Group B */ ) ) : ?>
         <tr>
-            <th><?php esc_html_e( 'Representative', 'wp-ednasurvey' ); ?></th>
+            <th><?php echo esc_html( $registry->get_label( 'correspondence' ) ); ?></th>
             <td><?php echo esc_html( $site->correspondence ); ?></td>
         </tr>
         <?php endif; ?>
@@ -112,16 +112,26 @@ $site_name = EdnaSurvey_I18n::get_localized_field( $site->sitename_local ?? '', 
         </tr>
         <?php endif; ?>
 
-        <?php if ( ! empty( $registry->is_active( 'watervol1' ) ) ) : ?>
+        <?php
+        // Water/air/container filter units (child table). ID shown above value.
+        $filter_map = ( new EdnaSurvey_Site_Filter_Model() )->get_map_by_site( (int) $site->id );
+        foreach ( EdnaSurvey_Filter_Fields::get_instances() as $finst ) :
+            $frow = $filter_map[ $finst['type'] . '_' . $finst['index'] ] ?? null;
+            $fid  = $frow->filter_id ?? '';
+            $fvl  = ( $frow && null !== $frow->filter_value ) ? $frow->filter_value : '';
+            if ( '' !== (string) $fid ) : ?>
         <tr>
-            <th><?php esc_html_e( 'Filtered Water Vol. 1 (mL)', 'wp-ednasurvey' ); ?></th>
-            <td><?php echo esc_html( $site->watervol1 ?? '' ); ?></td>
+            <th><?php echo esc_html( $finst['id_label'] ); ?></th>
+            <td><?php echo esc_html( $fid ); ?></td>
         </tr>
+        <?php endif;
+            if ( '' !== (string) $fvl ) : ?>
         <tr>
-            <th><?php esc_html_e( 'Filtered Water Vol. 2 (mL)', 'wp-ednasurvey' ); ?></th>
-            <td><?php echo esc_html( $site->watervol2 ?? '' ); ?></td>
+            <th><?php echo esc_html( $finst['val_label'] ); ?></th>
+            <td><?php echo esc_html( $fvl ); ?></td>
         </tr>
-        <?php endif; ?>
+        <?php endif;
+        endforeach; ?>
 
         <?php if ( ! empty( true /* Group B */ ) && ! empty( $site->env_broad ) ) : ?>
         <tr>

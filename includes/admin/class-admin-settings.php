@@ -312,6 +312,9 @@ class EdnaSurvey_Admin_Settings {
             'field_config'          => $this->sanitize_field_config( $_POST['field_config'] ?? array() ),
         );
 
+        // Filtration/measurement counts (water/air/container).
+        $settings = array_merge( $settings, $this->sanitize_filter_counts() );
+
         update_option( 'ednasurvey_settings', $settings );
 
         add_settings_error(
@@ -320,6 +323,44 @@ class EdnaSurvey_Admin_Settings {
             __( 'Settings saved.', 'wp-ednasurvey' ),
             'updated'
         );
+    }
+
+    /**
+     * Sanitize the per-type filter counts. Clamps to 0..MAX_COUNT and never
+     * below the number of instances that already hold data (warns if so).
+     *
+     * @return array<string,int>
+     */
+    private function sanitize_filter_counts(): array {
+        $filter_model = new EdnaSurvey_Site_Filter_Model();
+        $is_ja        = ( 'ja' === EdnaSurvey_I18n::get_current_language() );
+        $out          = array();
+
+        foreach ( EdnaSurvey_Filter_Fields::types() as $type => $meta ) {
+            $key       = $meta['count_key'];
+            $requested = (int) ( $_POST[ $key ] ?? EdnaSurvey_Filter_Fields::default_count( $type ) );
+            $requested = max( 0, min( EdnaSurvey_Filter_Fields::MAX_COUNT, $requested ) );
+
+            $min_used = $filter_model->get_max_value_index( $type );
+            if ( $requested < $min_used ) {
+                $requested = $min_used;
+                add_settings_error(
+                    'ednasurvey_settings',
+                    'filter_count_' . $type,
+                    sprintf(
+                        /* translators: 1: field label, 2: minimum count */
+                        __( '"%1$s" cannot be reduced below %2$d because existing submissions already contain that many entries.', 'wp-ednasurvey' ),
+                        $is_ja ? $meta['id_label_local'] : $meta['id_label_en'],
+                        $min_used
+                    ),
+                    'error'
+                );
+            }
+
+            $out[ $key ] = $requested;
+        }
+
+        return $out;
     }
 
     private function sanitize_local_language( string $value ): string {

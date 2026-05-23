@@ -12,17 +12,20 @@ class EdnaSurvey_CSV_Service {
         $photo_model        = new EdnaSurvey_Photo_Model();
         $custom_field_model = new EdnaSurvey_Custom_Field_Model();
         $custom_data_model  = new EdnaSurvey_Custom_Field_Data_Model();
+        $filter_model       = new EdnaSurvey_Site_Filter_Model();
         $custom_fields      = $custom_field_model->get_active_fields();
+        $filter_instances   = EdnaSurvey_Filter_Fields::get_instances();
 
-        // Ordered standard field keys for CSV (matching header order)
+        // Ordered standard field keys for CSV (matching header order). The
+        // '__filters__' sentinel marks where water/air/container columns go.
         $ordered_keys = array(
             'sample_id', 'survey_date', 'survey_time',
             'latitude', 'longitude',
             'sitename_local', 'sitename_en',
             'correspondence',
             'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
-            'watervol1', 'watervol2', 'airvol1', 'airvol2',
-            'weight1', 'weight2', 'filter_name',
+            '__filters__',
+            'filter_name',
             'env_broad', 'env_medium',
             'env_local1', 'env_local2', 'env_local3',
             'env_local4', 'env_local5', 'env_local6', 'env_local7',
@@ -36,6 +39,7 @@ class EdnaSurvey_CSV_Service {
         foreach ( $sites as $site ) {
             $photos      = $photo_model->get_by_site( (int) $site->id );
             $photo_names = array_map( fn( $p ) => $p->original_filename, $photos );
+            $filter_map  = $filter_model->get_map_by_site( (int) $site->id );
 
             $row = array();
             $row[] = $number++;
@@ -52,8 +56,16 @@ class EdnaSurvey_CSV_Service {
             $row[] = $site->submitted_user_agent ?? '';
             $row[] = $site->submitted_method ?? '';
 
-            // Standard fields (active only)
+            // Standard fields (active only) + injected filter columns
             foreach ( $ordered_keys as $key ) {
+                if ( '__filters__' === $key ) {
+                    foreach ( $filter_instances as $inst ) {
+                        $frow  = $filter_map[ $inst['type'] . '_' . $inst['index'] ] ?? null;
+                        $row[] = $frow->filter_id ?? '';
+                        $row[] = ( $frow && null !== $frow->filter_value ) ? $frow->filter_value : '';
+                    }
+                    continue;
+                }
                 if ( ! $registry->is_active( $key ) ) {
                     continue;
                 }
@@ -116,15 +128,16 @@ class EdnaSurvey_CSV_Service {
         $headers[] = 'submitted_user_agent';
         $headers[] = 'submitted_method';
 
-        // Standard fields (active = mode != disabled)
+        // Standard fields (active = mode != disabled). The '__filters__'
+        // sentinel marks where water/air/container columns are injected.
         $ordered_keys = array(
             'sample_id', 'survey_date', 'survey_time',
             'latitude', 'longitude',
             'sitename_local', 'sitename_en',
             'correspondence',
             'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
-            'watervol1', 'watervol2', 'airvol1', 'airvol2',
-            'weight1', 'weight2', 'filter_name',
+            '__filters__',
+            'filter_name',
             'env_broad', 'env_medium',
             'env_local1', 'env_local2', 'env_local3',
             'env_local4', 'env_local5', 'env_local6', 'env_local7',
@@ -132,6 +145,13 @@ class EdnaSurvey_CSV_Service {
         );
 
         foreach ( $ordered_keys as $key ) {
+            if ( '__filters__' === $key ) {
+                foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+                    $headers[] = $inst['id_key'];
+                    $headers[] = $inst['val_key'];
+                }
+                continue;
+            }
             if ( $registry->is_active( $key ) ) {
                 $headers[] = $key;
             }

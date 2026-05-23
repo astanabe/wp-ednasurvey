@@ -133,7 +133,7 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
             </div>
         </fieldset>
 
-        <!-- Representative (Group B) -->
+        <!-- Correspondence (Group B) -->
         <fieldset class="ednasurvey-fieldset">
             <legend><?php echo esc_html( $registry->get_label( 'correspondence' ) ); ?></legend>
             <?php $desc( 'correspondence' ); ?>
@@ -275,33 +275,34 @@ $content_callback = function () use ( $username, $settings, $registry, $custom_f
         </fieldset>
         <?php endif; ?>
 
-        <!-- Numeric pair fields (Group C) -->
+        <!-- Filtration & measurement fields (water/air/container; child table) -->
         <?php
-        $numeric_pairs = array(
-            array( 'watervol1', 'watervol2' ),
-            array( 'airvol1', 'airvol2' ),
-            array( 'weight1', 'weight2' ),
-        );
-        foreach ( $numeric_pairs as $pair ) :
-            if ( ! $registry->has_input( $pair[0] ) ) continue;
-            $field_def = $registry->get_field( $pair[0] );
-            $step      = 'decimal' === ( $field_def['field_type'] ?? '' ) ? '0.01' : '1';
+        // Each unit renders its editable ID field (auto-fills "<sample_id>-N",
+        // syncs until manually edited) directly above its value field.
+        $filter_types_meta = EdnaSurvey_Filter_Fields::types();
+        $filter_by_type    = array();
+        foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+            $filter_by_type[ $inst['type'] ][] = $inst;
+        }
+        $is_ja_form = ( 'ja' === EdnaSurvey_I18n::get_current_language() );
+        foreach ( $filter_types_meta as $ftype => $fmeta ) :
+            if ( empty( $filter_by_type[ $ftype ] ) ) continue;
+            $legend = ( $is_ja_form ? $fmeta['val_label_local'] : $fmeta['val_label_en'] ) . ' (' . $fmeta['unit'] . ')';
         ?>
         <fieldset class="ednasurvey-fieldset">
-            <legend><?php
-                // Use a shared legend (strip the trailing number)
-                $legend = preg_replace( '/\s*1\b/', '', $registry->get_label( $pair[0] ) );
-                echo esc_html( $legend );
-            ?></legend>
-            <?php foreach ( $pair as $nf ) : ?>
+            <legend><?php echo esc_html( $legend ); ?></legend>
+            <?php foreach ( $filter_by_type[ $ftype ] as $inst ) : ?>
             <div class="ednasurvey-field-row">
-                <label for="<?php echo esc_attr( $nf ); ?>"><?php echo esc_html( $registry->get_label( $nf ) ); ?><?php echo $req( $nf ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
-                <?php $desc( $nf ); ?>
-                <input type="number" id="<?php echo esc_attr( $nf ); ?>" name="<?php echo esc_attr( $nf ); ?>"
-                       step="<?php echo esc_attr( $step ); ?>" min="0"
-                       value="<?php echo esc_attr( $fval( $nf ) ); ?>"
-                       <?php echo $registry->is_required( $nf ) ? 'required' : ''; ?>>
-                <?php if ( in_array( $nf, array( 'watervol1', 'watervol2' ), true ) ) { $save_default_checkbox( $nf ); } ?>
+                <label for="<?php echo esc_attr( $inst['id_key'] ); ?>"><?php echo esc_html( $inst['id_label'] ); ?></label>
+                <input type="text" id="<?php echo esc_attr( $inst['id_key'] ); ?>" name="<?php echo esc_attr( $inst['id_key'] ); ?>"
+                       class="ednasurvey-filter-id" data-filter-seq="<?php echo (int) $inst['seq']; ?>"
+                       value="<?php echo esc_attr( $fval( $inst['id_key'] ) ); ?>">
+            </div>
+            <div class="ednasurvey-field-row">
+                <label for="<?php echo esc_attr( $inst['val_key'] ); ?>"><?php echo esc_html( $inst['val_label'] ); ?></label>
+                <input type="number" id="<?php echo esc_attr( $inst['val_key'] ); ?>" name="<?php echo esc_attr( $inst['val_key'] ); ?>"
+                       step="<?php echo esc_attr( $inst['val_step'] ); ?>" min="0"
+                       value="<?php echo esc_attr( $fval( $inst['val_key'] ) ); ?>">
             </div>
             <?php endforeach; ?>
         </fieldset>

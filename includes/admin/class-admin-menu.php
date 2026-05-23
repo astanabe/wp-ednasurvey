@@ -114,7 +114,7 @@ class EdnaSurvey_Admin_Menu {
         if ( str_contains( $screen->id, 'edna-survey-all-sites' ) ) {
             return array( 'submitted_ip', 'survey_time', 'sitename_en', 'correspondence',
                 'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
-                'watervol1', 'watervol2', 'notes', 'latitude', 'longitude' );
+                'notes', 'latitude', 'longitude' );
         }
         return $hidden;
     }

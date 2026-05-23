@@ -26,7 +26,7 @@
                 '<div class="ednasurvey-popup-detail">' +
                 'User: ' + escapeHtml(site.user_login) + '<br>' +
                 (site.date ? 'Date: ' + escapeHtml(site.date) + '<br>' : '') +
-                (site.correspondence ? 'Rep: ' + escapeHtml(site.correspondence) + '<br>' : '') +
+                (site.correspondence ? 'Correspondence: ' + escapeHtml(site.correspondence) + '<br>' : '') +
                 '</div>' +
                 (site.detail_url ? '<a href="' + escapeHtml(site.detail_url) + '" class="ednasurvey-popup-btn">' +
                 escapeHtml(i18n.detail) + '</a>' : '');

@@ -11,6 +11,7 @@ if ( $delete_data ) {
 
     // Drop custom tables (order matters for foreign key safety)
     $tables = array(
+        "{$prefix}ednasurvey_site_filters",
         "{$prefix}ednasurvey_site_custom_data",
         "{$prefix}ednasurvey_custom_fields",
         "{$prefix}ednasurvey_photos",

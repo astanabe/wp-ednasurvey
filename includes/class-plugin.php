@@ -23,6 +23,7 @@ class EdnaSurvey_Plugin {
         $installed_version = get_option( 'ednasurvey_db_version', '0' );
         if ( version_compare( $installed_version, EDNASURVEY_DB_VERSION, '<' ) ) {
             EdnaSurvey_Activator::create_tables();
+            EdnaSurvey_Activator::maybe_upgrade( $installed_version );
             update_option( 'ednasurvey_db_version', EDNASURVEY_DB_VERSION );
         }
 

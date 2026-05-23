@@ -74,12 +74,6 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
             'collector4'           => $data['collector4'] ?? '',
             'collector5'           => $data['collector5'] ?? '',
             'sample_id'            => $data['sample_id'] ?? '',
-            'watervol1'            => isset( $data['watervol1'] ) && '' !== $data['watervol1'] ? (float) $data['watervol1'] : null,
-            'watervol2'            => isset( $data['watervol2'] ) && '' !== $data['watervol2'] ? (float) $data['watervol2'] : null,
-            'airvol1'              => isset( $data['airvol1'] ) && '' !== $data['airvol1'] ? (float) $data['airvol1'] : null,
-            'airvol2'              => isset( $data['airvol2'] ) && '' !== $data['airvol2'] ? (float) $data['airvol2'] : null,
-            'weight1'              => isset( $data['weight1'] ) && '' !== $data['weight1'] ? (float) $data['weight1'] : null,
-            'weight2'              => isset( $data['weight2'] ) && '' !== $data['weight2'] ? (float) $data['weight2'] : null,
             'filter_name'          => $data['filter_name'] ?? '',
             'env_broad'            => $data['env_broad'] ?? '',
             'env_medium'           => $data['env_medium'] ?? '',
@@ -122,6 +116,9 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                 $custom_data_model->save( $site_id, (int) $cf->id, $value );
             }
         }
+
+        // Save water/air/container filter units (child table)
+        ( new EdnaSurvey_Site_Filter_Model() )->replace_for_site( $site_id, $this->build_filter_rows( $data ) );
 
         // Process temp photos (uploaded earlier via AJAX)
         $photo_errors = array();
@@ -315,6 +312,7 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
         $custom_fields     = $field_model->get_active_fields();
         $photo_service     = new EdnaSurvey_Photo_Service();
         $photo_model       = new EdnaSurvey_Photo_Model();
+        $filter_model      = new EdnaSurvey_Site_Filter_Model();
 
         $inserted_ids = array();
 
@@ -344,12 +342,6 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                 'collector4'           => $raw['collector4'] ?? '',
                 'collector5'           => $raw['collector5'] ?? '',
                 'sample_id'            => $raw['sample_id'] ?? '',
-                'watervol1'            => isset( $raw['watervol1'] ) && '' !== $raw['watervol1'] ? (float) $raw['watervol1'] : null,
-                'watervol2'            => isset( $raw['watervol2'] ) && '' !== $raw['watervol2'] ? (float) $raw['watervol2'] : null,
-                'airvol1'              => isset( $raw['airvol1'] ) && '' !== $raw['airvol1'] ? (float) $raw['airvol1'] : null,
-                'airvol2'              => isset( $raw['airvol2'] ) && '' !== $raw['airvol2'] ? (float) $raw['airvol2'] : null,
-                'weight1'              => isset( $raw['weight1'] ) && '' !== $raw['weight1'] ? (float) $raw['weight1'] : null,
-                'weight2'              => isset( $raw['weight2'] ) && '' !== $raw['weight2'] ? (float) $raw['weight2'] : null,
                 'filter_name'          => $raw['filter_name'] ?? '',
                 'env_broad'            => $raw['env_broad'] ?? '',
                 'env_medium'           => $raw['env_medium'] ?? '',
@@ -388,6 +380,9 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                     $custom_data_model->save( $site_id, (int) $cf->id, (string) $value );
                 }
             }
+
+            // Water/air/container filter units (child table)
+            $filter_model->replace_for_site( $site_id, $this->build_filter_rows( $raw ) );
 
             // Move matched photos from temp to permanent
             $matched = $os['matched_photos'] ?? array();
@@ -433,8 +428,6 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
         'collector4',
         'collector5',
         'env_broad',
-        'watervol1',
-        'watervol2',
     );
 
     /**
@@ -480,6 +473,32 @@ class EdnaSurvey_Ajax_Submission extends EdnaSurvey_Ajax_Handler {
                 update_user_meta( $user_id, 'ednasurvey_online_defaults', $defaults );
             }
         }
+    }
+
+    /**
+     * Build child-table filter rows from submitted data.
+     *
+     * Stores a row when an ID or value is present for a configured instance.
+     *
+     * @param array $data Submission data keyed by waterfilter1/watervol1/...
+     * @return array<int,array{filter_type:string,filter_index:int,filter_id:string,filter_value:?string}>
+     */
+    private function build_filter_rows( array $data ): array {
+        $rows = array();
+        foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+            $id  = isset( $data[ $inst['id_key'] ] ) ? (string) $data[ $inst['id_key'] ] : '';
+            $val = $data[ $inst['val_key'] ] ?? '';
+            if ( '' === $id && ( '' === $val || null === $val ) ) {
+                continue; // Nothing to store for this instance.
+            }
+            $rows[] = array(
+                'filter_type'  => $inst['type'],
+                'filter_index' => $inst['index'],
+                'filter_id'    => $id,
+                'filter_value' => ( '' === $val || null === $val ) ? null : $val,
+            );
+        }
+        return $rows;
     }
 
     /**

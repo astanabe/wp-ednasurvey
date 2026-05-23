@@ -37,7 +37,9 @@ HEIC support is verified per tool: ImageMagick (`identify -list format`), heif-d
 
 ### Naming Conventions
 
-- DB columns: `sitename_local`, `sitename_en`, `watervol1`, `watervol2`, `env_broad`, `env_local1`〜`env_local7`, `weather`, `wind`, `sample_id`, `survey_date`, `survey_time`, `notes`, `photo_files`
+- DB columns (sites): `sitename_local`, `sitename_en`, `env_broad`, `env_local1`〜`env_local7`, `weather`, `wind`, `sample_id`, `survey_date`, `survey_time`, `notes`, `photo_files`
+- Filtration/measurement data is NOT on the sites table. It lives in the `ednasurvey_site_filters` child table (one row per unit: `filter_type` ∈ water|air|container, `filter_index`, `filter_id`, `filter_value`). The number of instances per type is a global setting (`water_filter_count`/`air_filter_count`/`container_count`, 0–100, defaults 2/0/0). Export/import keys are `waterfilter{N}`+`watervol{N}`, `airfilter{N}`+`airvol{N}`, `container{N}`+`weight{N}`. The ID fields auto-fill `<sample_id>-N` where N is a global running number across all types in display order. Managed by `EdnaSurvey_Filter_Fields` (service) + `EdnaSurvey_Site_Filter_Model` (model); NOT in the Field Registry
+- Use `correspondence` (label: 代表者 / Correspondence) — never the word "representative"
 - All user-facing identifiers use `internal_sample_id` (not numeric `id`)
 - Settings keys: `cmd_imagemagick`, `cmd_heif_convert`, `cmd_ffmpeg`, `cmd_exiftool`, `photo_time_threshold`
 

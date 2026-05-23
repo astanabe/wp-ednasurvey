@@ -374,6 +374,39 @@ function ednasurvey_render_field_detail( string $key, array $def, array $field_c
             </tbody>
         </table>
 
+        <!-- Filtration & Measurement counts -->
+        <h4><?php esc_html_e( 'Filtration & Measurement Fields (counts)', 'wp-ednasurvey' ); ?></h4>
+        <p class="description">
+            <?php esc_html_e( 'Set how many of each type appear on the form, Excel template, CSV and detail pages (0–100). Set 0 to hide a type entirely. Each ID field auto-fills "<Sample ID>-N" (N runs across all types in display order). A type cannot be reduced below the number of instances that already hold data.', 'wp-ednasurvey' ); ?>
+        </p>
+        <table class="form-table">
+            <?php
+            $filter_model = new EdnaSurvey_Site_Filter_Model();
+            $is_ja_admin  = ( 'ja' === EdnaSurvey_I18n::get_current_language() );
+            foreach ( EdnaSurvey_Filter_Fields::types() as $ftype => $fmeta ) :
+                $count_key  = $fmeta['count_key'];
+                $cur        = isset( $settings[ $count_key ] ) ? (int) $settings[ $count_key ] : EdnaSurvey_Filter_Fields::default_count( $ftype );
+                $min_used   = $filter_model->get_max_value_index( $ftype );
+                $type_label = $is_ja_admin ? $fmeta['id_label_local'] : $fmeta['id_label_en'];
+            ?>
+            <tr>
+                <th scope="row"><label for="<?php echo esc_attr( $count_key ); ?>"><?php echo esc_html( $type_label ); ?></label></th>
+                <td>
+                    <input type="number" id="<?php echo esc_attr( $count_key ); ?>" name="<?php echo esc_attr( $count_key ); ?>"
+                           min="<?php echo (int) $min_used; ?>" max="100" value="<?php echo (int) $cur; ?>">
+                    <?php if ( $min_used > 0 ) : ?>
+                    <p class="description">
+                        <?php
+                        /* translators: %d: minimum count that still keeps existing data */
+                        printf( esc_html__( 'Minimum %d (existing data present).', 'wp-ednasurvey' ), (int) $min_used );
+                        ?>
+                    </p>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+
         <!-- ============================================================ -->
         <!-- Custom Fields -->
         <!-- ============================================================ -->

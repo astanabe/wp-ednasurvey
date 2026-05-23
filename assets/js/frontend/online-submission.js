@@ -362,6 +362,43 @@
         });
     }
 
+    // ── ID field auto-sync (waterfilter/airfilter/container) ───────
+    // Each ID field defaults to "<sample_id>-N" and keeps syncing with the
+    // Sample ID until the user manually edits it, which detaches the sync.
+    function initFilterIdSync() {
+        var $sampleId = $('#sample_id');
+        var $filters  = $('.ednasurvey-filter-id');
+        if (!$sampleId.length || !$filters.length) return;
+
+        function syncFilters() {
+            var sid = $sampleId.val();
+            $filters.each(function() {
+                var $f = $(this);
+                if ($f.data('synced')) {
+                    var seq = $f.attr('data-filter-seq');
+                    $f.val(sid ? sid + '-' + seq : '');
+                }
+            });
+        }
+
+        // On load: a field that already has a value (e.g. copy/resubmit or an
+        // admin default) is treated as detached; an empty one stays synced.
+        $filters.each(function() {
+            var $f = $(this);
+            $f.data('synced', $f.val() === '');
+        });
+
+        // Manual edit detaches the field from the Sample ID.
+        $filters.on('input', function() {
+            $(this).data('synced', false);
+        });
+
+        $sampleId.on('input', syncFilters);
+
+        // Populate initial values from the current Sample ID.
+        syncFilters();
+    }
+
     function showErrors(messages) {
         var $el = $('#ednasurvey-submission-messages');
         var html = '<div class="ednasurvey-alert ednasurvey-alert-error"><ul>';
@@ -387,5 +424,6 @@
         initMap();
         initPhotoUpload();
         initFormSubmission();
+        initFilterIdSync();
     });
 })(jQuery);

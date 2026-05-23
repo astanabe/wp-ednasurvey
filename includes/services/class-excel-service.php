@@ -49,15 +49,16 @@ class EdnaSurvey_Excel_Service {
             'textarea' => 'text',
         );
 
-        // Canonical column order for standard fields
+        // Canonical column order for standard fields. The '__filters__' sentinel
+        // marks where the dynamic water/air/container columns are injected.
         $ordered_keys = array(
             'sample_id', 'survey_date', 'survey_time',
             'latitude', 'longitude',
             'sitename_local', 'sitename_en',
             'correspondence',
             'collector1', 'collector2', 'collector3', 'collector4', 'collector5',
-            'watervol1', 'watervol2', 'airvol1', 'airvol2',
-            'weight1', 'weight2', 'filter_name',
+            '__filters__',
+            'filter_name',
             'env_broad', 'env_medium',
             'env_local1', 'env_local2', 'env_local3',
             'env_local4', 'env_local5', 'env_local6', 'env_local7',
@@ -72,6 +73,31 @@ class EdnaSurvey_Excel_Service {
         );
 
         foreach ( $ordered_keys as $key ) {
+            // Inject water/air/container filter columns (ID + value) here.
+            if ( '__filters__' === $key ) {
+                foreach ( EdnaSurvey_Filter_Fields::get_instances() as $inst ) {
+                    $columns[] = array(
+                        'key'            => $inst['id_key'],
+                        'label'          => $inst['id_label'],
+                        'required_label' => $opt_label,
+                        'hint'           => __( 'Auto-fills "<Sample ID>-N"; editable.', 'wp-ednasurvey' ),
+                        'example'        => 'S001-' . $inst['seq'],
+                        'type'           => 'text',
+                        'filter_seq'     => $inst['seq'],
+                    );
+                    $is_decimal = ( 'decimal' === $inst['val_type'] );
+                    $columns[] = array(
+                        'key'            => $inst['val_key'],
+                        'label'          => $inst['val_label'],
+                        'required_label' => $opt_label,
+                        'hint'           => $is_decimal ? __( 'Up to 2 decimal places', 'wp-ednasurvey' ) : __( 'Integer', 'wp-ednasurvey' ),
+                        'example'        => $is_decimal ? '1.50' : '1000',
+                        'type'           => $is_decimal ? 'number' : 'integer',
+                    );
+                }
+                continue;
+            }
+
             if ( ! $registry->is_in_excel( $key ) ) {
                 continue;
             }
@@ -465,6 +491,35 @@ class EdnaSurvey_Excel_Service {
             // Hide the Lists sheet and re-activate data sheet
             $listsSheet->setSheetState( \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN );
             $spreadsheet->setActiveSheetIndex( 0 );
+        }
+
+        // -- Auto-fill ID columns: default to "<sample_id>-N", editable -------
+        // waterfilter/airfilter/container default to the Sample ID plus their
+        // index via a formula, so they track the Sample ID cell yet can be
+        // overwritten. parse_upload() resolves the formula to its value.
+
+        $sample_id_col_idx = null;
+        foreach ( $columns as $idx => $col ) {
+            if ( 'sample_id' === ( $col['key'] ?? '' ) ) {
+                $sample_id_col_idx = $idx;
+                break;
+            }
+        }
+
+        if ( null !== $sample_id_col_idx ) {
+            $sampleColLetter = Coordinate::stringFromColumnIndex( $sample_id_col_idx + 1 );
+            foreach ( $columns as $idx => $col ) {
+                if ( ! isset( $col['filter_seq'] ) ) {
+                    continue;
+                }
+                $seq       = (int) $col['filter_seq'];
+                $colLetter = Coordinate::stringFromColumnIndex( $idx + 1 );
+                for ( $row = $dataStartRow; $row <= $dataEndRow; $row++ ) {
+                    $sheet->getCell( $colLetter . $row )->setValue(
+                        '=IF($' . $sampleColLetter . $row . '<>"",$' . $sampleColLetter . $row . '&"-' . $seq . '","")'
+                    );
+                }
+            }
         }
 
         // -- Workbook protection: prevent adding/deleting sheets ---------------

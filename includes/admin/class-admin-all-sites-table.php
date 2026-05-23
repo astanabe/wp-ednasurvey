@@ -50,13 +50,9 @@ class EdnaSurvey_All_Sites_Table extends WP_List_Table {
             }
         }
 
-        // Group C: mode-dependent
-        $numeric_fields = array( 'watervol1', 'watervol2', 'airvol1', 'airvol2', 'weight1', 'weight2' );
-        foreach ( $numeric_fields as $nf ) {
-            if ( $registry->is_active( $nf ) ) {
-                $columns[ $nf ] = $registry->get_label( $nf );
-            }
-        }
+        // Filtration/measurement values (water/air/container) live in the
+        // ednasurvey_site_filters child table and can be 0–100 per type, so they
+        // are intentionally omitted from this list (shown in detail/CSV/Excel).
         if ( $registry->is_active( 'filter_name' ) ) {
             $columns['filter_name'] = $registry->get_label( 'filter_name' );
         }
@@ -221,10 +217,6 @@ class EdnaSurvey_All_Sites_Table extends WP_List_Table {
             case 'collector3':
             case 'collector4':
             case 'collector5':
-                return esc_html( $item->$column_name ?? '' );
-
-            case 'watervol1':
-            case 'watervol2':
                 return esc_html( $item->$column_name ?? '' );
 
             case 'notes':
