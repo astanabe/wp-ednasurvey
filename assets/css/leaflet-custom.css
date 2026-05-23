@@ -30,3 +30,50 @@
     background: #005a87;
     color: #fff;
 }
+
+/* Base-map switch bar (shown above the map when a 2nd tile server is set).
+   !important is used so the active/inactive state is always distinguishable
+   regardless of theme (e.g. GeneratePress) button styling. */
+.ednasurvey-map-switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.ednasurvey-map-switch-label {
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.ednasurvey-map-switch-btn {
+    min-width: 2.4em;
+    margin: 0 !important;
+    padding: 2px 12px !important;
+    border: 1px solid #0073aa !important;
+    background: #f0f0f1 !important;
+    color: #1d2327 !important;
+    border-radius: 3px !important;
+    cursor: pointer;
+    font-size: 0.9em !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+.ednasurvey-map-switch-btn:hover {
+    background: #dcdcde !important;
+    color: #1d2327 !important;
+}
+
+.ednasurvey-map-switch-btn.is-active,
+.ednasurvey-map-switch-btn.is-active:hover {
+    background: #0073aa !important;
+    color: #fff !important;
+    border-color: #005177 !important;
+    font-weight: 700 !important;
+    box-shadow: inset 0 0 0 2px #fff !important;
+    cursor: default;
+}

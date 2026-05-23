@@ -42,6 +42,7 @@ HEIC support is verified per tool: ImageMagick (`identify -list format`), heif-d
 - Use `correspondence` (label: 代表者 / Correspondence) — never the word "representative"
 - All user-facing identifiers use `internal_sample_id` (not numeric `id`)
 - Settings keys: `cmd_imagemagick`, `cmd_heif_convert`, `cmd_ffmpeg`, `cmd_exiftool`, `photo_time_threshold`
+- Map settings keys: `tile_server_url`/`tile_attribution` (base map 1), `tile_server_url_2`/`tile_attribution_2` (optional base map 2 — when URL 2 is set, a "1/2" switch appears above every map; both layers stay loaded for instant switching, view fully synced), `map_default_zoom` (overview maps), `map_input_zoom` (submission location maps). All maps build base layers via `EdnaSurveyMapLayers.setup(map, mapElId)` (assets/js/frontend/map-layers.js), not raw `L.tileLayer`
 
 ## Development
 
@@ -67,11 +68,12 @@ When modifying JS or CSS files, bump the version in `wp-ednasurvey.php` to force
 - `includes/controllers/` — Page rendering (one per route)
 - `includes/services/` — Excel (PhpSpreadsheet), photo (HEIC/EXIF), CSV, validation, notification, user import
 - `includes/ajax/` — AJAX handlers (online submission, offline 4-step, chat, admin)
+- `includes/cli/` — WP-CLI commands (registered only under WP-CLI). `wp ednasurvey apply-recommended-settings` applies GeneratePress / Login Customizer / Powered Cache options (typed values that `wp option patch` can't set). Used by `recommended_settings.sh` (one-shot site provisioning script in the repo root)
 - `includes/admin/` — Admin pages including WP_List_Table for All Sites
 - `templates/frontend/` — User-facing page templates (use `layout.php` wrapper)
 - `templates/admin/` — Admin page templates
 - `assets/css/` — frontend.css, admin.css, leaflet-custom.css, chat.css
-- `assets/js/frontend/` — online-submission.js, offline-submission.js, map.js, sites-table.js, chat.js
+- `assets/js/frontend/` — online-submission.js, offline-submission.js, map.js, sites-table.js, chat.js, map-layers.js (shared base-layer/switch helper used by every map, frontend + admin)
 - `assets/js/admin/` — settings.js, all-sites.js, sites-map.js, messages.js, add-users.js, deactivate.js
 - `languages/` — wp-ednasurvey-ja.po/.mo (compile with `msgfmt`)
 

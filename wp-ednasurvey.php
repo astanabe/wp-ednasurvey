@@ -3,7 +3,7 @@
  * Plugin Name: eDNA Survey
  * Plugin URI:
  * Description: Environmental DNA Citizen Survey Reporting Site Plugin
- * Version: 2.3.0
+ * Version: 2.3.3
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author:
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'EDNASURVEY_VERSION', '2.3.0' );
+define( 'EDNASURVEY_VERSION', '2.3.3' );
 define( 'EDNASURVEY_DB_VERSION', '2.2.0' );
 define( 'EDNASURVEY_PLUGIN_FILE', __FILE__ );
 define( 'EDNASURVEY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -82,6 +82,12 @@ require_once EDNASURVEY_PLUGIN_DIR . 'includes/ajax/class-ajax-submission.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/ajax/class-ajax-chat.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/ajax/class-ajax-sites.php';
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/ajax/class-ajax-admin.php';
+
+// WP-CLI commands (only under WP-CLI)
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    require_once EDNASURVEY_PLUGIN_DIR . 'includes/cli/class-cli.php';
+    WP_CLI::add_command( 'ednasurvey', 'EdnaSurvey_CLI' );
+}
 
 // Main plugin class
 require_once EDNASURVEY_PLUGIN_DIR . 'includes/class-plugin.php';

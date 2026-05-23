@@ -336,9 +336,12 @@ class EdnaSurvey_Activator {
             $defaults = array(
                 'tile_server_url'       => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'tile_attribution'      => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                'tile_server_url_2'     => '',
+                'tile_attribution_2'    => '',
                 'map_center_lat'        => 35.6762,
                 'map_center_lng'        => 139.6503,
                 'map_default_zoom'      => 5,
+                'map_input_zoom'        => 18,
                 'photo_upload_limit'    => 10,
                 'local_language'        => 'ja',
                 'collectors_group_mode' => EdnaSurvey_Field_Registry::MODE_ENABLED,

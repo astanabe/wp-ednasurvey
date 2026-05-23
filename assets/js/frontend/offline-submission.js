@@ -271,13 +271,12 @@
         }
 
         var settings = window.ednasurveyMap || {};
+        // Use the location-input zoom so placing/adjusting points is precise.
         state.map = L.map('ednasurvey-offline-map').setView(
             [settings.centerLat || 35.6762, settings.centerLng || 139.6503],
-            settings.defaultZoom || 5
+            settings.inputZoom || 18
         );
-        L.tileLayer(settings.tileUrl || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: settings.attribution || '', maxZoom: 18
-        }).addTo(state.map);
+        EdnaSurveyMapLayers.setup(state.map, 'ednasurvey-offline-map');
 
         renderSitesOnMap();
     }
@@ -368,7 +367,12 @@
         }
 
         if (bounds.length > 0) {
-            state.map.fitBounds(bounds, { padding: [50, 50] });
+            // Cap the fit zoom at the input zoom so single/few points stay at a
+            // precise (not over-zoomed) level suitable for confirmation/adjustment.
+            state.map.fitBounds(bounds, {
+                padding: [50, 50],
+                maxZoom: (window.ednasurveyMap || {}).inputZoom || 18
+            });
         }
     }
 

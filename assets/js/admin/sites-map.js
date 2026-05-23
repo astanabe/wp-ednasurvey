@@ -11,10 +11,7 @@
             settings.defaultZoom || 5
         );
 
-        L.tileLayer(settings.tileUrl || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: settings.attribution || '',
-            maxZoom: 18
-        }).addTo(map);
+        EdnaSurveyMapLayers.setup(map, 'ednasurvey-admin-map');
 
         var bounds = [];
 

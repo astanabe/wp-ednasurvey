@@ -1580,3 +1580,7 @@ msgstr "緯度"
 
 msgid "Longitude"
 msgstr "経度"
+
+#: includes/class-assets.php
+msgid "Switch base map:"
+msgstr "地図切り替え:"

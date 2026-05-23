@@ -297,9 +297,12 @@ class EdnaSurvey_Admin_Settings {
         $settings = array(
             'tile_server_url'       => sanitize_text_field( wp_unslash( $_POST['tile_server_url'] ?? '' ) ),
             'tile_attribution'      => wp_kses_post( wp_unslash( $_POST['tile_attribution'] ?? '' ) ),
+            'tile_server_url_2'     => sanitize_text_field( wp_unslash( $_POST['tile_server_url_2'] ?? '' ) ),
+            'tile_attribution_2'    => wp_kses_post( wp_unslash( $_POST['tile_attribution_2'] ?? '' ) ),
             'map_center_lat'        => (float) ( $_POST['map_center_lat'] ?? 35.6762 ),
             'map_center_lng'        => (float) ( $_POST['map_center_lng'] ?? 139.6503 ),
             'map_default_zoom'      => (int) ( $_POST['map_default_zoom'] ?? 5 ),
+            'map_input_zoom'        => max( 1, min( 18, (int) ( $_POST['map_input_zoom'] ?? 18 ) ) ),
             'photo_upload_limit'    => max( 1, (int) ( $_POST['photo_upload_limit'] ?? 10 ) ),
             'photo_time_threshold'  => max( 1, (int) ( $_POST['photo_time_threshold'] ?? 30 ) ),
             'cmd_imagemagick'       => sanitize_text_field( wp_unslash( $_POST['cmd_imagemagick'] ?? '' ) ),

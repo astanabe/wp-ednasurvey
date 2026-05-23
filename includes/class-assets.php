@@ -31,13 +31,14 @@ class EdnaSurvey_Assets {
         // Leaflet (on map pages)
         if ( in_array( $page, $map_pages, true ) ) {
             $this->enqueue_leaflet();
-            wp_localize_script( 'leaflet', 'ednasurveyMap', array(
-                'tileUrl'      => $settings['tile_server_url'] ?? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                'attribution'  => $settings['tile_attribution'] ?? '',
-                'centerLat'    => (float) ( $settings['map_center_lat'] ?? 35.6762 ),
-                'centerLng'    => (float) ( $settings['map_center_lng'] ?? 139.6503 ),
-                'defaultZoom'  => (int) ( $settings['map_default_zoom'] ?? 5 ),
-            ) );
+            wp_enqueue_script(
+                'ednasurvey-map-layers',
+                EDNASURVEY_PLUGIN_URL . 'assets/js/frontend/map-layers.js',
+                array( 'leaflet' ),
+                EDNASURVEY_VERSION,
+                true
+            );
+            wp_localize_script( 'ednasurvey-map-layers', 'ednasurveyMap', $this->map_settings( $settings ) );
         }
 
         // DataTables (on table pages)
@@ -59,6 +60,7 @@ class EdnaSurvey_Assets {
             $deps   = array( 'jquery' );
             if ( in_array( $page, $map_pages, true ) ) {
                 $deps[] = 'leaflet';
+                $deps[] = 'ednasurvey-map-layers';
             }
             if ( 'sites' === $page ) {
                 $deps[] = 'datatables';
@@ -137,13 +139,14 @@ class EdnaSurvey_Assets {
         if ( str_contains( $hook, 'sites-map' ) ) {
             $this->enqueue_leaflet();
             $settings = get_option( 'ednasurvey_settings', array() );
-            wp_localize_script( 'ednasurvey-leaflet-init', 'ednasurveyMap', array(
-                'tileUrl'     => $settings['tile_server_url'] ?? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                'attribution' => $settings['tile_attribution'] ?? '',
-                'centerLat'   => (float) ( $settings['map_center_lat'] ?? 35.6762 ),
-                'centerLng'   => (float) ( $settings['map_center_lng'] ?? 139.6503 ),
-                'defaultZoom' => (int) ( $settings['map_default_zoom'] ?? 5 ),
-            ) );
+            wp_enqueue_script(
+                'ednasurvey-map-layers',
+                EDNASURVEY_PLUGIN_URL . 'assets/js/frontend/map-layers.js',
+                array( 'leaflet' ),
+                EDNASURVEY_VERSION,
+                true
+            );
+            wp_localize_script( 'ednasurvey-map-layers', 'ednasurveyMap', $this->map_settings( $settings ) );
         }
 
         // Page-specific admin JS
@@ -157,10 +160,15 @@ class EdnaSurvey_Assets {
 
         foreach ( $page_js as $page_slug => $js_file ) {
             if ( str_contains( $hook, $page_slug ) ) {
+                $deps = array( 'jquery' );
+                if ( 'sites-map' === $js_file ) {
+                    $deps[] = 'leaflet';
+                    $deps[] = 'ednasurvey-map-layers';
+                }
                 wp_enqueue_script(
                     'ednasurvey-admin-' . $js_file,
                     EDNASURVEY_PLUGIN_URL . 'assets/js/admin/' . $js_file . '.js',
-                    array( 'jquery' ),
+                    $deps,
                     EDNASURVEY_VERSION,
                     true
                 );
@@ -175,6 +183,26 @@ class EdnaSurvey_Assets {
                 break;
             }
         }
+    }
+
+    /**
+     * Build the ednasurveyMap JS config (tile servers, center, zoom levels).
+     *
+     * @param array $settings Plugin settings option.
+     * @return array
+     */
+    private function map_settings( array $settings ): array {
+        return array(
+            'tileUrl'      => $settings['tile_server_url'] ?? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'attribution'  => $settings['tile_attribution'] ?? '',
+            'tileUrl2'     => $settings['tile_server_url_2'] ?? '',
+            'attribution2' => $settings['tile_attribution_2'] ?? '',
+            'switchLabel'  => __( 'Switch base map:', 'wp-ednasurvey' ),
+            'centerLat'    => (float) ( $settings['map_center_lat'] ?? 35.6762 ),
+            'centerLng'    => (float) ( $settings['map_center_lng'] ?? 139.6503 ),
+            'defaultZoom'  => (int) ( $settings['map_default_zoom'] ?? 5 ),
+            'inputZoom'    => (int) ( $settings['map_input_zoom'] ?? 18 ),
+        );
     }
 
     private function enqueue_leaflet(): void {

@@ -505,6 +505,21 @@ function ednasurvey_render_field_detail( string $key, array $def, array $field_c
                 </td>
             </tr>
             <tr>
+                <th scope="row"><label for="tile_server_url_2"><?php esc_html_e( 'Tile Server URL 2', 'wp-ednasurvey' ); ?></label></th>
+                <td>
+                    <input type="text" id="tile_server_url_2" name="tile_server_url_2" class="large-text"
+                           value="<?php echo esc_attr( $settings['tile_server_url_2'] ?? '' ); ?>">
+                    <p class="description"><?php esc_html_e( 'Optional 2nd base map (e.g. aerial imagery). When set, a "1 / 2" switch appears above every map. Leave blank to disable the switch. e.g. https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg', 'wp-ednasurvey' ); ?></p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="tile_attribution_2"><?php esc_html_e( 'Tile Attribution 2', 'wp-ednasurvey' ); ?></label></th>
+                <td>
+                    <input type="text" id="tile_attribution_2" name="tile_attribution_2" class="large-text"
+                           value="<?php echo esc_attr( $settings['tile_attribution_2'] ?? '' ); ?>">
+                </td>
+            </tr>
+            <tr>
                 <th scope="row"><label for="map_center_lat"><?php esc_html_e( 'Default Center Latitude', 'wp-ednasurvey' ); ?></label></th>
                 <td>
                     <input type="number" id="map_center_lat" name="map_center_lat" step="0.000001"
@@ -523,6 +538,15 @@ function ednasurvey_render_field_detail( string $key, array $def, array $field_c
                 <td>
                     <input type="number" id="map_default_zoom" name="map_default_zoom" min="1" max="18"
                            value="<?php echo esc_attr( $settings['map_default_zoom'] ?? 5 ); ?>">
+                    <p class="description"><?php esc_html_e( 'Used by the overview maps that show all sites (Map page, admin Sites Map).', 'wp-ednasurvey' ); ?></p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="map_input_zoom"><?php esc_html_e( 'Location Input Zoom Level', 'wp-ednasurvey' ); ?></label></th>
+                <td>
+                    <input type="number" id="map_input_zoom" name="map_input_zoom" min="1" max="18"
+                           value="<?php echo esc_attr( $settings['map_input_zoom'] ?? 18 ); ?>">
+                    <p class="description"><?php esc_html_e( 'Zoom used by the submission maps for entering, confirming and adjusting the survey location (online form and offline upload). Higher = more precise. Recommended 16–18.', 'wp-ednasurvey' ); ?></p>
                 </td>
             </tr>
         </table>

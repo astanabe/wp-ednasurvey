@@ -19,33 +19,36 @@
         var settings = window.ednasurveyMap || {};
         var centerLat = settings.centerLat || 35.6762;
         var centerLng = settings.centerLng || 139.6503;
-        var zoom = settings.defaultZoom || 5;
+        // Overview zoom for the initial (location-unknown) view, and a higher
+        // input zoom for entering/confirming/adjusting an actual location.
+        var overviewZoom = settings.defaultZoom || 5;
+        var inputZoom = settings.inputZoom || 18;
 
-        map = L.map('ednasurvey-map').setView([centerLat, centerLng], zoom);
+        map = L.map('ednasurvey-map').setView([centerLat, centerLng], overviewZoom);
 
-        L.tileLayer(settings.tileUrl || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: settings.attribution || '',
-            maxZoom: 18
-        }).addTo(map);
+        EdnaSurveyMapLayers.setup(map, 'ednasurvey-map');
 
         // If copy data has coordinates, set marker
         if (ednasurveyFormConfig.copyLat && ednasurveyFormConfig.copyLng) {
             setMarker(ednasurveyFormConfig.copyLat, ednasurveyFormConfig.copyLng);
-            map.setView([ednasurveyFormConfig.copyLat, ednasurveyFormConfig.copyLng], 15);
+            map.setView([ednasurveyFormConfig.copyLat, ednasurveyFormConfig.copyLng], inputZoom);
         } else {
             // Try to get current location
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(pos) {
-                    map.setView([pos.coords.latitude, pos.coords.longitude], 15);
+                    map.setView([pos.coords.latitude, pos.coords.longitude], inputZoom);
                 }, function() {
                     // Geolocation failed, keep default view
                 });
             }
         }
 
-        // Click to set pin
+        // Click to set pin; zoom in to input precision on the first rough click.
         map.on('click', function(e) {
             setMarker(e.latlng.lat, e.latlng.lng);
+            if (map.getZoom() < inputZoom) {
+                map.setView([e.latlng.lat, e.latlng.lng], inputZoom);
+            }
         });
     }
 
