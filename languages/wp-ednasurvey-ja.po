@@ -1467,6 +1467,15 @@ msgstr "游ゴシック"
 msgid "Assigned string"
 msgstr "指定された文字列"
 
+msgid "Auto-fills \"<Sample ID>-N\"; editable."
+msgstr "「<サンプルID>-N」を自動入力（編集可）"
+
+msgid "Integer"
+msgstr "整数"
+
+msgid "Up to 2 decimal places"
+msgstr "小数点以下2桁まで"
+
 msgid "YYYY-MM-DD format"
 msgstr "YYYY-MM-DD形式"
 

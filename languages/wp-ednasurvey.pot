@@ -1372,6 +1372,15 @@ msgstr ""
 msgid "Assigned string"
 msgstr ""
 
+msgid "Auto-fills \"<Sample ID>-N\"; editable."
+msgstr ""
+
+msgid "Integer"
+msgstr ""
+
+msgid "Up to 2 decimal places"
+msgstr ""
+
 msgid "YYYY-MM-DD format"
 msgstr ""
 
